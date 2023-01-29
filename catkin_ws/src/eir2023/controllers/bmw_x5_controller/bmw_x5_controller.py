@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import math
 from vehicle import Driver
-from controller import Camera, Lidar #Gyro,GPS
+from controller import Camera, Lidar, Accelerometer #Gyro,GPS
 import rospy
 from std_msgs.msg import Float64
 from sensor_msgs.msg import Image, PointCloud2, PointField, NavSatFix, NavSatStatus, Imu
@@ -9,19 +9,23 @@ from rosgraph_msgs.msg import Clock
 
 # INIT DRIVER
 driver = Driver()
-driver.setCruisingSpeed(0.0)                                  # SPEED CONTROL km/h - INITIAL SPEED
-driver.setSteeringAngle(0.0)                                  # STEERING ANGLE - INITIAL ANGLE
+driver.setCruisingSpeed(0.0) # SPEED CONTROL km/h - INITIAL SPEED
+driver.setSteeringAngle(0.0) # STEERING ANGLE - INITIAL ANGLE
 
 # CONSTANTS
 TIME_STEP = int(driver.getBasicTimeStep())
 
 # INIT SENSORS
-camera = Camera('camera')                                     # GET CAMERA FROM DEVICES
+camera = Camera('camera')  # GET CAMERA FROM DEVICES
 camera.enable(TIME_STEP)    
 
 lidar = Lidar('Velodyne HDL-64E')
 lidar.enable(TIME_STEP)
 lidar.enablePointCloud()
+
+accelerometer = Accelerometer('accelerometer')
+accelerometer.enable(TIME_STEP)
+
 
 # INIT GPS
 # gps = GPS('gps')
@@ -75,20 +79,22 @@ def main():
     PointField(name = 'z', offset = 8, datatype = PointField.FLOAT32, count = 1),
   ]
   msg_point_cloud.is_bigendian = False
+
+  # Accelerometer MESSAGE
+  
+
   '''
   # GPS MESSAGE
   msg_gps = NavSatFix()
   msg_gps.header.stamp = rospy.Time.now()
   msg_gps.header.frame_id = 'gps_link'
   
-
   # GYRO MESSAGE
   msg_gyro = Imu()
   msg_gyro.header.stamp = rospy.Time.now()
   msg_gyro.header.frame_id = 'gyro_link
   '''
   
-
   # PUBLISHERS
   pub_clock        = rospy.Publisher('/clock', Clock, queue_size=1)
   pub_camera_data  = rospy.Publisher('/camera/rgb/raw', Image, queue_size=10)
