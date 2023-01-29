@@ -2,3 +2,6 @@ devel/
 build/
 src/CMakeLists.txt
 .catkin_workspace
+logger.log 
+num_trials.data
+video.mp4
