@@ -23,9 +23,8 @@ lidar = Lidar('Velodyne HDL-64E')
 lidar.enable(TIME_STEP)
 lidar.enablePointCloud()
 
-accelerometer = Accelerometer('accelerometer')
-accelerometer.enable(TIME_STEP)
-
+accel = Accelerometer('accelerometer')
+accel.enable(TIME_STEP)
 
 # INIT GPS
 # gps = GPS('gps')
@@ -81,7 +80,9 @@ def main():
   msg_point_cloud.is_bigendian = False
 
   # Accelerometer MESSAGE
-  
+  msg_accel = Imu()
+  msg_accel.header.stamp = rospy.Time.now()
+  msg_accel.header.frame_id = 'accel_link'
 
   '''
   # GPS MESSAGE
@@ -92,13 +93,14 @@ def main():
   # GYRO MESSAGE
   msg_gyro = Imu()
   msg_gyro.header.stamp = rospy.Time.now()
-  msg_gyro.header.frame_id = 'gyro_link
+  msg_gyro.header.frame_id = 'gyro_link'
   '''
   
   # PUBLISHERS
   pub_clock        = rospy.Publisher('/clock', Clock, queue_size=1)
   pub_camera_data  = rospy.Publisher('/camera/rgb/raw', Image, queue_size=10)
   pub_point_cloud  = rospy.Publisher('/point_cloud'   , PointCloud2, queue_size=10)
+  pub_imu_accel  = rospy.Publisher('/accelerometer'  , Imu, queue_size=10)
   # pub_nav_gps   = rospy.Publisher('/gps', NavSatFix, queue_size=10)
   # pub_imu_gyro     = rospy.Publisher('/gyro', Imu, queue_size=10)
 
@@ -109,6 +111,7 @@ def main():
   print("Using timestep=" + str(TIME_STEP) + " ms")
   time_lidar_last_reading  = driver.getTime()
   time_camera_last_reading = driver.getTime()
+  
   while driver.step() != -1 and not rospy.is_shutdown():
     current_t = driver.getTime()
     msg_clock = Clock()
@@ -117,33 +120,25 @@ def main():
     pub_clock.publish(msg_clock)
 
     if (current_t - time_lidar_last_reading) >= 0.085:
-      time_lidar_last_reading = current_t                            # Lidar readings are published every 100 ms
+      time_lidar_last_reading = current_t # Lidar readings are published every 100 ms
       msg_point_cloud.data = lidar.getPointCloud(data_type='buffer') # Get point cloud from lidar
-      msg_point_cloud.header.stamp = rospy.Time.now()                # Stamp the current lidar reading
-      pub_point_cloud.publish(msg_point_cloud)                       # Publish point cloud ros message
+      msg_point_cloud.header.stamp = rospy.Time.now() # Stamp the current lidar reading
+      pub_point_cloud.publish(msg_point_cloud) # Publish point cloud ros message
+
     if (current_t - time_camera_last_reading) >= 0.028:
       time_camera_last_reading = current_t
-      msg_image.data = camera.getImage()                             # Get image data from camera
-      pub_camera_data.publish(msg_image)                             # Publish image ros message
+      msg_image.data = camera.getImage() # Get image data from camera
+      pub_camera_data.publish(msg_image) # Publish image ros message
+
+    if (current_t - time_lidar_last_reading) >= 0.025:    
+      msg_accel.linear_acceleration.x = accel.getValues()[0] # GET X COMPONENT FROM Accelerometer
+      msg_accel.linear_acceleration.y = accel.getValues()[1] # GET Y COMPONENT FROM Accelerometer
+      msg_accel.linear_acceleration.z = accel.getValues()[2] # GET Z COMPONENT FROM Accelerometer
+    pub_imu_accel.publish(msg_accel) # PUBLISHING IMU MESSAGE
     
-    '''  
-    msg_gyro.angular_velocity.x = gyro.getValues()[0]                      # GET X COMPONENT FROM GYRO
-    msg_gyro.angular_velocity.y = gyro.getValues()[1]                      # GET Y COMPONENT FROM GYRO
-    msg_gyro.angular_velocity.z = gyro.getValues()[2]                      # GET Z COMPONENT FROM GYRO
-    msg_gps.latitude = gps.getValues()[0]                                  # GET X COMPONENT FROM GPS  
-    msg_gps.longitude = gps.getValues()[1]                                 # GET Y COMPONENT FROM GPS  
-    msg_gps.altitude = gps.getValues()[2]  
-    '''                               # GET Z COMPONENT FROM GPS 
-    
-    
-    
-    
-    # pub_imu_gyro.publish(msg_gyro)                                         # PUBLISHING IMU MESSAGE
-    # pub_nav_gps.publish(msg_gps)                                           # PUBLISHING NAVSATFIX MESSAGE
     rate.sleep()
     
  
-
 if __name__ == "__main__":
   try:
     main()
