@@ -45,11 +45,21 @@ def callback_passing_start(msg):
 def callback_passing_finished(msg):
     global passing_finished
     callback_passing_finished = msg.data        
-
+    
+def callback_speed(msg):
+    global speed
+    speed = msg.data 
+    
+def callback_steering(msg):
+    global steering
+    steering = msg.data         
+    
+    
 def main():
     global obstacle_north, obstacle_north_west, obstacle_west, obstacle_south_west
     global obstacle_distance, follow_enable, steady_motion_enable, passing_start, passing_finished
-    
+    global speed, steering
+        
     num_trial = 0
     trials_file = "num_trials.data"
     
@@ -66,6 +76,9 @@ def main():
     rospy.Subscriber("/passing/start"      , Bool, callback_passing_start)
     rospy.Subscriber("/passing/finished"   , Bool, callback_passing_finished)
     
+    rospy.Subscriber("/speed", Float64, callback_speed)
+    rospy.Subscriber("/steering", Float64, callback_steering)
+        
     rate = rospy.Rate(10)
     obstacle_north      = False
     obstacle_north_west = False
@@ -75,8 +88,10 @@ def main():
     follow_enable = False 
     steady_motion_enable = False 
     passing_start = False 
-    passing_finished = False   
-
+    passing_finished = False  
+    speed = 0.0
+    steering = 0.0
+       
     # Lectura del número de corrida
     file_exists = os.path.exists(trials_file)
     if file_exists:
@@ -96,10 +111,10 @@ def main():
     f = open("logger.log","a")
     now = datetime.now()
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
-    f.write('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n')
+    f.write('----------------------------------------------------------------------\n')
     output = " Test number " +  str_trial + " " + dt_string + "\n"
     f.write(output)
-    f.write('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n')
+    f.write('----------------------------------------------------------------------\n')
        
     print("Logger.->Waiting for start signal")
     rospy.wait_for_message("/start", Empty, timeout=10000.0)
@@ -118,20 +133,20 @@ def main():
         elif steady_motion_enable:
            action = "cruise"
         elif passing_start or passing_finished:
-           action = "change_lane"          
-   
-        output = str(iteration) +") " + dt_string + " O_N= " + str(obstacle_north) + " O_NW= " + str(obstacle_north_west) + " O_SN= " + str(obstacle_south_west) + " O_SN= " + str(obstacle_west) + " O_D= " + str(obstacle_distance) + " F_E= " + str(follow_enable) +  " S_M_E= " + str(steady_motion_enable) + " P_S= " + str(passing_start) + " P_F= " + str(passing_finished) +  " action= " + action + "\n"
-          
-        f.write(output)  
+           action = "change_lane"  
+       
+                       
+        output = str(iteration) +") " + dt_string + " ----- Speed: " + str(speed) + " ----- Steering: " + str(steering) + "\n" + " ----- Obs_North: " + str(obstacle_north) + " ----- Obs_NorthWest: " + str(obstacle_north_west) + " ----- Obs_SouthWest: " + str(obstacle_south_west) + " ----- Obs_West: " + str(obstacle_west) + "\n" + " ----- Obs_Distance: " + str(obstacle_distance) + " ----- Follow_Ena: " + str(follow_enable) +  " ----- S_Motion_Ena: " + str(steady_motion_enable) + "\n" + " ----- Pass_start: " + str(passing_start) + " ----- Pass_Finish: " + str(passing_finished) + " ----- Action: " + action + "\n" 
+                                           
+        f.write(output) 
         rate.sleep()
-             
+
     f.close()
     c = open(trials_file, "w")        
     num_trial = num_trial + 1
     c.write(str(num_trial))
     c.close()
              
-
 if __name__ == "__main__":
     try:
         main()
@@ -141,4 +156,3 @@ if __name__ == "__main__":
         pass
 
     
-
