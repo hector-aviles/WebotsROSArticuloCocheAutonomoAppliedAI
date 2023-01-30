@@ -4,7 +4,7 @@ This node is a logger and records the following data:
 
 """
 import rospy
-from std_msgs.msg import Float64MultiArray, Float64, Empty, Bool
+from std_msgs.msg import Float64MultiArray, Float64, Empty, Bool, String
 import os.path
 from pathlib import Path
 
@@ -53,11 +53,14 @@ def callback_steering(msg):
     global steering
     steering = msg.data         
     
+def callback_action(msg):
+    global action
+    action = msg.data        
     
 def main():
     global obstacle_north, obstacle_north_west, obstacle_west, obstacle_south_west
     global obstacle_distance, follow_enable, steady_motion_enable, passing_start, passing_finished
-    global speed, steering
+    global speed, steering, action
         
     repetitions_file = "num_repetition.data"
 
@@ -72,10 +75,11 @@ def main():
     rospy.Subscriber("/follow/enable"      , Bool, callback_follow_enable)
     rospy.Subscriber("/steady_motion/enable", Bool, callback_steady_motion_enable)
     rospy.Subscriber("/passing/start"      , Bool, callback_passing_start)
-    rospy.Subscriber("/passing/finished"   , Bool, callback_passing_finished)
     
     rospy.Subscriber("/speed", Float64, callback_speed)
     rospy.Subscriber("/steering", Float64, callback_steering)
+
+    rospy.Subscriber("/action", String, callback_action)
 
     rate = rospy.Rate(10)
 
@@ -91,10 +95,9 @@ def main():
     passing_finished = False  
     speed = 0.0
     steering = 0.0
+    action = ""
 
-
-    print("Hola mundo", flush = True)
-    # Lectura del número de corrida
+    # Lectura del número de repetición
     file_exists = os.path.exists(repetitions_file)
     if file_exists:
        c = open(repetitions_file, "r")
@@ -114,29 +117,20 @@ def main():
     # Record header only once
     f = open("logger.log","a")
     if num_repetition == 1:
-       output = "repetition," +"iteration," + "time," + "speed," + "steering," + "obstacle_North," + "obstacle_NorthWest," + "obstacle_SouthWest," + "obstacle_West," + "obstacle_distance," + "follow_enable," +  "steady_motion_enable," + "passing_start," + "passing_finished," + "action" + "\n"     
+       output = "repetition," +"iteration," + "time," + "speed," + "steering," + "obstacle_North," + "obstacle_NorthWest," + "obstacle_SouthWest," + "obstacle_West," + "obstacle_distance," + "follow_enable," +  "steady_motion_enable," + "passing_start," + "action" + "\n"     
        f.write(output)
      
-    #print("Logger.->Waiting for start signal")
-    #rospy.wait_for_message("/start", Empty, timeout=10000.0)
-    #print("Logger.->Start signal received")
+    print("Logger.->Waiting for start signal")
+    rospy.wait_for_message("/start", Empty, timeout=10000.0)
+    print("Logger.->Start signal received")
 
     iteration = 0
     while not rospy.is_shutdown():
     
         iteration = iteration + 1
         now = rospy.get_time()
-        
-        if follow_enable:
-           action = "keep_distance"
-        elif steady_motion_enable:
-           action = "cruise"
-        elif passing_start or passing_finished:
-           action = "change_lane"  
-        else:
-           action = "NA"
                        
-        output = str(num_repetition) + "," + str(iteration) +"," + str(now) + "," + str(speed) + "," + str(steering) + "," + str(obstacle_north) + "," + str(obstacle_north_west) + "," + str(obstacle_south_west) + "," + str(obstacle_west) + "," +  str(obstacle_distance) + "," + str(follow_enable) +  "," + str(steady_motion_enable) + "," + str(passing_start) + "," + str(passing_finished) + "," + action + "\n" 
+        output = str(num_repetition) + "," + str(iteration) +"," + str(now) + "," + str(speed) + "," + str(steering) + "," + str(obstacle_north) + "," + str(obstacle_north_west) + "," + str(obstacle_south_west) + "," + str(obstacle_west) + "," +  str(obstacle_distance) + "," + str(follow_enable) +  "," + str(steady_motion_enable) + "," + str(passing_start) + "," +  action + "\n" 
 
         f.write(output) 
         
