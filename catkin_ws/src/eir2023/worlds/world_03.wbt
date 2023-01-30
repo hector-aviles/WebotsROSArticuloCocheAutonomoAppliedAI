@@ -98,6 +98,8 @@ BmwX5 {
   color 0.643137 0 0
   controller "bmw_x5_controller"
   sensorsSlotTop [
+    Accelerometer {
+    }
     Camera {
       translation 0.8 0 -0.1
       rotation 0 1 0 0.07
