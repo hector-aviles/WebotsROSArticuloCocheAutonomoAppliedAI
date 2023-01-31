@@ -130,7 +130,7 @@ def main():
       msg_image.data = camera.getImage() # Get image data from camera
       pub_camera_data.publish(msg_image) # Publish image ros message
 
-    if (current_t - time_lidar_last_reading) >= 0.025:    
+    if (current_t - time_lidar_last_reading) >= 0.01:    
       msg_accel.linear_acceleration.x = accel.getValues()[0] # GET X COMPONENT FROM Accelerometer
       msg_accel.linear_acceleration.y = accel.getValues()[1] # GET Y COMPONENT FROM Accelerometer
       msg_accel.linear_acceleration.z = accel.getValues()[2] # GET Z COMPONENT FROM Accelerometer
