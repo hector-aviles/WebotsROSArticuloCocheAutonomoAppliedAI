@@ -134,7 +134,7 @@ def main():
       msg_accel.linear_acceleration.x = accel.getValues()[0] # GET X COMPONENT FROM Accelerometer
       msg_accel.linear_acceleration.y = accel.getValues()[1] # GET Y COMPONENT FROM Accelerometer
       msg_accel.linear_acceleration.z = accel.getValues()[2] # GET Z COMPONENT FROM Accelerometer
-    pub_imu_accel.publish(msg_accel) # PUBLISHING IMU MESSAGE
+      pub_imu_accel.publish(msg_accel) # PUBLISHING IMU MESSAGE
     
     rate.sleep()
     
