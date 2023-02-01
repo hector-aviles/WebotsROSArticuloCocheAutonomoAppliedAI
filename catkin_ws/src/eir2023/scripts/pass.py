@@ -31,6 +31,7 @@ def main():
 
     while not rospy.is_shutdown():
         if start_passing:
+            print('start_passing is true', flush = True)
             start_passing = False
             print("Passing: moving left")
             pub_speed.publish(36.0)

@@ -11,6 +11,8 @@ def callback_accelerometer(msg):
 
     global success, first_time, pub_success, pub_accel_diff, x1, y1, z1   
 
+    threshold = 200
+
     x2 = msg.linear_acceleration.x
     y2 = msg.linear_acceleration.y
     z2 = msg.linear_acceleration.z
@@ -20,12 +22,9 @@ def callback_accelerometer(msg):
        if first_time:
           first_time = False
        else:   
-
           diff = ((x2 - x1)**2 + (y2 - y1)**2 + (z2 - z1)**2)**0.5
-          if diff < 5:
-             success = True
-          else:    
-             success = True #False
+          if diff > threshold:
+             success = False
              #print("ERROR: Choque detectado", flush=True)
              #output = "x1= " + str(x1) + " x2= " + str(x2) + " y1= " + str(y1) + " y2= " + str(y2) + " z1= " + str(z1) + " z2= " + str(z2) + " diff= " + str(diff) + "\n"
              #print(output, flush = True)
@@ -35,7 +34,6 @@ def callback_accelerometer(msg):
        z1 = msg.linear_acceleration.z     
 
     pub_success.publish(success)
-    #print(diff, flush = True)
     pub_accel_diff.publish(diff)
 
 def main():

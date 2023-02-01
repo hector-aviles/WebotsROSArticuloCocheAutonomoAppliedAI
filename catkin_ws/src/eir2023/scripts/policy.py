@@ -29,43 +29,59 @@ def callback_obstacle_south_west(msg):
     global obstacle_south_west
     obstacle_south_west = msg.data
 
+def callback_success(msg):
+    global success
+    success = msg.data
+
 def enable_steady_motion():
-    global pub_steady_motion
+    global pub_follow_car, pub_steady_motion, pub_start_passing, pub_action, pub_stop
     pub_steady_motion.publish(True)
     pub_follow_car.publish(False)
+    pub_stop.publish(False)
 
 def enable_follow_car():
-    global pub_follow_car
+    global pub_follow_car, pub_steady_motion, pub_start_passing, pub_action, pub_stop
     pub_follow_car.publish(True)
     pub_steady_motion.publish(False)
+    pub_stop.publish(False)
 
 def execute_passing():
-    global pub_start_passing
+    global pub_follow_car, pub_steady_motion, pub_start_passing, pub_action, pub_stop
     pub_steady_motion.publish(False)
     pub_follow_car.publish(False)
+    pub_stop.publish(False)
     pub_start_passing.publish(True)
     msg_finished = rospy.wait_for_message('/passing/finished', Empty, timeout=100.0)
+    
+def stop_motion():
+    global pub_follow_car, pub_steady_motion, pub_start_passing, pub_action, pub_stop
+    pub_steady_motion.publish(False)
+    pub_follow_car.publish(False)
+    pub_stop.publish(True)    
 
 def main():
-    global obstacle_north, obstacle_north_west, obstacle_west, obstacle_south_west
-    global pub_follow_car, pub_steady_motion, pub_start_passing
+    global obstacle_north, obstacle_north_west, obstacle_west, obstacle_south_west, success
+    global pub_follow_car, pub_steady_motion, pub_start_passing, pub_action, pub_stop
     print("INITIALIZING POLICY...")
     rospy.init_node("policy")
     rospy.Subscriber("/obstacle/north"     , Bool, callback_obstacle_north)
     rospy.Subscriber("/obstacle/north_west", Bool, callback_obstacle_north_west)
     rospy.Subscriber("/obstacle/west"      , Bool, callback_obstacle_west)
     rospy.Subscriber("/obstacle/south_west", Bool, callback_obstacle_south_west)
+    rospy.Subscriber("/success", Bool, callback_success)    
     pub_start_signal  = rospy.Publisher("/start", Empty, queue_size=10)
     pub_steady_motion = rospy.Publisher("/steady_motion/enable", Bool, queue_size=10)
     pub_follow_car    = rospy.Publisher("/follow/enable", Bool, queue_size=10)
     pub_start_passing = rospy.Publisher("/passing/start", Bool, queue_size=10)
     pub_action = rospy.Publisher("/action", String, queue_size=10)
+    pub_stop = rospy.Publisher("/stop", Bool, queue_size=10)    
     rate = rospy.Rate(10)
 
     obstacle_north      = False
     obstacle_north_west = False
     obstacle_west       = False
     obstacle_south_west = False
+    success = True
     
     while not rospy.is_shutdown():
         pub_start_signal.publish()
@@ -79,55 +95,59 @@ def main():
         # enable_follow_car()
         #
         action = "NA"
-        if obstacle_north and obstacle_north_west and obstacle_south_west and obstacle_west:
-            action = "Keep distance"
-            enable_follow_car()
-        elif not obstacle_north and obstacle_north_west and obstacle_south_west and obstacle_west:
-            action = "Cruise"
-            enable_steady_motion()
-        elif obstacle_north and not obstacle_north_west and obstacle_south_west and obstacle_west:
-            action = "Keep distance"
-            enable_follow_car()
-        elif not obstacle_north and not obstacle_north_west and obstacle_south_west and obstacle_west:
-            action = "Cruise"
-            enable_steady_motion()
-        elif obstacle_north and obstacle_north_west and not obstacle_south_west and obstacle_west:
-            action = "Keep distance"
-            enable_follow_car()
-        elif not obstacle_north and obstacle_north_west and not obstacle_south_west and obstacle_west:
-            action = "Cruise"
-            enable_steady_motion()
-        elif obstacle_north and not obstacle_north_west and not obstacle_south_west and obstacle_west:
-            action = "Keep distance"
-            enable_follow_car()
-        elif not obstacle_north and not obstacle_north_west and not obstacle_south_west and obstacle_west:
-            action = "Cruise"
-            enable_steady_motion()
-        elif obstacle_north and obstacle_north_west and obstacle_south_west and not obstacle_west:
-            action = "Keep distance"
-            enable_follow_car()
-        elif not obstacle_north and obstacle_north_west and obstacle_south_west and not obstacle_west:
-            action = "Cruise"
-            enable_steady_motion()
-        elif obstacle_north and not obstacle_north_west and obstacle_south_west and not obstacle_west:
-            action = "Change lane"
-            execute_passing()
-        elif not obstacle_north and not obstacle_north_west and obstacle_south_west and not obstacle_west:
-            action = "Cruise"
-            enable_steady_motion()
-        elif obstacle_north and obstacle_north_west and not obstacle_south_west and not obstacle_west:
-            action = "Keep distance"
-            enable_follow_car()
-        elif not obstacle_north and obstacle_north_west and not obstacle_south_west and not obstacle_west:
-            action = "Cruise"
-            enable_steady_motion()
-        elif obstacle_north and not obstacle_north_west and not obstacle_south_west and not obstacle_west:
-            action = "Change lane"
-            execute_passing()
-        elif not obstacle_north and not obstacle_north_west and not obstacle_south_west and not obstacle_west:
-            action = "Cruise"
-            enable_steady_motion()
-
+        if success:
+           if obstacle_north and obstacle_north_west and obstacle_south_west and obstacle_west:
+              action = "Keep distance"
+              enable_follow_car()
+           elif not obstacle_north and obstacle_north_west and obstacle_south_west and obstacle_west:
+              action = "Cruise"
+              enable_steady_motion()
+           elif obstacle_north and not obstacle_north_west and obstacle_south_west and obstacle_west:
+              action = "Keep distance"
+              enable_follow_car()
+           elif not obstacle_north and not obstacle_north_west and obstacle_south_west and obstacle_west:
+              action = "Cruise"
+              enable_steady_motion()
+           elif obstacle_north and obstacle_north_west and not obstacle_south_west and obstacle_west:
+              action = "Keep distance"
+              enable_follow_car()
+           elif not obstacle_north and obstacle_north_west and not obstacle_south_west and obstacle_west:
+              action = "Cruise"
+              enable_steady_motion()
+           elif obstacle_north and not obstacle_north_west and not obstacle_south_west and obstacle_west:
+              action = "Keep distance"
+              enable_follow_car()
+           elif not obstacle_north and not obstacle_north_west and not obstacle_south_west and obstacle_west:
+              action = "Cruise"
+              enable_steady_motion()
+           elif obstacle_north and obstacle_north_west and obstacle_south_west and not obstacle_west:
+              action = "Keep distance"
+              enable_follow_car()
+           elif not obstacle_north and obstacle_north_west and obstacle_south_west and not obstacle_west:
+              action = "Cruise"
+              enable_steady_motion()
+           elif obstacle_north and not obstacle_north_west and obstacle_south_west and not obstacle_west:
+              action = "Change lane"
+              execute_passing()
+           elif not obstacle_north and not obstacle_north_west and obstacle_south_west and not obstacle_west:
+              action = "Cruise"
+              enable_steady_motion()
+           elif obstacle_north and obstacle_north_west and not obstacle_south_west and not obstacle_west:
+              action = "Keep distance"
+              enable_follow_car()
+           elif not obstacle_north and obstacle_north_west and not obstacle_south_west and not obstacle_west:
+              action = "Cruise"
+              enable_steady_motion()
+           elif obstacle_north and not obstacle_north_west and not obstacle_south_west and not obstacle_west:
+              action = "Change lane"
+              execute_passing()
+           elif not obstacle_north and not obstacle_north_west and not obstacle_south_west and not obstacle_west:
+              action = "Cruise"
+              enable_steady_motion()
+        else:       
+           action = "stop"
+           stop_motion()        
+ 
         print(action, flush = True)    
         pub_action.publish(action)
 

@@ -3,5 +3,5 @@ build/
 src/CMakeLists.txt
 .catkin_workspace
 logger.log 
-num_repetitions.data
+num_repetition.data
 video.mp4

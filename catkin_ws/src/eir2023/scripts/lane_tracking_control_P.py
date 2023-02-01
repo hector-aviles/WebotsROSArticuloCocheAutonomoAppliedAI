@@ -107,20 +107,24 @@ def main():
 
     while not rospy.is_shutdown():
         if enable_steady_motion:
-            speed, steering = calculate_control(lane_rho_l, lane_theta_l, lane_rho_r, lane_theta_r,
-                                                goal_rho_l, goal_theta_l, goal_rho_r, goal_theta_r)
+            #print ("enable_steady_motion is true", flush = True) 
+            #print (enable_steady_motion, flush = True)             
+            speed, steering = calculate_control(lane_rho_l, lane_theta_l, lane_rho_r, lane_theta_r, goal_rho_l, goal_theta_l, goal_rho_r, goal_theta_r)
         elif enable_follow:
-            speed, steering = calculate_control(lane_rho_l, lane_theta_l, lane_rho_r, lane_theta_r,
-                                                goal_rho_l, goal_theta_l, goal_rho_r, goal_theta_r, dist_to_obstacle)
+            #print ("enable_follow is true", flush = True)            
+            speed, steering = calculate_control(lane_rho_l, lane_theta_l, lane_rho_r, lane_theta_r, goal_rho_l, goal_theta_l, goal_rho_r, goal_theta_r, dist_to_obstacle)
         else:
             continue
+        #print ("Lane tracking envia mensaje", flush = True)    
         pub_speed.publish(speed)
         pub_angle.publish(steering)
         rate.sleep()
     
 
 if __name__ == "__main__":
-    main()
-
-    
+    try:
+        main()
+    except:
+        rospy.ROSInterruptException
+        pass
 
