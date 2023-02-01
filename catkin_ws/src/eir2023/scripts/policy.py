@@ -82,7 +82,9 @@ def main():
     obstacle_west       = False
     obstacle_south_west = False
     success = True
-    
+
+    action = "NA"
+    action_prev = "NA"            
     while not rospy.is_shutdown():
         pub_start_signal.publish()
         #
@@ -94,7 +96,6 @@ def main():
         # enable_steady_motion()
         # enable_follow_car()
         #
-        action = "NA"
         if success:
            if obstacle_north and obstacle_north_west and obstacle_south_west and obstacle_west:
               action = "Keep distance"
@@ -146,10 +147,14 @@ def main():
               enable_steady_motion()
         else:       
            action = "stop"
-           stop_motion()        
+           stop_motion() 
+                                         
+        if action_prev != action:
+           print(action, flush = True)                      
+           action_prev = action        
  
-        print(action, flush = True)    
         pub_action.publish(action)
+
 
         rate.sleep()
 
