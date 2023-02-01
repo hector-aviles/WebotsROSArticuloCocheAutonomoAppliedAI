@@ -14,8 +14,8 @@ def callback_start_passing(msg):
 
 def main():
     global start_passing
-    turning_left_time = 0.7*8
-    turning_right_time = 0.7*8
+    turning_left_time = 5.6
+    turning_right_time = 5.6
     print('INITIALIZING PASS-BEHAVIOR NODE...')
     rospy.init_node('passsing')
     rate = rospy.Rate(30)
@@ -31,7 +31,6 @@ def main():
 
     while not rospy.is_shutdown():
         if start_passing:
-            print('start_passing is true', flush = True)
             start_passing = False
             print("Passing: moving left")
             pub_speed.publish(36.0)

@@ -45,7 +45,9 @@ def main():
     rate = rospy.Rate(10)
     
     success = True
-    
+
+    action = "NA"
+    action_prev = "NA"      
     while not rospy.is_shutdown():
         pub_start_signal.publish()
         #
@@ -57,23 +59,21 @@ def main():
         # enable_steady_motion()
         # enable_follow_car()
         #
-        
-        #print("Hola Mundo", flush = True)
-        action = "NA"
+
         if success:
            action = "Cruise"
-           #print("Hola Mundo1", flush = True)
+           if action_prev != action:
+              print(action, flush = True)                      
+              action_prev = action  
            enable_steady_motion()
-           #print("Hola Mundo2", flush = True)   
         else:       
-           #print("Hola Mundo3", flush = True)
            action = "Stop"
+           if action_prev != action:
+              print(action, flush = True)                      
+              action_prev = action             
            stop_motion()     
-           #print("Hola Mundo4", flush = True)   
-        
-        print(action, flush = True)    
+          
         pub_action.publish(action)
-        #print("Hola Mundo5", flush = True)
 
         rate.sleep()
 

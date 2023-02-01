@@ -99,62 +99,105 @@ def main():
         if success:
            if obstacle_north and obstacle_north_west and obstacle_south_west and obstacle_west:
               action = "Keep distance"
+              if action_prev != action:
+                 print(action, flush = True)                      
+                 action_prev = action                
               enable_follow_car()
            elif not obstacle_north and obstacle_north_west and obstacle_south_west and obstacle_west:
               action = "Cruise"
+              if action_prev != action:
+                 print(action, flush = True)                      
+                 action_prev = action                
               enable_steady_motion()
            elif obstacle_north and not obstacle_north_west and obstacle_south_west and obstacle_west:
               action = "Keep distance"
+              if action_prev != action:
+                 print(action, flush = True)                      
+                 action_prev = action                
               enable_follow_car()
            elif not obstacle_north and not obstacle_north_west and obstacle_south_west and obstacle_west:
               action = "Cruise"
+              if action_prev != action:
+                 print(action, flush = True)                      
+                 action_prev = action                
               enable_steady_motion()
            elif obstacle_north and obstacle_north_west and not obstacle_south_west and obstacle_west:
               action = "Keep distance"
+              if action_prev != action:
+                 print(action, flush = True)                      
+                 action_prev = action                
               enable_follow_car()
            elif not obstacle_north and obstacle_north_west and not obstacle_south_west and obstacle_west:
               action = "Cruise"
+              if action_prev != action:
+                 print(action, flush = True)                      
+                 action_prev = action                
               enable_steady_motion()
            elif obstacle_north and not obstacle_north_west and not obstacle_south_west and obstacle_west:
               action = "Keep distance"
+              if action_prev != action:
+                 print(action, flush = True)                      
+                 action_prev = action                
               enable_follow_car()
            elif not obstacle_north and not obstacle_north_west and not obstacle_south_west and obstacle_west:
               action = "Cruise"
+              if action_prev != action:
+                 print(action, flush = True)                      
+                 action_prev = action                
               enable_steady_motion()
            elif obstacle_north and obstacle_north_west and obstacle_south_west and not obstacle_west:
               action = "Keep distance"
+              if action_prev != action:
+                 print(action, flush = True)                      
+                 action_prev = action                
               enable_follow_car()
            elif not obstacle_north and obstacle_north_west and obstacle_south_west and not obstacle_west:
               action = "Cruise"
+              if action_prev != action:
+                 print(action, flush = True)                      
+                 action_prev = action                
               enable_steady_motion()
            elif obstacle_north and not obstacle_north_west and obstacle_south_west and not obstacle_west:
               action = "Change lane"
+              if action_prev != action:
+                 print(action, flush = True)                      
+                 action_prev = action                
               execute_passing()
            elif not obstacle_north and not obstacle_north_west and obstacle_south_west and not obstacle_west:
               action = "Cruise"
+              if action_prev != action:
+                 print(action, flush = True)                      
+                 action_prev = action                
               enable_steady_motion()
            elif obstacle_north and obstacle_north_west and not obstacle_south_west and not obstacle_west:
               action = "Keep distance"
+              if action_prev != action:
+                 print(action, flush = True)                      
+                 action_prev = action                
               enable_follow_car()
            elif not obstacle_north and obstacle_north_west and not obstacle_south_west and not obstacle_west:
               action = "Cruise"
+              if action_prev != action:
+                 print(action, flush = True)                      
+                 action_prev = action                
               enable_steady_motion()
            elif obstacle_north and not obstacle_north_west and not obstacle_south_west and not obstacle_west:
               action = "Change lane"
+              if action_prev != action:
+                 print(action, flush = True)                      
+                 action_prev = action                
               execute_passing()
            elif not obstacle_north and not obstacle_north_west and not obstacle_south_west and not obstacle_west:
               action = "Cruise"
+              if action_prev != action:
+                 print(action, flush = True)                      
+                 action_prev = action                
               enable_steady_motion()
         else:       
            action = "stop"
            stop_motion() 
-                                         
-        if action_prev != action:
-           print(action, flush = True)                      
-           action_prev = action        
- 
+                                              
         pub_action.publish(action)
-
 
         rate.sleep()
 
