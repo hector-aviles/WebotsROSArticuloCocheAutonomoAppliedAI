@@ -17,6 +17,7 @@ from std_msgs.msg import Float64MultiArray, Empty, Bool, Float64
 from sensor_msgs.msg import PointCloud2
 
 def callback_point_cloud(msg):
+    distance = 2.65
     xyz = ros_numpy.point_cloud2.pointcloud2_to_xyz_array(msg)
     xyz = xyz[(xyz[:,2] > -1.6) & (xyz[:,2] < 0.5) ] #Filters points on floor and higher points
     obstacle_N_points  = xyz[(xyz[:,0] >  2.5) & (xyz[:,0] <   25) & (xyz[:,1] < 1.5) & (xyz[:,1] > -1.5)]

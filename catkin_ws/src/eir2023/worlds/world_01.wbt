@@ -66,8 +66,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.3904956962043113 -0.4604530013740849 0.7971801206575007 4.662598338359059
-  position 9.831372927294522 32.35349644126659 37.466266747507305
+  orientation -0.49598057003593704 -0.4895121626427333 0.7172036787215059 4.383008530809163
+  position 17.932028410976372 19.669507383385323 39.57019768682558
   near 1
   follow "vehicle"
   lensFlare LensFlare {
@@ -108,11 +108,19 @@ BmwX5 {
   rotation -4.50277221637577e-16 -1 1.7898506359482623e-12 0.004494716145555485
   color 0.643137 0 0
   controller "bmw_x5_controller"
+  controllerArgs [
+    "--name=robot_name"
+    "--use-sim-time"
+    "--clock"
+  ]
   sensorsSlotFront [
     TouchSensor {
     }
   ]
   sensorsSlotTop [
+    DistanceSensor {
+      translation 0.3 0 0.15
+    }
     Accelerometer {
     }
     Camera {

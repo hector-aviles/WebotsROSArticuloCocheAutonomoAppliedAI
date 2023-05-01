@@ -6,6 +6,7 @@ This node implements an open loop set of movements to pass a vehicle.
 import cv2
 import numpy
 import rospy
+from rosgraph_msgs.msg import Clock 
 from std_msgs.msg import Float64MultiArray, Float64, Empty, Bool
 
 def callback_start_passing(msg):
@@ -13,13 +14,15 @@ def callback_start_passing(msg):
     start_passing = True
 
 def main():
-    global start_passing
+    global start_passing  
     turning_left_time = 5.6
     turning_right_time = 5.6
     print('INITIALIZING PASS-BEHAVIOR NODE...')
     rospy.init_node('passsing')
+    #sim_speed_multiplier = 10  
+    #pub_clock = rospy.Publisher('/clock', Clock, queue_size=10)
     rate = rospy.Rate(30)
-
+    
     rospy.Subscriber("/passing/start", Bool, callback_start_passing)
     pub_speed  = rospy.Publisher('/speed', Float64, queue_size=10)
     pub_angle  = rospy.Publisher('/steering', Float64, queue_size=10)
@@ -28,14 +31,20 @@ def main():
     print("Turning_left_time: " + str(turning_left_time))
     print("Turning_right_time: " + str(turning_right_time))
     start_passing = False
-
-    while not rospy.is_shutdown():
-        if start_passing:
+    #sim_clock = Clock()
+    #now = rospy.get_time()
+            
+    while not rospy.is_shutdown(): 
+        #sim_clock.clock = rospy.Time.from_sec(sim_speed_multiplier * (rospy.get_time()- now))
+        #rospy.loginfo(sim_clock)
+        #pub_clock.publish(sim_clock)    
+         
+        if start_passing:         
             start_passing = False
             print("Passing: moving left")
             pub_speed.publish(36.0)
             pub_angle.publish(0.2)
-            rospy.sleep(turning_left_time)
+            rospy.sleep(1.2)
             print("Passing: moving right")
             pub_speed.publish(36.0)
             pub_angle.publish(-0.2)
@@ -45,9 +54,12 @@ def main():
             pub_finish.publish()
         rate.sleep()
     
-
-if __name__ == "__main__":
+       
+if __name__ == "__main__":    
+    #try:
     main()
+    #except rospy.ROSInterruptException:
+     #   pass
 
     
 
