@@ -20,7 +20,7 @@ def main():
     print('INITIALIZING PASS-BEHAVIOR NODE...')
     rospy.init_node('passsing')
     #sim_speed_multiplier = 10  
-    #pub_clock = rospy.Publisher('/clock', Clock, queue_size=10)
+    pub_sim_time = rospy.Publisher('/sim_time', Clock, queue_size=1)
     rate = rospy.Rate(30)
     
     rospy.Subscriber("/passing/start", Bool, callback_start_passing)
@@ -31,27 +31,32 @@ def main():
     print("Turning_left_time: " + str(turning_left_time))
     print("Turning_right_time: " + str(turning_right_time))
     start_passing = False
-    #sim_clock = Clock()
-    #now = rospy.get_time()
+    sim_clock = Clock()
+    now= rospy.get_time()
             
     while not rospy.is_shutdown(): 
-        #sim_clock.clock = rospy.Time.from_sec(sim_speed_multiplier * (rospy.get_time()- now))
-        #rospy.loginfo(sim_clock)
-        #pub_clock.publish(sim_clock)    
+        sim_clock.clock = rospy.Time.from_sec(rospy.get_time()- now)
+       #rospy.loginfo(sim_clock)
+       # pub_sim_time.publish(sim_clock)    
          
         if start_passing:         
             start_passing = False
             print("Passing: moving left")
             pub_speed.publish(36.0)
             pub_angle.publish(0.2)
-            rospy.sleep(1.2)
-            print("Passing: moving right")
+            rospy.sleep(1.5)
+            
+            '''
+            print("Passing: moving right")  
             pub_speed.publish(36.0)
             pub_angle.publish(-0.2)
             rospy.sleep(turning_right_time)
             print("Passing: finished")
             pub_angle.publish(0.0)
             pub_finish.publish()
+            '''
+            print("Passing: finished")
+            
         rate.sleep()
     
        

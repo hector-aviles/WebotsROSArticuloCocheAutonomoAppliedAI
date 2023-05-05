@@ -109,7 +109,7 @@ BmwX5 {
   color 0.643137 0 0
   controller "bmw_x5_controller"
   controllerArgs [
-    "--name=robot_name"
+    "--name=vehicle"
     "--use-sim-time"
     "--clock"
   ]
