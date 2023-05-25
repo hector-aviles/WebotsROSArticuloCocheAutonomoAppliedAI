@@ -92,7 +92,7 @@ Floor {
     emissiveIntensity 0
   }
 }
-BmwX5 {
+DEF BMW_X5 BmwX5 {
   translation 10.2831 -1.5 0.498221
   rotation -9.135379245293787e-15 -1 1.7544986643064575e-12 0.004488380251354504
   color 0.643137 0 0
