@@ -1,5 +1,5 @@
 #VRML_SIM R2022a utf8
-WorldInfo {
+DEF q WorldInfo {
   ERP 0.6
   basicTimeStep 10
   lineScale 5
@@ -66,8 +66,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.49598057003593704 -0.4895121626427333 0.7172036787215059 4.383008530809163
-  position 17.932028410976372 19.669507383385323 39.57019768682558
+  orientation -0.5457332344022837 -0.27641426202578984 0.7910565040612206 3.912350090133296
+  position 25.520053329938595 20.501726888658855 41.264201145032985
   near 1
   follow "vehicle"
   lensFlare LensFlare {
@@ -92,27 +92,17 @@ Floor {
     emissiveIntensity 0
   }
 }
-BmwX5 {
-  hidden position_0_0 8.392090119849756e-11
-  hidden position2_0_0 -1.2670539671942818e-07
-  hidden position_0_1 -8.392048473696136e-11
-  hidden position2_0_1 -1.2670539349943065e-07
-  hidden position_0_2 -0.0011764323131617002
-  hidden position_0_3 -0.0011764323131299645
-  hidden position_0_9 1.6571630551364035e-26
-  hidden rotation_1 0.9999997806589523 -4.1960441395599586e-11 -0.0006623307685704218 1.264405455326821e-07
-  hidden rotation_2 -0.999999780661118 -4.196023316496803e-11 0.0006623274985552453 1.264405455326821e-07
-  hidden rotation_3 1 0 0 0.0011764323132700553
-  hidden rotation_4 -1 0 0 0.0011764323132700553
+DEF BMW_X5 BmwX5 {
   translation 10.282903412232713 -1.4999999999999998 0.416919296387472
   rotation -4.50277221637577e-16 -1 1.7898506359482623e-12 0.004494716145555485
   color 0.643137 0 0
   controller "bmw_x5_controller"
   controllerArgs [
-    "--name=robot_name"
+    "--name=vehicle"
     "--use-sim-time"
     "--clock"
   ]
+  supervisor TRUE
   sensorsSlotFront [
     TouchSensor {
     }
@@ -470,4 +460,9 @@ DEF obstacle_north RangeRoverSportSVRSimple {
 Robot {
   controller "supervisor_eir"
   supervisor TRUE
+  synchronization FALSE
+}
+WoodenBox {
+  translation 16.94 -1.67 0.8
+  size 1.5 1.5 3
 }
