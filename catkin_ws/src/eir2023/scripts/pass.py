@@ -40,7 +40,13 @@ def main():
     sim_nsecs = 0.0                    
     
     print('INITIALIZING PASS-BEHAVIOR NODE...')
+<<<<<<< HEAD
     rospy.init_node('passing')
+=======
+    rospy.init_node('passsing')
+    #sim_speed_multiplier = 10  
+    pub_sim_time = rospy.Publisher('/sim_time', Clock, queue_size=1)
+>>>>>>> 9aac91bb8240a64e8ce2bfdd3ff5f553abdac2c6
     rate = rospy.Rate(30)
 
     rospy.Subscriber("/passing/start", Bool, callback_start_passing)
@@ -50,6 +56,7 @@ def main():
     pub_angle  = rospy.Publisher('/steering', Float64, queue_size=10)
     pub_finish = rospy.Publisher('/passing/finished', Empty, queue_size=10)
     start_passing = False
+<<<<<<< HEAD
      
 
     while not rospy.is_shutdown():
@@ -98,6 +105,34 @@ def main():
             elapsed_time = curr_time - prev_time
             print("elapsed_time ", elapsed_time, flush=True)
                   
+=======
+    sim_clock = Clock()
+    now= rospy.get_time()
+            
+    while not rospy.is_shutdown(): 
+        sim_clock.clock = rospy.Time.from_sec(rospy.get_time()- now)
+       #rospy.loginfo(sim_clock)
+       # pub_sim_time.publish(sim_clock)    
+         
+        if start_passing:         
+            start_passing = False
+            print("Passing: moving left")
+            pub_speed.publish(36.0)
+            pub_angle.publish(0.2)
+            rospy.sleep(1.5)
+            
+            '''
+            print("Passing: moving right")  
+            pub_speed.publish(36.0)
+            pub_angle.publish(-0.2)
+            rospy.sleep(turning_right_time)
+            print("Passing: finished")
+            pub_angle.publish(0.0)
+            pub_finish.publish()
+            '''
+            print("Passing: finished")
+            
+>>>>>>> 9aac91bb8240a64e8ce2bfdd3ff5f553abdac2c6
         rate.sleep()
     
 
