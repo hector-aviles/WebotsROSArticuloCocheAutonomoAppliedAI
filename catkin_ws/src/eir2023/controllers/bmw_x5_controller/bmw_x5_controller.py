@@ -118,7 +118,7 @@ def main():
     msg_clock.clock.secs  = int(current_t)
     msg_clock.clock.nsecs = int(round(1000 * (current_t - msg_clock.clock.secs)) * 1.0e+6)
     pub_clock.publish(msg_clock)
-
+    
     if (current_t - time_lidar_last_reading) >= 0.085:
       time_lidar_last_reading = current_t # Lidar readings are published every 100 ms
       msg_point_cloud.data = lidar.getPointCloud(data_type='buffer') # Get point cloud from lidar

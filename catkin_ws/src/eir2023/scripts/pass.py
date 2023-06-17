@@ -60,6 +60,16 @@ def main():
     pub_steady_motion = rospy.Publisher("/steady_motion/enable", Bool, queue_size=10)
     start_passing = False
      
+    rospy.init_node('passing')
+    rate = rospy.Rate(30)
+
+    rospy.Subscriber("/passing/start", Bool, callback_start_passing)
+    rospy.Subscriber("/clock", Clock, callback_sim_time)     
+    
+    pub_speed  = rospy.Publisher('/speed', Float64, queue_size=10)
+    pub_angle  = rospy.Publisher('/steering', Float64, queue_size=10)
+    pub_finish = rospy.Publisher('/passing/finished', Empty, queue_size=10)
+    start_passing = False
     while not rospy.is_shutdown():
 
         curr_time = sim_secs + sim_nsecs / (10**9)
@@ -140,6 +150,8 @@ def main():
             curr_time = sim_secs + sim_nsecs / (10**9)            
             diff  = curr_time - prev_sleep
             
+        rate.sleep()
+   
 
 if __name__ == "__main__":
     main()

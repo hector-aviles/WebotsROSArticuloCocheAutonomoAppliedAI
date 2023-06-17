@@ -1,5 +1,5 @@
 #VRML_SIM R2022a utf8
-WorldInfo {
+DEF q WorldInfo {
   ERP 0.6
   basicTimeStep 10
   lineScale 5
@@ -126,6 +126,9 @@ DEF BMW_X5 BmwX5 {
     }
   ]
   sensorsSlotTop [
+    DistanceSensor {
+      translation 0.3 0 0.15
+    }
     Accelerometer {
     }
     Camera {
@@ -475,4 +478,9 @@ DEF obstacle_north RangeRoverSportSVRSimple {
 Robot {
   controller "supervisor_eir"
   supervisor TRUE
+  synchronization FALSE
+}
+WoodenBox {
+  translation 16.94 -1.67 0.8
+  size 1.5 1.5 3
 }

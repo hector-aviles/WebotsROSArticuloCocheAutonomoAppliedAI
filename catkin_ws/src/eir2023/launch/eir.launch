@@ -10,7 +10,8 @@
     <arg name="no_gui" value="$(arg no_gui)"/>
     <arg name="world" value="$(find eir2023)/worlds/world_$(arg world).wbt"/>
   </include>
-
+  
+ 
   <node name="lane_detector" pkg="eir2023" type="lane_detector_canny_hough.py" output="screen"/>
   <node name="lane_tracker"  pkg="eir2023" type="lane_tracking_control_P.py"   output="screen">
     <param name="max_speed" value="$(arg max_speed)"/>

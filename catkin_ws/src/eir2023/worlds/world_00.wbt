@@ -92,7 +92,7 @@ Floor {
     emissiveIntensity 0
   }
 }
-BmwX5 {
+DEF BMW_X5 BmwX5 {
   hidden position_0_0 8.405102337436611e-11
   hidden position2_0_0 -4.639785247947095e-06
   hidden position_0_1 -8.405060406722278e-11
