@@ -24,6 +24,10 @@ def callback_obstacle_north_west(msg):
 def callback_obstacle_west(msg):
     global obstacle_west
     obstacle_west = msg.data
+    
+def callback_obstacle_east(msg):
+    global obstacle_east
+    obstacle_east = msg.data    
 
 def callback_obstacle_south_west(msg):
     global obstacle_south_west
@@ -60,13 +64,14 @@ def stop_motion():
     pub_stop.publish(True)    
 
 def main():
-    global obstacle_north, obstacle_north_west, obstacle_west, obstacle_south_west, success
+    global obstacle_north, obstacle_north_west, obstacle_west, obstacle_east, obstacle_south_west, success
     global pub_follow_car, pub_steady_motion, pub_start_passing, pub_action, pub_stop
     print("INITIALIZING POLICY...")
     rospy.init_node("policy")
     rospy.Subscriber("/obstacle/north"     , Bool, callback_obstacle_north)
     rospy.Subscriber("/obstacle/north_west", Bool, callback_obstacle_north_west)
     rospy.Subscriber("/obstacle/west"      , Bool, callback_obstacle_west)
+    rospy.Subscriber("/obstacle/east"      , Bool, callback_obstacle_east)    
     rospy.Subscriber("/obstacle/south_west", Bool, callback_obstacle_south_west)
     rospy.Subscriber("/success", Bool, callback_success)    
     pub_start_signal  = rospy.Publisher("/start", Empty, queue_size=10)
@@ -80,6 +85,7 @@ def main():
     obstacle_north      = False
     obstacle_north_west = False
     obstacle_west       = False
+    obstacle_east       = False    
     obstacle_south_west = False
     success = True
 

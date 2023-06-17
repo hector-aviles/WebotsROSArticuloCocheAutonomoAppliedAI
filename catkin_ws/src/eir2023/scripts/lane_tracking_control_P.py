@@ -61,11 +61,17 @@ def callback_enable_follow(msg):
 def callback_dist_to_obstacle(msg):
     global dist_to_obstacle
     dist_to_obstacle = msg.data
+    
+def callback_requested_speed(msg):
+    global requested_speed
+    requested_speed = msg.data    
 
 def main():
     global lane_rho_l, lane_theta_l, lane_rho_r, lane_theta_r
     global max_speed, k_rho, k_theta
     global enable_steady_motion, enable_follow, dist_to_obstacle
+    global requested_speed
+    
     max_speed = 10
     k_rho   = 0.001
     k_theta = 0.01
@@ -77,6 +83,8 @@ def main():
     goal_theta_l = 2.4
     goal_rho_r   = 430.0
     goal_theta_r = 0.895
+    requested_speed = 0.0
+    
     print('INITIALIZING LANE TRACKING NODE...')
     rospy.init_node('lane_tracking')
     rate = rospy.Rate(30)
@@ -93,6 +101,8 @@ def main():
     rospy.Subscriber("/steady_motion/enable", Bool, callback_enable_steady_motion)
     rospy.Subscriber("/follow/enable", Bool, callback_enable_follow)
     rospy.Subscriber("/obstacle/distance", Float64, callback_dist_to_obstacle)
+    rospy.Subscriber("/passing/requested_speed", Float64, callback_requested_speed)
+        
     pub_speed = rospy.Publisher('/speed', Float64, queue_size=10)
     pub_angle = rospy.Publisher('/steering', Float64, queue_size=10)
     msg_left_lane  = rospy.wait_for_message('/demo/left_lane' , Float64MultiArray, timeout=100)
@@ -114,7 +124,10 @@ def main():
                                                 goal_rho_l, goal_theta_l, goal_rho_r, goal_theta_r, dist_to_obstacle)
         else:
             continue
-        pub_speed.publish(speed)
+        if requested_speed != 0.0:    
+           pub_speed.publish(requested_speed)
+        else:   
+           pub_speed.publish(speed)
         pub_angle.publish(steering)
         rate.sleep()
     

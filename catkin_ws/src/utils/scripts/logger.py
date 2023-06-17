@@ -21,6 +21,10 @@ def callback_obstacle_north_west(msg):
 def callback_obstacle_west(msg):
     global obstacle_west
     obstacle_west = msg.data
+    
+def callback_obstacle_east(msg):
+    global obstacle_east
+    obstacle_east = msg.data    
 
 def callback_obstacle_south_west(msg):
     global obstacle_south_west
@@ -75,7 +79,7 @@ def callback_action(msg):
     action = msg.data        
     
 def main():
-    global obstacle_north, obstacle_north_west, obstacle_west, obstacle_south_west
+    global obstacle_north, obstacle_north_west, obstacle_west, obstacle_east, obstacle_south_west
     global obstacle_distance, follow_enable, steady_motion_enable, passing_start, passing_finished
     global speed, steering, accel_x, accel_y, accel_z, accel_diff, success, action
         
@@ -86,6 +90,7 @@ def main():
     rospy.Subscriber("/obstacle/north"     , Bool, callback_obstacle_north)
     rospy.Subscriber("/obstacle/north_west", Bool, callback_obstacle_north_west)
     rospy.Subscriber("/obstacle/west"      , Bool, callback_obstacle_west)
+    rospy.Subscriber("/obstacle/east"      , Bool, callback_obstacle_east)    
     rospy.Subscriber("/obstacle/south_west", Bool, callback_obstacle_south_west)
 
     rospy.Subscriber("/obstacle/distance"  , Float64, callback_obstacle_distance)
@@ -110,6 +115,7 @@ def main():
     obstacle_north      = False
     obstacle_north_west = False
     obstacle_west       = False
+    obstacle_east       = False    
     obstacle_south_west = False
     obstacle_distance = 100000
     follow_enable = False 
@@ -145,7 +151,7 @@ def main():
     # Record header only once
     f = open("logger.log","a")
     if num_repetition == 1:
-       output = "repetition," +"iteration," + "time," + "speed," + "steering," + "obstacle_North," + "obstacle_NorthWest," + "obstacle_SouthWest," + "obstacle_West," + "obstacle_distance," + "follow_enable," +  "steady_motion_enable," + "passing_start," + "accel_x," + "accel_y," + "accel_z," + "accel_diff," +"success," +  "action" + "\n"     
+       output = "repetition," +"iteration," + "time," + "speed," + "steering," + "obstacle_North," + "obstacle_NorthWest," + "obstacle_SouthWest," + "obstacle_West," + "obstacle_East," +"obstacle_distance," + "follow_enable," +  "steady_motion_enable," + "passing_start," + "accel_x," + "accel_y," + "accel_z," + "accel_diff," +"success," +  "action" + "\n"     
        f.write(output)
      
     print("Logger.->Waiting for start signal")
@@ -158,7 +164,7 @@ def main():
         iteration = iteration + 1
         now = rospy.get_time()
                        
-        output = str(num_repetition) + "," + str(iteration) +"," + str(now) + "," + str(speed) + "," + str(steering) + "," + str(obstacle_north) + "," + str(obstacle_north_west) + "," + str(obstacle_south_west) + "," + str(obstacle_west) + "," +  str(obstacle_distance) + "," + str(follow_enable) +  "," + str(steady_motion_enable) + "," + str(passing_start) + "," +  str(accel_x) + "," + str(accel_y) + "," + str(accel_z) + "," + str(accel_diff) + "," + str(success) + "," + action + "\n" 
+        output = str(num_repetition) + "," + str(iteration) +"," + str(now) + "," + str(speed) + "," + str(steering) + "," + str(obstacle_north) + "," + str(obstacle_north_west) + "," + str(obstacle_south_west) + "," + str(obstacle_west) + "," + str(obstacle_east) + "," +  str(obstacle_distance) + "," + str(follow_enable) +  "," + str(steady_motion_enable) + "," + str(passing_start) + "," +  str(accel_x) + "," + str(accel_y) + "," + str(accel_z) + "," + str(accel_diff) + "," + str(success) + "," + action + "\n" 
 
         f.write(output) 
         
