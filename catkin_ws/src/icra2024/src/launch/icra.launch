@@ -11,13 +11,15 @@
     <arg name="world" value="$(find icra2024)/src/worlds/world_$(arg world).wbt"/>
   </include>
   
- 
   <node name="lane_detector" pkg="icra2024" type="lane_detector_canny_hough.py" output="screen"/>
   <node name="lane_tracker"  pkg="icra2024" type="lane_tracking_control_P.py"   output="screen">
     <param name="max_speed" value="$(arg max_speed)"/>
   </node>
   <node name="obstacle_detector" pkg="icra2024" type="obstacle_detector.py" output="screen"/>
   <node name="change_lane_r_to_l" pkg="icra2024" type="change_lane_r_to_l.py" output="screen">
+    <param name="/use_sim_time" value="true"/>
+  </node>    
+  <node name="change_lane_l_to_r" pkg="icra2024" type="change_lane_l_to_r.py" output="screen">  
     <param name="/use_sim_time" value="true"/>
   </node>
   <node name="success" pkg="icra2024" type="success.py" output="screen"/>

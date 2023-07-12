@@ -42,7 +42,7 @@ def main():
 
     while not rospy.is_shutdown():
     
-        print("In right lane ", in_right_lane, flush=True)
+        #print("In right lane ", in_right_lane, flush=True)
 
         rate.sleep()
 

@@ -101,7 +101,7 @@ def main():
     rospy.Subscriber("/steady_motion/enable", Bool, callback_enable_steady_motion)
     rospy.Subscriber("/follow/enable", Bool, callback_enable_follow)
     rospy.Subscriber("/obstacle/distance", Float64, callback_dist_to_obstacle)
-    rospy.Subscriber("/passing/requested_speed", Float64, callback_requested_speed)
+    rospy.Subscriber("/accelerate/requested_speed", Float64, callback_requested_speed)
         
     pub_speed = rospy.Publisher('/speed', Float64, queue_size=10)
     pub_angle = rospy.Publisher('/steering', Float64, queue_size=10)
