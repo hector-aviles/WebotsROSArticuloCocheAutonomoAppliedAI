@@ -6,16 +6,19 @@ import cv2
 import numpy
 import rospy
 from std_msgs.msg import Float64MultiArray, Float64, Empty, Bool
+from icra2024.msg import TwoBool
+
 from rosgraph_msgs.msg import Clock 
 from geometry_msgs.msg import Pose2D
 
 # Constants
-MAX_TIME_CHANGE_LANE_RIGHT_TO_LEFT = 0.58
+MAX_TIME_CHANGE_LANE = 0.58
 nSLEEP = 0.015 # 30000000 nsecs = 30 msecs    
 
-def callback_start_change_lane_right_to_left(msg):
-    global start_change_lane_right_to_left
-    start_change_lane_right_to_left = msg
+def callback_start_change_lane(msg):
+    global start_change_lane, right_lane
+    start_change_lane = msg.start
+    right_lane = msg.right_lane
         
 def callback_sim_time(msg):
     global sim_secs    
@@ -25,12 +28,14 @@ def callback_sim_time(msg):
     sim_nsecs = current_time.clock.nsecs 
     
 def main():
-    global start_change_lane_right_to_left, sim_secs, sim_nsecs
+    global start_change_lane, right_lane, sim_secs, sim_nsecs
     
     elapsed_time = 0.0
     prev_time = 0.0
     first_time = True
     curr_time = 0.0
+    start_change_lane = False
+    right_lane = False    
 
     sim_secs = 0.0
     sim_nsecs = 0.0                    
@@ -38,40 +43,44 @@ def main():
     print('INITIALIZING CHANGE_LANE NODE...')
     rospy.init_node('change_lane')
 
-    rospy.Subscriber("/change_lane/right_to_left/start", Bool, callback_start_change_lane_right_to_left)
+    rospy.Subscriber("/change_lane/start", TwoBool, callback_start_change_lane)
     rospy.Subscriber("/clock", Clock, callback_sim_time)
         
     pub_speed  = rospy.Publisher('/speed', Float64, queue_size=10)
     pub_angle  = rospy.Publisher('/steering', Float64, queue_size=10)
-    pub_finish = rospy.Publisher('/change_lane/right_to_left/finished', Empty, queue_size=10)
+    pub_finish_right_to_left = rospy.Publisher('/change_lane/finished', Empty, queue_size=10)
     pub_requested_speed = rospy.Publisher('/accelerate/requested_speed', Float64, queue_size=10)
     pub_steady_motion = rospy.Publisher("/steady_motion/enable", Bool, queue_size=10)
      
     rate = rospy.Rate(30)
 
-    start_change_lane_right_to_left = False
+    start_change_lane = False
     while not rospy.is_shutdown():
     
         curr_time = sim_secs + sim_nsecs / (10**9)
 
-        if start_change_lane_right_to_left:           
+        if start_change_lane:           
             if first_time:
-               print("change_lane_right_to_left: start change_lane right to left", flush=True)
+               print("change_lane: start change_lane", flush=True)
                prev_time = curr_time
                first_time = False
                #pub_requested_speed.publish(50.0)
-               pub_angle.publish(0.2)
-            
+               if right_lane:
+                  pub_angle.publish(0.2)
+               else:    
+                  pub_angle.publish(-0.2)
+                  
             elapsed_time = curr_time - prev_time
-            if elapsed_time >= MAX_TIME_CHANGE_LANE_RIGHT_TO_LEFT:
+            if elapsed_time >= MAX_TIME_CHANGE_LANE:
                print("Elapsed_time", elapsed_time, flush=True)
                first_time = True
 
                pub_angle.publish(0.0)
                #pub_requested_speed.publish(0.0)
                pub_finish.publish()
+               print("change_lane: finish change_lane", flush=True) 
                first_time = True
-               start_change_lane_right_to_left = False
+               start_change_lane = False
         #elif:
         #if start_change_lane_left_to_right
             
