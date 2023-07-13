@@ -15,6 +15,8 @@ def callback_start(msg):
     start = True
 
 def main():
+
+
     global start
     print('Starting Controller Supervisor...')
     
@@ -47,7 +49,8 @@ def main():
             start = False
             for car in cars:
                 if car is not None:
-                    car.setVelocity([6,0,0, 0,0,0])
+                    #car.setVelocity([6,0,0, 0,0,0])
+                    car.setVelocity([0,0,0, 0,0,0])
         bmw_position = bmw.getPosition()
         bmw_orientation = bmw.getOrientation()
         msg_bmw_pose.x = bmw_position[0]
@@ -63,6 +66,8 @@ def main():
                           
 
         loop.sleep()
+  
+  
         
 if __name__ == "__main__":
     try:

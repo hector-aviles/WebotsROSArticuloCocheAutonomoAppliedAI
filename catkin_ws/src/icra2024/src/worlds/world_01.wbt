@@ -1,0 +1,292 @@
+#VRML_SIM R2022a utf8
+WorldInfo {
+  ERP 0.6
+  basicTimeStep 10
+  lineScale 5
+  contactProperties [
+    ContactProperties {
+      coulombFriction [
+        8
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+    ContactProperties {
+      material2 "CitroenCZeroWheels"
+      coulombFriction [
+        8
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+    ContactProperties {
+      material2 "ToyotaPriusWheels"
+      coulombFriction [
+        8
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+    ContactProperties {
+      material2 "LincolnMKZWheels"
+      coulombFriction [
+        8
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+    ContactProperties {
+      material2 "RangeRoverSportSVRWheels"
+      coulombFriction [
+        8
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+    ContactProperties {
+      material2 "TruckWheels"
+      coulombFriction [
+        8
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.21798247786416278 0.09130479133508122 -0.9716723081489237 2.3080642219391883
+  position 242.66857143702066 132.18495672288452 79.7299842935475
+  near 1
+  follow "vehicle"
+  lensFlare LensFlare {
+  }
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+  size 10000 10000
+  tileSize 1 1
+  appearance PBRAppearance {
+    baseColor 0.45098 0.823529 0.0862745
+    baseColorMap ImageTexture {
+      url [
+        "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/vehicles/worlds/textures/ground_grass.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+    emissiveIntensity 0
+  }
+}
+ToyotaPriusSimple {
+  translation 201.84 1.79 0.4
+  name "vehicle(5)"
+}
+SpeedLimitPanel {
+  translation 550 0 0
+  name "speed limit panel(3)"
+  signImage [
+    "../resources/SpeedLimit20.png"
+  ]
+}
+SpeedLimitPanel {
+  translation 440 0 0
+  name "speed limit panel(2)"
+  signImage [
+    "../resources/SpeedLimit20.png"
+  ]
+}
+SpeedLimitPanel {
+  translation 0.023 0 0
+  signImage [
+    "../resources/SpeedLimit20.png"
+  ]
+}
+SpeedLimitPanel {
+  name "speed limit panel(1)"
+  signImage [
+    "../resources/SpeedLimit20.png"
+  ]
+}
+StraightRoadSegment {
+  translation 120 0 0.1
+  name "north_straight_road(1)"
+  length 110
+  roadBoundingObject TRUE
+  rightBorderBoundingObject TRUE
+  leftBorderBoundingObject TRUE
+}
+StraightRoadSegment {
+  translation 230 0 0.1
+  name "north_straight_road(2)"
+  length 110
+  roadBoundingObject TRUE
+  rightBorderBoundingObject TRUE
+  leftBorderBoundingObject TRUE
+}
+StraightRoadSegment {
+  translation 340 0 0.1
+  name "north_straight_road(3)"
+  length 110
+  roadBoundingObject TRUE
+  rightBorderBoundingObject TRUE
+  leftBorderBoundingObject TRUE
+}
+DEF BMW_X5 BmwX5 {
+  hidden position_0_0 8.505450964829048e-11
+  hidden position2_0_0 -3.5448905956413535e-07
+  hidden position_0_1 -8.505453636286264e-11
+  hidden position2_0_1 -3.5448903726268185e-07
+  hidden position_0_2 -0.0013295621287476018
+  hidden position_0_3 -0.0013295621286387488
+  hidden position_0_9 5.731068908141019e-07
+  hidden linearVelocity_0 -1.2780308635896443e-06 1.20273053627356e-14 -0.0004993755467568369
+  hidden angularVelocity_0 -1.977300904204833e-15 -1.279551601542996e-05 3.987079186616117e-15
+  hidden rotation_1 0.9999999712154793 -4.252725360001859e-11 -0.00023993549280368681 3.5388297101968327e-07
+  hidden linearVelocity_1 -2.1150203412897662e-06 -5.3795680536239256e-11 -5.2128087988668245e-05
+  hidden angularVelocity_1 -1.7170828836308263e-11 -1.122021607567123e-05 1.2474273205716317e-11
+  hidden rotation_2 -0.9999999712154576 -4.252726695730337e-11 0.00023993558325917743 3.5388297101968327e-07
+  hidden linearVelocity_2 -2.1150203388547697e-06 5.378943993175093e-11 -5.2128087989123596e-05
+  hidden angularVelocity_2 1.7173658294168234e-11 -1.122021607437748e-05 -1.2469010356993708e-11
+  hidden rotation_3 1 0 0 0.0013295621287783784
+  hidden linearVelocity_3 -1.7982177138807743e-06 -5.351467127933852e-11 -6.477628878241087e-05
+  hidden angularVelocity_3 6.875494019447716e-12 -4.7370063273567435e-06 3.420094007520169e-13
+  hidden rotation_4 -1 0 0 0.0013295621287783784
+  hidden linearVelocity_4 -1.7982177073415215e-06 5.352060424756056e-11 -6.477628878210907e-05
+  hidden angularVelocity_4 -6.883747068311597e-12 -4.7370063093353366e-06 -3.26715387379529e-13
+  hidden translation_23 -1.957635276106373e-07 1.1361868247350415e-06 -2.1973457220436643e-07
+  hidden rotation_23 0.7466598432279096 0 -0.6652060421485011 5.732591170570675e-07
+  translation 10.283093870561215 -1.8100000000000114 0.4169506926194589
+  rotation 2.644839709767457e-14 -1 2.286658533812553e-12 0.004488360712018117
+  color 0.643137 0 0
+  controller "bmw_x5_controller"
+  sensorsSlotTop [
+    Accelerometer {
+    }
+    Camera {
+      translation 0.8 0 -0.1
+      rotation 0 1 0 0.07
+      boundingObject TexturedBox {
+      }
+      width 1280
+      height 960
+      noise 0.02
+    }
+    VelodyneHDL-64E {
+      translation 0.3 0 0.15
+      enablePhysics FALSE
+    }
+  ]
+}
+StraightRoadSegment {
+  translation 10 0 0.1
+  name "north_straight_road"
+  length 110
+  roadBoundingObject TRUE
+  rightBorderBoundingObject TRUE
+  leftBorderBoundingObject TRUE
+}
+SpeedLimitSign {
+  translation 120 -4.5 0
+  rotation 0 0 1 -3.1415853071795863
+  signBoards [
+    SpeedLimitPanel {
+      translation 0.023 0 0
+      signImage [
+        "../resources/SpeedLimit20.png"
+      ]
+    }
+  ]
+}
+SpeedLimitSign {
+  translation 340 -4.5 0
+  rotation 0 0 1 -3.1415853071795863
+  name "speed limit(1)"
+  signBoards [
+    SpeedLimitPanel {
+      translation 0.023 0 0
+      signImage [
+        "../resources/SpeedLimit20.png"
+      ]
+    }
+  ]
+}
+SpeedLimitSign {
+  translation 450 -4.5 0
+  rotation 0 0 1 -3.1415853071795863
+  name "speed limit(2)"
+  signBoards [
+    SpeedLimitPanel {
+      translation 0.023 0 0
+      signImage [
+        "../resources/SpeedLimit20.png"
+      ]
+    }
+  ]
+}
+HighwayPole {
+  translation 16 -5.5 0
+  rotation 0 0 1 3.141592
+  name "roadPole"
+  length 7
+  rightHorizontalSigns [
+    HighwaySign {
+      name "vertical sign"
+      height 1.5
+      length 6.5
+      texture [
+        "../resources/FMR.jpg"
+      ]
+    }
+  ]
+  rightVerticalSigns [
+    HighwaySign {
+      name "horizontal sign"
+      height 2.1
+      length 3.2
+      texture [
+        "../resources/Xalapa.jpg"
+      ]
+    }
+  ]
+}
+DEF obstacle_north RangeRoverSportSVRSimple {
+  translation 101.95 -1.80987 0.45
+  rotation 0 0 1 4.692820414042842e-06
+  name "vehicle(3)"
+}
+DEF obstacle_north_west CitroenCZeroSimple {
+  translation 130.9 1.81 0.45
+  name "obstacle_north_west"
+}
+DEF obstacle_west LincolnMKZSimple {
+  translation 92.61 -1.57 0.45
+  name "vehicle(1)"
+}
+DEF obstacle_south_west RangeRoverSportSVRSimple {
+  translation 237.06 -1.11 0.46
+  color 0.8 0.7 0.65
+  name "vehicle(2)"
+}
+Robot {
+  controller "supervisor_eir"
+  supervisor TRUE
+}
+TeslaModel3Simple {
+  translation 158.41 -1.81 0.4
+  name "vehicle(4)"
+}
