@@ -24,333 +24,198 @@ def callback_obstacle_north_west(msg):
 def callback_obstacle_west(msg):
     global obstacle_west
     obstacle_west = msg.data
+    
+def callback_obstacle_east(msg):
+    global obstacle_east
+    obstacle_east = msg.data    
 
 def callback_obstacle_south_west(msg):
     global obstacle_south_west
     obstacle_south_west = msg.data
 
-def callback_obstacle_north_east(msg):
-    global obstacle_north_east
-    obstacle_north_east = msg.data    
-
-def callback_obstacle_east(msg):
-    global obstacle_east
-    obstacle_east = msg.data    
-    
-def callback_obstacle_south_east(msg):
-    global obstacle_south_east
-    obstacle_south_east = msg.data        
-
 def callback_success(msg):
     global success
     success = msg.data
     
-def callback_in_right_lane(msg):
-    global in_right_lane
-    in_right_lane = msg.data    
+def callback_right_lane(msg):
+    global right_lane
+    right_lane = msg.data        
 
 def enable_steady_motion():
-    global pub_follow_car, pub_steady_motion, pub_change_lane_r_to_l, pub_action, pub_stop
+    global pub_follow_car, pub_steady_motion, pub_change_lane_right_to_left, pub_action, pub_stop
     pub_steady_motion.publish(True)
     pub_follow_car.publish(False)
     pub_stop.publish(False)
 
 def enable_follow_car():
-    global pub_follow_car, pub_steady_motion, pub_change_lane_r_to_l, pub_action, pub_stop
+    global pub_follow_car, pub_steady_motion, pub_change_lane_right_to_left, pub_action, pub_stop
     pub_follow_car.publish(True)
     pub_steady_motion.publish(False)
     pub_stop.publish(False)
 
-def change_lane_r_to_l():
-    global pub_requested_speed, pub_follow_car, pub_steady_motion, pub_change_lane_r_to_l, pub_change_lane_l_to_r, pub_stop
-
-    #pub_requested_speed.publish(0.0)        
+def change_lane_right_to_left():
+    global pub_follow_car, pub_steady_motion, pub_change_lane_right_to_left, pub_action, pub_stop
     pub_steady_motion.publish(False)
     pub_follow_car.publish(False)
     pub_stop.publish(False)
-    pub_change_lane_l_to_r.publish(False)
-    pub_change_lane_r_to_l.publish(True)
+    pub_change_lane_right_to_left.publish(True)
+    msg_finished = rospy.wait_for_message('/change_lane/right_to_left/finished', Empty, timeout=200.0)
     
-    msg_finished = rospy.wait_for_message('/change_lane_r_to_l/finished', Empty, timeout=100.0)
-    
-def change_lane_l_to_r():
-    global pub_requested_speed, pub_follow_car, pub_steady_motion, pub_change_lane_l_to_r, pub_change_lane_r_to_l, pub_stop
-    # Stop accelerating
-    #pub_requested_speed.publish(0.0)    
-    pub_steady_motion.publish(False)
-    pub_follow_car.publish(False)
-    pub_stop.publish(False)
-    #pub_change_lane_r_to_l.publish(False)
-    pub_change_lane_l_to_r.publish(True)
-    msg_finished = rospy.wait_for_message('/change_lane_l_to_r/finished', Empty, timeout=100.0)    
-
-def accelerate():
-    #global pub_steady_motion, pub_requested_speed
-    #pub_requested_speed.publish(55.0)
-    #pub_steady_motion.publish(True)  
-    global pub_follow_car, pub_steady_motion, pub_change_lane_r_to_l, pub_change_lane_l_to_r, pub_action, pub_stop
-    pub_steady_motion.publish(True)
-    pub_follow_car.publish(False)
-    pub_stop.publish(False)      
-
 def stop_motion():
-    global pub_follow_car, pub_steady_motion, pub_change_lane_r_to_l, pub_action, pub_stop
+    global pub_follow_car, pub_steady_motion, pub_change_lane_right_to_left, pub_action, pub_stop
     pub_steady_motion.publish(False)
     pub_follow_car.publish(False)
     pub_stop.publish(True)    
 
 def main():
-    global obstacle_north, obstacle_north_west, obstacle_west, obstacle_east, obstacle_south_west, success, in_right_lane
-    global pub_follow_car, pub_steady_motion, pub_change_lane_r_to_l, pub_change_lane_l_to_r, pub_requested_speed, pub_action, pub_stop
+    global obstacle_north, obstacle_north_west, obstacle_west, obstacle_east, obstacle_south_west, success, right_lane
+    global pub_follow_car, pub_steady_motion, pub_change_lane_right_to_left, pub_action, pub_stop
     print("INITIALIZING POLICY...")
     rospy.init_node("policy")
     rospy.Subscriber("/obstacle/north"     , Bool, callback_obstacle_north)
     rospy.Subscriber("/obstacle/north_west", Bool, callback_obstacle_north_west)
     rospy.Subscriber("/obstacle/west"      , Bool, callback_obstacle_west)
-    rospy.Subscriber("/obstacle/south_west", Bool, callback_obstacle_south_west)
-    rospy.Subscriber("/obstacle/north_east", Bool, callback_obstacle_north_east)
     rospy.Subscriber("/obstacle/east"      , Bool, callback_obstacle_east)    
-    rospy.Subscriber("/obstacle/south_east", Bool, callback_obstacle_south_east)
-    rospy.Subscriber("/success", Bool, callback_success)    
-
-    rospy.Subscriber("/in_right_lane", Bool, callback_in_right_lane)
-
-    #print("Hola mundo", flush = True)  
-
+    rospy.Subscriber("/obstacle/south_west", Bool, callback_obstacle_south_west)
+    rospy.Subscriber("/success", Bool, callback_success) 
+    rospy.Subscriber("/right_lane", Bool, callback_right_lane)
+       
     pub_start_signal  = rospy.Publisher("/start", Empty, queue_size=10)
     pub_steady_motion = rospy.Publisher("/steady_motion/enable", Bool, queue_size=10)
     pub_follow_car    = rospy.Publisher("/follow/enable", Bool, queue_size=10)
-    pub_change_lane_r_to_l = rospy.Publisher("/change_lane_r_to_l/start", Bool, queue_size=10)
-    pub_change_lane_l_to_r = rospy.Publisher("/change_lane_l_to_r/start", Bool, queue_size=10)    
-    #pub_requested_speed = rospy.Publisher('/accelerate/requested_speed', Float64, queue_size=10)
+    pub_change_lane_right_to_left = rospy.Publisher("/change_lane/right_to_left/start", Bool, queue_size=10)    
     pub_action = rospy.Publisher("/action", String, queue_size=10)
     pub_stop = rospy.Publisher("/stop", Bool, queue_size=10)    
-
     rate = rospy.Rate(10)
 
     obstacle_north      = False
     obstacle_north_west = False
     obstacle_west       = False
+    obstacle_east       = False    
     obstacle_south_west = False
-    obstacle_north_east = False    
-    obstacle_east = False    
-    obstacle_south_east = False    
     success = True
-    in_right_lane = True
+    right_lane = True
 
     action = "NA"
     action_prev = "NA"            
     while not rospy.is_shutdown():
         pub_start_signal.publish()
-
-        # Right lane
-        if in_right_lane:
-           if success:
+        #
+        # TODO:
+        # Code here the resulting policy
+        # You can use the variables obstacle_north, obstacle_north_west, obstacle_west and obstacle_south_west
+        # You can start the different behaviors with the functions:
+        # execute_passing()
+        # enable_steady_motion()
+        # enable_follow_car()
+        #
+        if success:
+           if right_lane:
               if obstacle_north and obstacle_north_west and obstacle_south_west and obstacle_west:
-                 action = "Right Keep distance"
+                 action = "Right Keep distance 1"
                  if action_prev != action:
                     print(action, flush = True)                      
                     action_prev = action                
                  enable_follow_car()
               elif not obstacle_north and obstacle_north_west and obstacle_south_west and obstacle_west:
-                 action = "Right Cruise"
+                 action = "Right Cruise 2"
                  if action_prev != action:
                     print(action, flush = True)                      
                     action_prev = action                
                  enable_steady_motion()
               elif obstacle_north and not obstacle_north_west and obstacle_south_west and obstacle_west:
-                 action = "Right Keep distance"
+                 action = "Right Keep distance 3"
                  if action_prev != action:
                     print(action, flush = True)                      
                     action_prev = action                
                  enable_follow_car()
               elif not obstacle_north and not obstacle_north_west and obstacle_south_west and obstacle_west:
-                 action = "Right Cruise"
+                 action = "Right Cruise 4"
                  if action_prev != action:
                     print(action, flush = True)                      
                     action_prev = action                
                  enable_steady_motion()
               elif obstacle_north and obstacle_north_west and not obstacle_south_west and obstacle_west:
-                 action = "Right Keep distance"
+                 action = "Right Keep distance 5"
                  if action_prev != action:
                     print(action, flush = True)                      
                     action_prev = action                
                  enable_follow_car()
               elif not obstacle_north and obstacle_north_west and not obstacle_south_west and obstacle_west:
-                 action = "Right Cruise"
+                 action = "Right Cruise 6"
                  if action_prev != action:
                     print(action, flush = True)                      
                     action_prev = action                
                  enable_steady_motion()
               elif obstacle_north and not obstacle_north_west and not obstacle_south_west and obstacle_west:
-                 action = "Right Keep distance"
+                 action = "Right Keep distance 7"
                  if action_prev != action:
                     print(action, flush = True)                      
                     action_prev = action                
                  enable_follow_car()
               elif not obstacle_north and not obstacle_north_west and not obstacle_south_west and obstacle_west:
-                 action = "Right Cruise"
+                 action = "Right Cruise 8"
                  if action_prev != action:
                     print(action, flush = True)                      
                     action_prev = action                
                  enable_steady_motion()
               elif obstacle_north and obstacle_north_west and obstacle_south_west and not obstacle_west:
-                 action = "Right Keep distance"
+                 action = "Right Keep distance 9"
                  if action_prev != action:
                     print(action, flush = True)                      
                     action_prev = action                
                  enable_follow_car()
               elif not obstacle_north and obstacle_north_west and obstacle_south_west and not obstacle_west:
-                 action = "Right Cruise"
+                 action = "Right Cruise 10"
                  if action_prev != action:
                     print(action, flush = True)                      
                     action_prev = action                
                  enable_steady_motion()
               elif obstacle_north and not obstacle_north_west and obstacle_south_west and not obstacle_west:
-                 action = "Right Change lane"
+                 action = "Right Change lane 11"
                  if action_prev != action:
                     print(action, flush = True)                      
                     action_prev = action                
-                 change_lane_r_to_l()
+                 change_lane_right_to_left()
               elif not obstacle_north and not obstacle_north_west and obstacle_south_west and not obstacle_west:
-                 action = "Right Cruise"
+                 action = "Right Cruise 12"
                  if action_prev != action:
                     print(action, flush = True)                      
                     action_prev = action                
                  enable_steady_motion()
               elif obstacle_north and obstacle_north_west and not obstacle_south_west and not obstacle_west:
-                 action = "Right Keep distance"
-                 if action_prev != action:
-                    print(action, flush = True)                      
-                    action_prev = action                
+                 action = "Right Keep distance 13"
+              if action_prev != action:
+                 print(action, flush = True)                      
+                 action_prev = action                
                  enable_follow_car()
               elif not obstacle_north and obstacle_north_west and not obstacle_south_west and not obstacle_west:
-                 action = "Right Cruise"
+                 action = "Right Cruise 14"
                  if action_prev != action:
                     print(action, flush = True)                      
                     action_prev = action                
                  enable_steady_motion()
               elif obstacle_north and not obstacle_north_west and not obstacle_south_west and not obstacle_west:
-                 action = "Right Change lane"
+                 action = "Right Change lane 15"
                  if action_prev != action:
                     print(action, flush = True)                      
                     action_prev = action                
-                 change_lane_r_to_l()
+                 change_lane_right_to_left()
               elif not obstacle_north and not obstacle_north_west and not obstacle_south_west and not obstacle_west:
-                 action = "Right Cruise"
+                 action = "Right Cruise 16"
                  if action_prev != action:
                     print(action, flush = True)                      
                     action_prev = action                
                  enable_steady_motion()
-           else:       
-              action = "Right stop"
-              stop_motion() 
+ 
+           #elif 
+           #if not right_lane:
+
+        else: # success       
+           action = "stop"
+           stop_motion() 
                                               
-           pub_action.publish(action)
-        '''   
-        # Left lane   
-        else:    
-           if success:
-              if obstacle_north and obstacle_north_east and obstacle_south_east and obstacle_east:
-                 action = "Left Keep distance"
-                 if action_prev != action:
-                    print(action, flush = True)                      
-                    action_prev = action                
-                 enable_follow_car()
-              elif not obstacle_north and obstacle_north_east and obstacle_south_east and obstacle_east:
-                 action = "Left Accelerate"
-                 if action_prev != action:
-                    print(action, flush = True)                      
-                    action_prev = action                
-                 enable_accelerate()
-              elif obstacle_north and not obstacle_north_east and obstacle_south_east and obstacle_east:
-                 action = "Left Keep distance"
-                 if action_prev != action:
-                    print(action, flush = True)                      
-                    action_prev = action                
-                 enable_follow_car()
-              elif not obstacle_north and not obstacle_north_east and obstacle_south_east and obstacle_east:
-                 action = "Left Accelerate"
-                 if action_prev != action:
-                    print(action, flush = True)                      
-                    action_prev = action                
-                 enable_accelerate()
-              elif obstacle_north and obstacle_north_east and not obstacle_south_east and obstacle_east:
-                 action = "Left Keep distance"
-                 if action_prev != action:
-                    print(action, flush = True)                      
-                    action_prev = action                
-                 enable_follow_car()
-              elif not obstacle_north and obstacle_north_east and not obstacle_south_east and obstacle_east:
-                 action = "Left Accelerate"
-                 if action_prev != action:
-                    print(action, flush = True)                      
-                    action_prev = action                
-                 enable_accelerate()
-              elif obstacle_north and not obstacle_north_east and not obstacle_south_east and obstacle_east:
-                 action = "Left Keep distance"
-                 if action_prev != action:
-                    print(action, flush = True)                      
-                    action_prev = action                
-                 enable_follow_car()
-              elif not obstacle_north and not obstacle_north_east and not obstacle_south_east and obstacle_east:
-                 action = "Left Accelerate"
-                 if action_prev != action:
-                    print(action, flush = True)                      
-                    action_prev = action                
-                 enable_accelerate()
-              elif obstacle_north and obstacle_north_east and obstacle_south_east and not obstacle_east:
-                 action = "Left Keep distance"
-                 if action_prev != action:
-                    print(action, flush = True)                      
-                    action_prev = action                
-                 enable_follow_car()
-              elif not obstacle_north and obstacle_north_east and obstacle_south_east and not obstacle_east:
-                 action = "Left Accelerate"
-                 if action_prev != action:
-                    print(action, flush = True)                      
-                    action_prev = action                
-                 enable_accelerate()
-              elif obstacle_north and not obstacle_north_east and obstacle_south_east and not obstacle_east:
-                 action = "Left Change lane"
-                 if action_prev != action:
-                    print(action, flush = True)                      
-                    action_prev = action                
-                 change_lane_l_to_r()
-              elif not obstacle_north and not obstacle_north_east and obstacle_south_east and not obstacle_east:
-                 action = "Left Accelerate"
-                 if action_prev != action:
-                    print(action, flush = True)                      
-                    action_prev = action                
-                 enable_accelerate()
-              elif obstacle_north and obstacle_north_east and not obstacle_south_east and not obstacle_east:
-                 action = "Left Keep distance"
-                 if action_prev != action:
-                    print(action, flush = True)                      
-                    action_prev = action                
-                 enable_follow_car()
-              elif not obstacle_north and obstacle_north_east and not obstacle_south_east and not obstacle_east:
-                 action = "Left Accelerate"
-                 if action_prev != action:
-                    print(action, flush = True)                      
-                    action_prev = action                
-                 enable_accelerate()
-              elif obstacle_north and not obstacle_north_east and not obstacle_south_east and not obstacle_east:
-                 action = "Left Change lane"
-                 if action_prev != action:
-                    print(action, flush = True)                      
-                    action_prev = action                
-                 change_lane_l_to_r()
-              elif not obstacle_north and not obstacle_north_east and not obstacle_south_east and not obstacle_east:
-                 action = "Left Accelerate"
-                 if action_prev != action:
-                    print(action, flush = True)                      
-                    action_prev = action                
-                 enable_accelerate()
-           else:       
-              action = "Left stop"
-              stop_motion()           
-        '''
+        pub_action.publish(action)
 
         rate.sleep()
 

@@ -116,7 +116,9 @@ def main():
     dist_to_obstacle     = 9.0
 
     while not rospy.is_shutdown():
+        #print("Steady motion ", enable_steady_motion, flush=True)  
         if enable_steady_motion:
+            #print("Steady motion entró", flush=True)        
             speed, steering = calculate_control(lane_rho_l, lane_theta_l, lane_rho_r, lane_theta_r,
                                                 goal_rho_l, goal_theta_l, goal_rho_r, goal_theta_r)
         elif enable_follow:
@@ -128,6 +130,7 @@ def main():
            pub_speed.publish(requested_speed)
         else:   
            pub_speed.publish(speed)
+           #print("Steady motion entró a asignar velocidad", flush=True)
         pub_angle.publish(steering)
         rate.sleep()
     
