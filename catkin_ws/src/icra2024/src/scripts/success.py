@@ -44,7 +44,7 @@ def main():
     y1 = 0
     z1 = 0
     
-    print("INITIALIZING SUCCESS...")
+    print("INITIALIZING SUCCESS...", flush=True)
     rospy.init_node("success")
     rospy.Subscriber('/accelerometer', Imu, callback_accelerometer)
     pub_success  = rospy.Publisher("/success", Bool, queue_size=10)

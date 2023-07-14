@@ -51,7 +51,7 @@ def callback_point_cloud(msg):
 
 def main():
     global pub_obs_N, pub_obs_NW, pub_obs_W, pub_obs_SW, pub_obs_NE, pub_obs_E, pub_obs_SE, pub_obs_dist
-    print("INITIALIZING OBSTACLE DETECTOR...")
+    print("INITIALIZING OBSTACLE DETECTOR...", flush=True)
     rospy.init_node("obstacle_detector")
     rospy.Subscriber('/point_cloud', PointCloud2, callback_point_cloud)
     pub_obs_N  = rospy.Publisher("/obstacle/north"     , Bool, queue_size=10)

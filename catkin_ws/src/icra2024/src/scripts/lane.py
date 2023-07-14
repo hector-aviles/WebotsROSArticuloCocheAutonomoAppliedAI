@@ -33,7 +33,7 @@ def main():
     theta = 0.0
     right_lane = False
     
-    print("INITIALIZING LANE NODE...")
+    print("INITIALIZING LANE NODE...", flush=True)
     rospy.init_node("LANE")
 
     rospy.Subscriber("/current_pose", Pose2D, callback_right_lane)

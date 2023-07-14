@@ -141,7 +141,7 @@ def callback_rgb_image(msg):
 
 def main():
     global pub_left_lane, pub_right_lane
-    print("INITIALIZING LANE DETECTION DEMO...")
+    print("INITIALIZING LANE DETECTION DEMO...", flush=True)
     rospy.init_node("lane_detector")
     rospy.Subscriber('/camera/rgb/raw', Image, callback_rgb_image)
     pub_left_lane  = rospy.Publisher("/demo/left_lane" , Float64MultiArray, queue_size=10)
@@ -149,7 +149,7 @@ def main():
     rate = rospy.Rate(10)
     
     print("LaneDetector.->Waiting for start signal")
-    rospy.wait_for_message("/start", Empty, timeout=10000.0)
+    rospy.wait_for_message("/policy_started", Empty, timeout=10000.0)
     print("LaneDetector.->Start signal received")
 
     rospy.spin()

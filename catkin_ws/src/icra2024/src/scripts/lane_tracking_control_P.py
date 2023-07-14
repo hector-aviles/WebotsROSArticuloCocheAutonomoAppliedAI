@@ -50,9 +50,9 @@ def callback_right_lane(msg):
     global lane_rho_r, lane_theta_r
     lane_rho_r, lane_theta_r = msg.data
 
-def callback_enable_steady_motion(msg):
-    global enable_steady_motion
-    enable_steady_motion = msg.data
+def callback_enable_cruise(msg):
+    global enable_cruise
+    enable_cruise = msg.data
 
 def callback_enable_follow(msg):
     global enable_follow
@@ -69,7 +69,7 @@ def callback_requested_speed(msg):
 def main():
     global lane_rho_l, lane_theta_l, lane_rho_r, lane_theta_r
     global max_speed, k_rho, k_theta
-    global enable_steady_motion, enable_follow, dist_to_obstacle
+    global enable_cruise, enable_follow, dist_to_obstacle
     global requested_speed
     
     max_speed = 10
@@ -85,7 +85,7 @@ def main():
     goal_theta_r = 0.895
     requested_speed = 0.0
     
-    print('INITIALIZING LANE TRACKING NODE...')
+    print('INITIALIZING LANE TRACKING NODE...', flush=True)
     rospy.init_node('lane_tracking')
     rate = rospy.Rate(30)
     if rospy.has_param('~max_speed'):
@@ -98,7 +98,7 @@ def main():
     print("Waiting for lane detection...")
     rospy.Subscriber("/demo/left_lane" , Float64MultiArray, callback_left_lane)
     rospy.Subscriber("/demo/right_lane", Float64MultiArray, callback_right_lane)
-    rospy.Subscriber("/steady_motion/enable", Bool, callback_enable_steady_motion)
+    rospy.Subscriber("/cruise/enable", Bool, callback_enable_cruise)
     rospy.Subscriber("/follow/enable", Bool, callback_enable_follow)
     rospy.Subscriber("/obstacle/distance", Float64, callback_dist_to_obstacle)
     rospy.Subscriber("/accelerate/requested_speed", Float64, callback_requested_speed)
@@ -111,13 +111,13 @@ def main():
     print("Max speed: " + str(max_speed))
     print("K_rho: " + str(k_rho))
     print("K_theta: " + str(k_theta))
-    enable_steady_motion = False
+    enable_cruise = False
     enable_follow        = False
     dist_to_obstacle     = 9.0
 
     while not rospy.is_shutdown():
-        #print("Steady motion ", enable_steady_motion, flush=True)  
-        if enable_steady_motion:
+        #print("Steady motion ", enable_cruise, flush=True)  
+        if enable_cruise:
             #print("Steady motion entró", flush=True)        
             speed, steering = calculate_control(lane_rho_l, lane_theta_l, lane_rho_r, lane_theta_r,
                                                 goal_rho_l, goal_theta_l, goal_rho_r, goal_theta_r)

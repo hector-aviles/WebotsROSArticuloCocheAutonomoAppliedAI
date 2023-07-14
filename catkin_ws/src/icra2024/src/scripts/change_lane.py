@@ -17,7 +17,9 @@ nSLEEP = 0.015 # 30000000 nsecs = 30 msecs
 
 def callback_start_change_lane(msg):
     global start_change_lane, right_lane
+    print("Received msg.start", msg.start, flush=True)
     start_change_lane = msg.start
+    print("Received start_change_lane", start_change_lane, flush=True)    
     right_lane = msg.right_lane
         
 def callback_sim_time(msg):
@@ -28,7 +30,7 @@ def callback_sim_time(msg):
     sim_nsecs = current_time.clock.nsecs 
     
 def main():
-    global start_change_lane, right_lane, sim_secs, sim_nsecs
+    global start_change_lane, right_lane, sim_secs, sim_nsecs, pub_finish
     
     elapsed_time = 0.0
     prev_time = 0.0
@@ -40,7 +42,7 @@ def main():
     sim_secs = 0.0
     sim_nsecs = 0.0                    
     
-    print('INITIALIZING CHANGE_LANE NODE...')
+    print('INITIALIZING CHANGE_LANE NODE...', flush=True)
     rospy.init_node('change_lane')
 
     rospy.Subscriber("/change_lane/start", TwoBool, callback_start_change_lane)
@@ -48,9 +50,7 @@ def main():
         
     pub_speed  = rospy.Publisher('/speed', Float64, queue_size=10)
     pub_angle  = rospy.Publisher('/steering', Float64, queue_size=10)
-    pub_finish_right_to_left = rospy.Publisher('/change_lane/finished', Empty, queue_size=10)
-    pub_requested_speed = rospy.Publisher('/accelerate/requested_speed', Float64, queue_size=10)
-    pub_steady_motion = rospy.Publisher("/steady_motion/enable", Bool, queue_size=10)
+    pub_finish = rospy.Publisher('/change_lane/finished', Empty, queue_size=10)
      
     rate = rospy.Rate(30)
 
@@ -59,15 +59,18 @@ def main():
     
         curr_time = sim_secs + sim_nsecs / (10**9)
 
+        #print("start_change_lane vale ", start_change_lane, flush=True)
+
         if start_change_lane:           
             if first_time:
-               print("change_lane: start change_lane", flush=True)
                prev_time = curr_time
                first_time = False
                #pub_requested_speed.publish(50.0)
                if right_lane:
+                  #print("Giro a la izquierda ", right_lane, flush=True)
                   pub_angle.publish(0.2)
                else:    
+                  #print("Giro a la derecha ", right_lane, flush=True)
                   pub_angle.publish(-0.2)
                   
             elapsed_time = curr_time - prev_time
