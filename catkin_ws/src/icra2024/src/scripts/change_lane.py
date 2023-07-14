@@ -17,9 +17,9 @@ nSLEEP = 0.015 # 30000000 nsecs = 30 msecs
 
 def callback_start_change_lane(msg):
     global start_change_lane, right_lane
-    print("Received msg.start", msg.start, flush=True)
+    #print("Received msg.start", msg.start, flush=True)
     start_change_lane = msg.start
-    print("Received start_change_lane", start_change_lane, flush=True)    
+    #print("Received start_change_lane", start_change_lane, flush=True)    
     right_lane = msg.right_lane
         
 def callback_sim_time(msg):
@@ -50,7 +50,8 @@ def main():
         
     pub_speed  = rospy.Publisher('/speed', Float64, queue_size=10)
     pub_angle  = rospy.Publisher('/steering', Float64, queue_size=10)
-    pub_finish = rospy.Publisher('/change_lane/finished', Empty, queue_size=10)
+    pub_requested_speed  = rospy.Publisher('/accelerate/requested_speed', Float64, queue_size=1)    
+    pub_finish = rospy.Publisher('/change_lane/finished', Empty, queue_size=1)
      
     rate = rospy.Rate(30)
 
@@ -65,21 +66,21 @@ def main():
             if first_time:
                prev_time = curr_time
                first_time = False
-               #pub_requested_speed.publish(50.0)
-               if right_lane:
-                  #print("Giro a la izquierda ", right_lane, flush=True)
-                  pub_angle.publish(0.2)
-               else:    
-                  #print("Giro a la derecha ", right_lane, flush=True)
-                  pub_angle.publish(-0.2)
-                  
+            if right_lane:
+               print("Giro a la izquierda ", right_lane, flush=True)
+               pub_angle.publish(0.2)
+            else:    
+               print("Giro a la derecha ", right_lane, flush=True)
+               pub_angle.publish(-0.2)
+            pub_requested_speed.publish(30.0)
+                                 
             elapsed_time = curr_time - prev_time
             if elapsed_time >= MAX_TIME_CHANGE_LANE:
                print("Elapsed_time", elapsed_time, flush=True)
                first_time = True
 
                pub_angle.publish(0.0)
-               #pub_requested_speed.publish(0.0)
+               pub_requested_speed.publish(0.0)
                pub_finish.publish()
                print("change_lane: finish change_lane", flush=True) 
                first_time = True

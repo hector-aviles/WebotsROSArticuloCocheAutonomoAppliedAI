@@ -203,9 +203,9 @@ def main():
                  enable_cruise()
               elif obstacle_north and obstacle_north_west and not obstacle_south_west and not obstacle_west:
                  action = "Right Keep distance 13"
-              if action_prev != action:
-                 print(action, flush = True)                      
-                 action_prev = action                
+                 if action_prev != action:
+                    print(action, flush = True)                      
+                    action_prev = action                
                  enable_follow_car()
               elif not obstacle_north and obstacle_north_west and not obstacle_south_west and not obstacle_west:
                  action = "Right Cruise 14"
@@ -301,9 +301,9 @@ def main():
                  enable_cruise()
               elif obstacle_north and obstacle_north_east and not obstacle_south_east and not obstacle_east:
                  action = "Left Keep distance 13"
-              if action_prev != action:
-                 print(action, flush = True)                      
-                 action_prev = action                
+                 if action_prev != action:
+                    print(action, flush = True)                      
+                    action_prev = action                
                  enable_follow_car()
               elif not obstacle_north and obstacle_north_east and not obstacle_south_east and not obstacle_east:
                  action = "Left Cruise 14"
