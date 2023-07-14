@@ -20,21 +20,22 @@ action(stop).
 %%%%%%%%%%%%%%%% 
 % Utilities 
 
-utility(success(1), 1).
-%utility(stop_car(0), 5).
+utility(success(0), 1).
 utility(f_N(0), 0.2). 
 utility(keep_distance, -0.3). 
 utility(change_lane, -0.5). 
+utility(stop_car(0), 3.0). 
 
 %%%%%%%%%%%%%%%% 
 % Reward model
 
-success(1) :- not(rearEnd_crash(0)), not(sideSwipe_crash(0)).
+success(0) :- not(rearEnd_crash(0)), not(sideSwipe_crash(0)).
 rearEnd_crash(0) :- (not(f_N(0)), cruise, not(keep_distance), not(change_lane));
                     (not(f_NW(0)), change_lane).
 sideSwipe_crash(0) :- (not(sW1(0)), not(sW1(0)), change_lane); 
                       (not(f_W(0)), change_lane).
-%stop_car(0) :- not(success(0)), stop.
+stop_car(0) :- stop, not(success(0)).                      
+                      
 
 %%%%%%%%%%%%%%%% 
 % Actions
@@ -45,8 +46,11 @@ sideSwipe_crash(0) :- (not(sW1(0)), not(sW1(0)), change_lane);
 0.0::success(1) :- success(0), stop.
 
 1.0::f_N(1) :- f_N(0), stop.
+0.0::f_N(1) :- not(f_N(0)), stop.
 1.0::f_NW(1) :- f_NW(0), stop.
+0.0::f_NW(1) :- not(f_NW(0)), stop.
 1.0::f_W(1) :- f_W(0), stop.
+0.0::f_W(1) :- not(f_W(0)), stop.
 
 1.0::sW1(1) :- sW1(0), stop.
 0.0::sW1(1) :- not(sW1(0)), stop.
