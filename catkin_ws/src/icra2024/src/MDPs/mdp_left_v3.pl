@@ -1,5 +1,5 @@
 % Ejecutar: mdp-problog solve -m mdp_left.pl dummy.pl
-% Sí funciona.
+% Sí funciona y puede ser mejor que la versión v2
 %%%%%%%%%%%%%%%%%%%%%%%%%% 
 % State variables 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -23,12 +23,10 @@ action(change_lane).
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 utility(free_N(1), 1).
-%utility(free_NE(1), 2).
 utility(return_right, 2).
 utility(rearEnd_crash, -3.0).  
 utility(sideSwipe_crash, -2.0).  
 utility(keep_distance, -1.0). 
-utility(change_lane, -2.0). 
 
 0.99::rearEnd_crash :- \+ free_N(0), (cruise; \+ keep_distance).
 0.99::rearEnd_crash :- \+ free_NE(0), change_lane.
