@@ -55,7 +55,7 @@ def callback_point_cloud(msg):
     pub_obs_sE1 .publish(sE1)    
     pub_obs_sE2 .publish(sE2)            
         
-    if free_N:
+    if not free_N:
         pub_obs_dist.publish(numpy.linalg.norm(numpy.mean(N_points, axis=0)))
 
 def main():
