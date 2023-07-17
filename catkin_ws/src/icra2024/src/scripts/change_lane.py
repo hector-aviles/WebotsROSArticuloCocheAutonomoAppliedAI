@@ -6,13 +6,13 @@ import cv2
 import numpy
 import rospy
 from std_msgs.msg import Float64MultiArray, Float64, Empty, Bool
-from icra2024.msg import TwoBool
+from icra2024.msg import ChangeLaneMSG
 
 from rosgraph_msgs.msg import Clock 
 from geometry_msgs.msg import Pose2D
 
 # Constants
-MAX_TIME_CHANGE_LANE = 0.58
+MAX_TIME_CHANGE_LANE = 0.50
 nSLEEP = 0.015 # 30000000 nsecs = 30 msecs    
 
 def callback_start_change_lane(msg):
@@ -45,7 +45,7 @@ def main():
     print('INITIALIZING CHANGE_LANE NODE...', flush=True)
     rospy.init_node('change_lane')
 
-    rospy.Subscriber("/change_lane/start", TwoBool, callback_start_change_lane)
+    rospy.Subscriber("/change_lane/start", ChangeLaneMSG, callback_start_change_lane)
     rospy.Subscriber("/clock", Clock, callback_sim_time)
         
     pub_speed  = rospy.Publisher('/speed', Float64, queue_size=10)
@@ -90,6 +90,7 @@ def main():
             
         else:
             continue
+            
         #'''
         # My sleep
         i = 0
