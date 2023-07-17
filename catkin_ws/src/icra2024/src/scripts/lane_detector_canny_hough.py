@@ -143,10 +143,11 @@ def main():
     global pub_left_lane, pub_right_lane
     print("INITIALIZING LANE DETECTION DEMO...", flush=True)
     rospy.init_node("lane_detector")
+    rate = rospy.Rate(10)
+        
     rospy.Subscriber('/camera/rgb/raw', Image, callback_rgb_image)
     pub_left_lane  = rospy.Publisher("/demo/left_lane" , Float64MultiArray, queue_size=10)
     pub_right_lane = rospy.Publisher("/demo/right_lane", Float64MultiArray, queue_size=10)
-    rate = rospy.Rate(10)
     
     print("LaneDetector.->Waiting for start signal")
     rospy.wait_for_message("/policy_started", Empty, timeout=10000.0)

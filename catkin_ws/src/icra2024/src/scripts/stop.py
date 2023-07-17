@@ -18,7 +18,7 @@ def main():
     global stop_motion
     print('INITIALIZING STOP NODE...', flush=True)
     rospy.init_node('stop')
-    rate = rospy.Rate(30)
+    rate = rospy.Rate(10)
 
     rospy.Subscriber("/stop", Bool, callback_stop_motion)    
     

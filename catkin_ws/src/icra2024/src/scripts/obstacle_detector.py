@@ -62,6 +62,8 @@ def main():
     global pub_obs_N, pub_obs_NW, pub_obs_W, pub_obs_sW1, pub_obs_sW2, pub_obs_NE, pub_obs_E, pub_obs_sE1, pub_obs_sE2, pub_obs_dist
     print("INITIALIZING OBSTACLE DETECTOR...", flush=True)
     rospy.init_node("free_detector")
+    rate = rospy.Rate(10)
+        
     rospy.Subscriber('/point_cloud', PointCloud2, callback_point_cloud)
     pub_obs_N  = rospy.Publisher("/obstacle/north"     , Bool, queue_size=10)
     pub_obs_NW = rospy.Publisher("/obstacle/north_west", Bool, queue_size=10)
@@ -74,7 +76,6 @@ def main():
     pub_obs_sE2  = rospy.Publisher("/obstacle/sE2"      , Bool, queue_size=10)                            
     
     pub_obs_dist = rospy.Publisher("/obstacle/distance", Float64, queue_size=10)
-    rate = rospy.Rate(10)
     
     rospy.spin()
     

@@ -70,7 +70,6 @@ def main():
     global lane_rho_l, lane_theta_l, lane_rho_r, lane_theta_r
     global max_speed, k_rho, k_theta
     global enable_cruise, enable_follow, dist_to_obstacle
-    global requested_speed
     
     max_speed = 10
     k_rho   = 0.001
@@ -87,7 +86,7 @@ def main():
     
     print('INITIALIZING LANE TRACKING NODE...', flush=True)
     rospy.init_node('lane_tracking')
-    rate = rospy.Rate(30)
+    rate = rospy.Rate(10)
     if rospy.has_param('~max_speed'):
         max_speed = rospy.get_param('~max_speed')
     if rospy.has_param('~k_rho'):
@@ -101,7 +100,6 @@ def main():
     rospy.Subscriber("/cruise/enable", Bool, callback_enable_cruise)
     rospy.Subscriber("/follow/enable", Bool, callback_enable_follow)
     rospy.Subscriber("/obstacle/distance", Float64, callback_dist_to_obstacle)
-    rospy.Subscriber("/accelerate/requested_speed", Float64, callback_requested_speed)
         
     pub_speed = rospy.Publisher('/speed', Float64, queue_size=10)
     pub_angle = rospy.Publisher('/steering', Float64, queue_size=10)
@@ -116,9 +114,7 @@ def main():
     dist_to_obstacle     = 9.0
 
     while not rospy.is_shutdown():
-        #print("Steady motion ", enable_cruise, flush=True)  
         if enable_cruise:
-            #print("Steady motion entró", flush=True)        
             speed, steering = calculate_control(lane_rho_l, lane_theta_l, lane_rho_r, lane_theta_r,
                                                 goal_rho_l, goal_theta_l, goal_rho_r, goal_theta_r)
         elif enable_follow:
@@ -126,12 +122,10 @@ def main():
                                                 goal_rho_l, goal_theta_l, goal_rho_r, goal_theta_r, dist_to_obstacle)
         else:
             continue
-        if requested_speed != 0.0:    
-           pub_speed.publish(requested_speed)
-        else:   
-           pub_speed.publish(speed)
-           #print("Steady motion entró a asignar velocidad", flush=True)
+
+        pub_speed.publish(speed)
         pub_angle.publish(steering)
+
         rate.sleep()
     
 

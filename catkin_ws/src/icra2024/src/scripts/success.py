@@ -46,10 +46,11 @@ def main():
     
     print("INITIALIZING SUCCESS...", flush=True)
     rospy.init_node("success")
+    rate = rospy.Rate(10)
     rospy.Subscriber('/accelerometer', Imu, callback_accelerometer)
     pub_success  = rospy.Publisher("/success", Bool, queue_size=1)
     pub_accel_diff  = rospy.Publisher("/accelerometer_diff", Float64, queue_size=1)    
-    rate = rospy.Rate(10)
+
     
     rospy.spin()
     
