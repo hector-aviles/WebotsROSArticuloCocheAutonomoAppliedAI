@@ -28,7 +28,7 @@ def mysleep(secs):
     diff = 0.0
     while diff <= secs: # and not rospy.is_shutdown():
        diff  = curr_time - init_time
-    print("init_time", init_time, "curr_time", curr_time, "diff", diff)   
+    #print("init_time", init_time, "curr_time", curr_time, "diff", diff)   
     
 def callback_start(msg):
     global start
@@ -45,16 +45,12 @@ def main():
     global start, right_lane, sim_secs, sim_nsecs, curr_time, pub_finish    
     global x, y , theta    
     
-    first_time = True
     start = False
     right_lane = False
-    starting_lane = "NA"    
 
     sim_secs = 0.0
     sim_nsecs = 0.0                    
-    curr_time = 0.0
-    elapsed_time = 0.0
-    start_time = 0.0
+    #curr_time = 0.0
     
     print('INITIALIZING CHANGE_LANE NODE...', flush=True)
     rospy.init_node('change_lane')
@@ -79,14 +75,14 @@ def main():
            pub_speed.publish(36)
            if right_lane:  
               pub_steering.publish(0.2)
-              mysleep(0.40)
-              print("Publish 0.2", curr_time, "y pos", y, flush=True)
+              mysleep(0.4)
+              #print("Publish 0.2", curr_time, "y pos", y, flush=True)
               pub_steering.publish(-0.2)
               mysleep(0.2) 
            else:
               pub_steering.publish(-0.2)
-              mysleep(0.40)
-              print("Publish 0.2", curr_time, "y pos", y, flush=True)
+              mysleep(0.4)
+              #print("Publish 0.2", curr_time, "y pos", y, flush=True)
               pub_steering.publish(0.2)
               mysleep(0.2) 
            
