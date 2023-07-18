@@ -10,8 +10,17 @@ import rospy
 from std_msgs.msg import Float64MultiArray, Empty, Bool, String
 from rosgraph_msgs.msg import Clock 
 
+def mysleep(secs):
+    global curr_time
+
+    init_time = curr_time        
+    diff = 0.0
+    while diff <= secs: # and not rospy.is_shutdown():
+       diff  = curr_time - init_time
+
+
 def callback_sim_time(msg):
-    global sim_secs, sim_nsecs, curr_time            
+    global curr_time            
     sim_time = msg
     sim_secs = sim_time.clock.secs 
     sim_nsecs = sim_time.clock.nsecs
@@ -105,15 +114,13 @@ def stop():
 def main():
     global free_N, free_NW, free_W, sW1, sW2, free_NE, free_E, sE1, sE2, success, right_lane
     global pub_keep_distance, pub_cruise, pub_change_lane, pub_action, pub_stop
-    global sim_secs, sim_nsecs, curr_time
+    global curr_time
     
-    sim_secs = 0.0
-    sim_nsecs = 0.0 
     curr_time = 0.0    
     
     print("INITIALIZING POLICY...", flush=True)
     rospy.init_node("policy")
-    rate = rospy.Rate(20)
+    #rate = rospy.Rate(20)
         
     rospy.Subscriber("/clock", Clock, callback_sim_time)    
     rospy.Subscriber("/obstacle/north"     , Bool, callback_free_N)
@@ -127,6 +134,7 @@ def main():
     rospy.Subscriber("/obstacle/sE2"      , Bool, callback_sE2)    
     rospy.Subscriber("/success", Bool, callback_success) 
     rospy.Subscriber("/right_lane", Bool, callback_right_lane)
+    rospy.Subscriber("/clock", Clock, callback_sim_time)    
        
     pub_policy_started  = rospy.Publisher("/policy_started", Empty, queue_size=2)
     pub_cruise = rospy.Publisher("/cruise/enable", Bool, queue_size=2)
@@ -618,7 +626,8 @@ def main():
                                               
         pub_action.publish(action)
 
-        rate.sleep()
+        #rate.sleep()
+        mysleep(0.1)    
 
 if __name__ == "__main__":
     try:

@@ -15,7 +15,23 @@ import rospy
 import ros_numpy
 from std_msgs.msg import Float64MultiArray, Empty, Bool, Float64
 from sensor_msgs.msg import PointCloud2
-from icra2024.msg import ChangeLaneMSG
+from rosgraph_msgs.msg import Clock 
+
+def mysleep(secs):
+    global curr_time
+
+    init_time = curr_time        
+    diff = 0.0
+    while diff <= secs: # and not rospy.is_shutdown():
+       diff  = curr_time - init_time
+    #print("init_time", init_time, "curr_time", curr_time, "diff", diff) 
+
+def callback_sim_time(msg):
+    global sim_secs, sim_nsecs, curr_time            
+    sim_time = msg
+    sim_secs = sim_time.clock.secs 
+    sim_nsecs = sim_time.clock.nsecs 
+    curr_time = sim_secs + sim_nsecs / (10**9)        
 
 def callback_point_cloud(msg):
     global pub_obs_N, pub_obs_NW, pub_obs_W, pub_obs_sW1, pub_obs_sW2, pub_obs_NE, pub_obs_E, pub_obs_sE1, pub_obs_sE2, pub_obs_dist
@@ -62,11 +78,17 @@ def callback_point_cloud(msg):
 
 def main():
     global pub_obs_N, pub_obs_NW, pub_obs_W, pub_obs_sW1, pub_obs_sW2, pub_obs_NE, pub_obs_E, pub_obs_sE1, pub_obs_sE2, pub_obs_dist
+    global curr_time
+    
+    curr_time = 0.0
+    
     print("INITIALIZING OBSTACLE DETECTOR...", flush=True)
     rospy.init_node("free_detector")
-    rate = rospy.Rate(10)
+    #rate = rospy.Rate(10)
         
     rospy.Subscriber('/point_cloud', PointCloud2, callback_point_cloud)
+    rospy.Subscriber("/clock", Clock, callback_sim_time)    
+    
     pub_obs_N  = rospy.Publisher("/obstacle/north"     , Bool, queue_size=2)
     pub_obs_NW = rospy.Publisher("/obstacle/north_west", Bool, queue_size=2)
     pub_obs_W  = rospy.Publisher("/obstacle/west"      , Bool, queue_size=2)
@@ -79,15 +101,21 @@ def main():
     
     pub_obs_dist = rospy.Publisher("/obstacle/distance", Float64, queue_size=2)
     
-    rospy.spin()
-    
+    #rospy.spin()
+    while not rospy.is_shutdown():    
+        mysleep(0.1) # in secs aprox. 10hz    
 
+
+if __name__ == "__main__":
+    main()
+    
+'''
 if __name__ == "__main__":
     try:
         main()
     except:
         rospy.ROSInterruptException
         pass
-
+'''
     
 

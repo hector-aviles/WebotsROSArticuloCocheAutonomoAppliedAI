@@ -30,24 +30,27 @@ def mysleep(secs):
        diff  = curr_time - init_time
     #print("init_time", init_time, "curr_time", curr_time, "diff", diff)   
     
-def callback_sim_time(msg):
-    global curr_time            
-    sim_time = msg
-    sim_secs = sim_time.clock.secs 
-    sim_nsecs = sim_time.clock.nsecs 
-    curr_time = sim_secs + sim_nsecs / (10**9)        
-    
 def callback_start(msg):
     global start
     start = msg.data
-           
+        
+def callback_sim_time(msg):
+    global sim_secs, sim_nsecs, curr_time            
+    sim_time = msg
+    sim_secs = sim_time.clock.secs 
+    sim_nsecs = sim_time.clock.nsecs 
+    curr_time = sim_secs + sim_nsecs / (10**9)    
+    
 def main():
-    global start, right_lane, curr_time, pub_finish    
+    global start, right_lane, sim_secs, sim_nsecs, curr_time, pub_finish    
     global x, y , theta    
     
     start = False
     right_lane = False
-    curr_time = 0.0
+
+    sim_secs = 0.0
+    sim_nsecs = 0.0                    
+    #curr_time = 0.0
     
     print('INITIALIZING CHANGE_LANE NODE...', flush=True)
     rospy.init_node('change_lane')
@@ -69,16 +72,22 @@ def main():
         if start:
                           
            print("change_lane: start change_lane ", curr_time, flush=True) 
-           pub_speed.publish(3) #m/s
+           pub_speed.publish(6)
            if right_lane:  
-              print("Giro a la izquierda", right_lane)
-              pub_steering.publish(0.2)
+              pub_steering.publish(0.25)
               print("Publish 0.25", curr_time, "y pos", y, flush=True)
               mysleep(0.5)
-           else:
-              print("Giro a la derecha", right_lane)
+              print("Publish 0.25", curr_time, "y pos", y, flush=True)
               pub_steering.publish(-0.2)
-              mysleep(0.50)           
+              mysleep(0.25) 
+           else:
+              print("Giro a la izquierda", right_lane)
+              pub_steering.publish(-0.25)
+              mysleep(0.5)
+              #print("Publish 0.2", curr_time, "y pos", y, flush=True)
+              pub_steering.publish(0.2)
+              mysleep(0.25) 
+           
            pub_finish.publish()           
               
            print("change_lane: finish change_lane ", curr_time, flush=True)                               
