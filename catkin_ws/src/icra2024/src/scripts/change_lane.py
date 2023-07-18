@@ -20,9 +20,16 @@ def callback_right_lane(msg):
     right_lane = msg.data  
 
 # Constants
-MAX_TIME_CHANGE_LANE = 0.50
-nSLEEP = 0.03 # 30000000 nsecs = 30 msecs    
 
+def mysleep(secs):
+    global curr_time
+
+    init_time = curr_time        
+    diff = 0.0
+    while diff <= secs: # and not rospy.is_shutdown():
+       diff  = curr_time - init_time
+    print("init_time", init_time, "curr_time", curr_time, "diff", diff)   
+    
 def callback_start(msg):
     global start
     start = msg.data
@@ -40,7 +47,8 @@ def main():
     
     first_time = True
     start = False
-    right_lane = False    
+    right_lane = False
+    starting_lane = "NA"    
 
     sim_secs = 0.0
     sim_nsecs = 0.0                    
@@ -50,6 +58,7 @@ def main():
     
     print('INITIALIZING CHANGE_LANE NODE...', flush=True)
     rospy.init_node('change_lane')
+    rate = rospy.Rate(10)
 
     rospy.Subscriber("/change_lane/start", Bool, callback_start)
     rospy.Subscriber("/clock", Clock, callback_sim_time)
@@ -57,52 +66,41 @@ def main():
     rospy.Subscriber("/current_pose", Pose2D, callback_current_pose) 
     rospy.Subscriber("/right_lane", Bool, callback_right_lane)       
         
-    pub_speed  = rospy.Publisher('/speed', Float64, queue_size=10)
-    pub_angle  = rospy.Publisher('/steering', Float64, queue_size=10)
-    pub_finish = rospy.Publisher('/change_lane/finished', Empty, queue_size=10)
-     
-    rate = rospy.Rate(10)
+    pub_speed  = rospy.Publisher('/speed', Float64, queue_size=2)
+    pub_steering  = rospy.Publisher('/steering', Float64, queue_size=2)
+    pub_finish = rospy.Publisher('/change_lane/finished', Empty, queue_size=2)
 
     start = False
     while not rospy.is_shutdown():
               
         if start:
                           
-            if first_time: 
-               print("change_lane: start change_lane ", curr_time, flush=True) 
-               start_time = curr_time
-               first_time = False
-            if right_lane:    
-               pub_angle.publish(0.2)
-               print("Publish 0.2", curr_time, "y pos", y, flush=True)
-            else:
-               pub_angle.publish(-0.2)   
-               print("Publish -0.2", curr_time, "y pos", y, flush=True)
-                                                
-            elapsed_time = curr_time - start_time
-            if elapsed_time >= MAX_TIME_CHANGE_LANE:
-               print("Elapsed_time", elapsed_time, flush=True)           
-               print("change_lane: finish change_lane ", curr_time, flush=True)
-               pub_angle.publish(0.0)
-               pub_finish.publish()                
-               first_time = True
-               start = False
-               
+           print("change_lane: start change_lane ", curr_time, flush=True) 
+           pub_speed.publish(36)
+           if right_lane:  
+              pub_steering.publish(0.2)
+              mysleep(0.40)
+              print("Publish 0.2", curr_time, "y pos", y, flush=True)
+              pub_steering.publish(-0.2)
+              mysleep(0.2) 
+           else:
+              pub_steering.publish(-0.2)
+              mysleep(0.40)
+              print("Publish 0.2", curr_time, "y pos", y, flush=True)
+              pub_steering.publish(0.2)
+              mysleep(0.2) 
+           
+           pub_finish.publish()           
+              
+           print("change_lane: finish change_lane ", curr_time, flush=True)                               
+           start = False                           
+                           
         else:
             continue
 
-        rate.sleep()            
-        # My sleep
-        '''
-        i = 0
-        while i < 1 and not rospy.is_shutdown():
-            prev_sleep = sim_secs + sim_nsecs / (10**9)
-            i = i + 1         
-        diff = 0.0
-        while diff <= nSLEEP and not rospy.is_shutdown():
-            curr_time = sim_secs + sim_nsecs / (10**9)            
-            diff  = curr_time - prev_sleep
-        '''            
+        #rate.sleep()            
+        mysleep(0.1)
+
    
 
 if __name__ == "__main__":

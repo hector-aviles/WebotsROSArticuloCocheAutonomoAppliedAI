@@ -91,9 +91,9 @@ def change_lane():
     pub_change_lane.publish(True)
     msg_finished = rospy.wait_for_message('/change_lane/finished', Empty, timeout=200.0)
     if right_lane:
-       print("Terminó giro a la izquierda ", curr_time, flush = True)
+       print("Terminó giro a la izquierda ", curr_time, "en", right_lane, flush = True)
     else: 
-       print("Terminó giro a la derecha ", curr_time,  flush = True)    
+       print("Terminó giro a la derecha ", curr_time, "en", right_lane,  flush = True)    
         
 def stop():
     global pub_keep_distance, pub_cruise, pub_change_lane, pub_action, pub_stop, pub_change_lane, right_lane
@@ -113,6 +113,8 @@ def main():
     
     print("INITIALIZING POLICY...", flush=True)
     rospy.init_node("policy")
+    rate = rospy.Rate(20)
+        
     rospy.Subscriber("/clock", Clock, callback_sim_time)    
     rospy.Subscriber("/obstacle/north"     , Bool, callback_free_N)
     rospy.Subscriber("/obstacle/north_west", Bool, callback_free_NW)
@@ -126,13 +128,12 @@ def main():
     rospy.Subscriber("/success", Bool, callback_success) 
     rospy.Subscriber("/right_lane", Bool, callback_right_lane)
        
-    pub_policy_started  = rospy.Publisher("/policy_started", Empty, queue_size=10)
-    pub_cruise = rospy.Publisher("/cruise/enable", Bool, queue_size=10)
-    pub_keep_distance    = rospy.Publisher("/follow/enable", Bool, queue_size=10)
-    pub_change_lane = rospy.Publisher("/change_lane/start", Bool, queue_size=10)    
-    pub_action = rospy.Publisher("/action", String, queue_size=10)
-    pub_stop = rospy.Publisher("/stop", Bool, queue_size=10)    
-    rate = rospy.Rate(60)
+    pub_policy_started  = rospy.Publisher("/policy_started", Empty, queue_size=2)
+    pub_cruise = rospy.Publisher("/cruise/enable", Bool, queue_size=2)
+    pub_keep_distance    = rospy.Publisher("/follow/enable", Bool, queue_size=2)
+    pub_change_lane = rospy.Publisher("/change_lane/start", Bool, queue_size=2)    
+    pub_action = rospy.Publisher("/action", String, queue_size=2)
+    pub_stop = rospy.Publisher("/stop", Bool, queue_size=2)    
 
     free_N  = True
     free_NW = True

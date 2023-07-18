@@ -101,8 +101,8 @@ def main():
     rospy.Subscriber("/follow/enable", Bool, callback_enable_follow)
     rospy.Subscriber("/obstacle/distance", Float64, callback_dist_to_obstacle)
         
-    pub_speed = rospy.Publisher('/speed', Float64, queue_size=10)
-    pub_angle = rospy.Publisher('/steering', Float64, queue_size=10)
+    pub_speed = rospy.Publisher('/speed', Float64, queue_size=2)
+    pub_angle = rospy.Publisher('/steering', Float64, queue_size=2)
     msg_left_lane  = rospy.wait_for_message('/demo/left_lane' , Float64MultiArray, timeout=100)
     msg_right_lane = rospy.wait_for_message('/demo/right_lane', Float64MultiArray, timeout=100)
     print("Using:")

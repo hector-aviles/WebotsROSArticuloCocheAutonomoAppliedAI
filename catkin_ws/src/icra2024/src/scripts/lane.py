@@ -7,7 +7,7 @@ from std_msgs.msg import Bool
 from geometry_msgs.msg import Pose2D
 
 def callback_current_pose(msg):
-    global pub_right_lane, right_lane, prev_right_lane, x, y, theta   
+    global pub_right_lane, right_lane, x, y, theta # , prev_right_lane   
 
     x = msg.x
     y = msg.y
@@ -18,26 +18,26 @@ def callback_current_pose(msg):
     else:
        right_lane = True       
 
-    if prev_right_lane != right_lane: 
-       print("Position in y ", y, "right_lane", right_lane, "prev_right_lane", prev_right_lane,  flush=True)
-       prev_right_lane = right_lane
+    #if prev_right_lane != right_lane: 
+       #print("Position in y ", y, "right_lane", right_lane, "prev_right_lane", prev_right_lane,  flush=True)
+       #prev_right_lane = right_lane
 
     pub_right_lane.publish(right_lane)
 
 
 def main():
     global pub_right_lane, right_lane, x, y, theta
-    global prev_right_lane
+    #global prev_right_lane
     
     x = 0.0
     y = 0.0
     theta = 0.0
     right_lane = True
-    prev_right_lane = True
+    #prev_right_lane = True
     
     print("INITIALIZING LANE NODE...", flush=True)
     rospy.init_node("lane")
-    rate = rospy.Rate(1)
+    rate = rospy.Rate(10)
 
     rospy.Subscriber("/current_pose", Pose2D, callback_current_pose)
     pub_right_lane  = rospy.Publisher("/right_lane", Bool, queue_size=2)

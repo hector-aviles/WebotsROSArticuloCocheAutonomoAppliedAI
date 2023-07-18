@@ -34,13 +34,13 @@ def callback_point_cloud(msg):
     
     free_N  = N_points .shape[0] < 500
     free_NW = NW_points.shape[0] < 500
-    free_W  = W_points .shape[0] < 1000
+    free_W  = W_points .shape[0] < 500
     #free_SW = SW_points.shape[0] < 1000
     sW1 = True
     sW2 = True    
 
-    free_NE  = NE_points .shape[0] < 1000    
-    free_E  = E_points .shape[0] < 1000    
+    free_NE  = NE_points .shape[0] < 500    
+    free_E  = E_points .shape[0] < 500    
     #free_SE  = SE_points .shape[0] < 1000    
     sE1 = True
     sE2 = True
@@ -53,7 +53,9 @@ def callback_point_cloud(msg):
     pub_obs_NE .publish(free_NE)    
     pub_obs_E .publish(free_E)            
     pub_obs_sE1 .publish(sE1)    
-    pub_obs_sE2 .publish(sE2)            
+    pub_obs_sE2 .publish(sE2)    
+    
+    #print("free_N", free_N, "free_NW", free_NW, "free_W", free_W, "sW1", sW1, "sW2", sW2, "free_NE", free_NE, "free_E", free_E, "sE1", sE1, "sE2", sE2, flush = True)        
         
     if not free_N:
         pub_obs_dist.publish(numpy.linalg.norm(numpy.mean(N_points, axis=0)))
@@ -65,17 +67,17 @@ def main():
     rate = rospy.Rate(10)
         
     rospy.Subscriber('/point_cloud', PointCloud2, callback_point_cloud)
-    pub_obs_N  = rospy.Publisher("/obstacle/north"     , Bool, queue_size=10)
-    pub_obs_NW = rospy.Publisher("/obstacle/north_west", Bool, queue_size=10)
-    pub_obs_W  = rospy.Publisher("/obstacle/west"      , Bool, queue_size=10)
-    pub_obs_sW1 = rospy.Publisher("/obstacle/sW1", Bool, queue_size=10)
-    pub_obs_sW2 = rospy.Publisher("/obstacle/sW2", Bool, queue_size=10)    
-    pub_obs_NE  = rospy.Publisher("/obstacle/north_east"      , Bool, queue_size=10) 
-    pub_obs_E  = rospy.Publisher("/obstacle/east"      , Bool, queue_size=10)      
-    pub_obs_sE1  = rospy.Publisher("/obstacle/sE1"      , Bool, queue_size=10)
-    pub_obs_sE2  = rospy.Publisher("/obstacle/sE2"      , Bool, queue_size=10)                            
+    pub_obs_N  = rospy.Publisher("/obstacle/north"     , Bool, queue_size=2)
+    pub_obs_NW = rospy.Publisher("/obstacle/north_west", Bool, queue_size=2)
+    pub_obs_W  = rospy.Publisher("/obstacle/west"      , Bool, queue_size=2)
+    pub_obs_sW1 = rospy.Publisher("/obstacle/sW1", Bool, queue_size=2)
+    pub_obs_sW2 = rospy.Publisher("/obstacle/sW2", Bool, queue_size=2)    
+    pub_obs_NE  = rospy.Publisher("/obstacle/north_east"      , Bool, queue_size=2) 
+    pub_obs_E  = rospy.Publisher("/obstacle/east"      , Bool, queue_size=2)      
+    pub_obs_sE1  = rospy.Publisher("/obstacle/sE1"      , Bool, queue_size=2)
+    pub_obs_sE2  = rospy.Publisher("/obstacle/sE2"      , Bool, queue_size=2)                            
     
-    pub_obs_dist = rospy.Publisher("/obstacle/distance", Float64, queue_size=10)
+    pub_obs_dist = rospy.Publisher("/obstacle/distance", Float64, queue_size=2)
     
     rospy.spin()
     
