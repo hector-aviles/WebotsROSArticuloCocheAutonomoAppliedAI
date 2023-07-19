@@ -89,12 +89,12 @@ def main():
                from_right_to_left = True  
             else:
                pub_angle.publish(-0.2)   
-               max_time = 0.53
+               max_time = 0.51
                from_right_to_left = False      
                                 
             elapsed_time = curr_time - starting_time            
             #print("elapsed_time", elapsed_time, "max_time", max_time, "starting_lane", starting_lane, "right_lane", right_lane)
-            if starting_lane^right_lane or (elapsed_time >= max_time):
+            if (starting_lane^right_lane) or (elapsed_time >= max_time):
 
                #print("Comienza a reorientarse curr_time", curr_time, "right_lane", right_lane)               
                if from_right_to_left:
@@ -104,7 +104,7 @@ def main():
                else:
                   #print("Gira ruedas a la izquierda")               
                   pub_angle.publish(0.2)
-                  mysleep(0.23)
+                  mysleep(0.21)
                #print("Termina de reorientarse curr_time", curr_time)                  
                print("change_lane: finish change_lane ", "curr_time", curr_time, "elapsed time", elapsed_time, flush=True)
                     
@@ -116,17 +116,7 @@ def main():
             continue
 
         rate.sleep()            
-        # My sleep
-        '''
-        i = 0
-        while i < 1 and not rospy.is_shutdown():
-            prev_sleep = sim_secs + sim_nsecs / (10**9)
-            i = i + 1         
-        diff = 0.0
-        while diff <= nSLEEP and not rospy.is_shutdown():
-            curr_time = sim_secs + sim_nsecs / (10**9)            
-            diff  = curr_time - prev_sleep
-        '''            
+        
    
 
 if __name__ == "__main__":
