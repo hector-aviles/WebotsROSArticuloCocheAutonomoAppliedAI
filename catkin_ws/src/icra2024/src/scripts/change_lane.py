@@ -89,7 +89,7 @@ def main():
                from_right_to_left = True  
             else:
                pub_angle.publish(-0.2)   
-               max_time = 0.51
+               max_time = 0.50
                from_right_to_left = False      
                                 
             elapsed_time = curr_time - starting_time            
@@ -104,7 +104,7 @@ def main():
                else:
                   #print("Gira ruedas a la izquierda")               
                   pub_angle.publish(0.2)
-                  mysleep(0.21)
+                  mysleep(0.20)
                #print("Termina de reorientarse curr_time", curr_time)                  
                print("change_lane: finish change_lane ", "curr_time", curr_time, "elapsed time", elapsed_time, flush=True)
                     

@@ -266,8 +266,6 @@ def main():
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action
-                 print("free_N", free_N, "free_NW", free_NW, "free_W", free_W, "sW1", sW1, "sW2", sW2, flush = True)                    
-                            
                  change_lane()
 
               elif free_N and free_NW and free_W and sW1 and not sW2:
@@ -324,7 +322,6 @@ def main():
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
-                 #print("free_N", free_N, "free_NW", free_NW, "free_W", free_W, "sW1", sW1, "sW2", sW2, flush = True)
                  change_lane()
 
               elif free_N and free_NW and free_W and not sW1 and sW2:
@@ -380,7 +377,6 @@ def main():
                  if action_prev != action:
                     print(action, flush = True)  
                     action_prev = action                
-                 #print("free_N", free_N, "free_NW", free_NW, "free_W", free_W, "sW1", sW1, "sW2", sW2, flush = True)
                  change_lane()
 
               elif free_N and free_NW and free_W and sW1 and sW2:
@@ -430,7 +426,6 @@ def main():
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action      
-                 print("free_E", free_E, "free_N", free_N, "free_NE", free_NE, "sE1", sE1, "sE2", sE2, flush = True)                              
                  change_lane()
 
               elif not free_E and free_N and free_NE and not sE1 and not sE2:
@@ -487,7 +482,6 @@ def main():
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
-                 print("free_E", free_E, "free_N", free_N, "free_NE", free_NE, "sE1", sE1, "sE2", sE2, flush = True)
                  change_lane()
 
               elif not free_E and free_N and free_NE and sE1 and not sE2:
@@ -502,7 +496,6 @@ def main():
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
-                 print("free_E", free_E, "free_N", free_N, "free_NE", free_NE, "sE1", sE1, "sE2", sE2, flush = True)
                  change_lane()
 
               elif not free_E and not free_N and not free_NE and not sE1 and sE2:
@@ -545,7 +538,6 @@ def main():
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
-                 print("free_E", free_E, "free_N", free_N, "free_NE", free_NE, "sE1", sE1, "sE2", sE2, flush = True)
                  change_lane()
 
               elif not free_E and free_N and free_NE and not sE1 and sE2:
@@ -560,7 +552,6 @@ def main():
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
-                 print("free_E", free_E, "free_N", free_N, "free_NE", free_NE, "sE1", sE1, "sE2", sE2, flush = True)
                  change_lane()
 
               elif not free_E and not free_N and not free_NE and sE1 and sE2:
@@ -603,7 +594,6 @@ def main():
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
-                 print("free_E", free_E, "free_N", free_N, "free_NE", free_NE, "sE1", sE1, "sE2", sE2, flush = True)
                  change_lane()
 
               elif not free_E and free_N and free_NE and sE1 and sE2:
@@ -618,7 +608,6 @@ def main():
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
-                 #print("free_E", free_E, "free_N", free_N, "free_NE", free_NE, "sE1", sE1, "sE2", sE2, flush = True)
                  change_lane()
         else: # not success       
            action = "stop"

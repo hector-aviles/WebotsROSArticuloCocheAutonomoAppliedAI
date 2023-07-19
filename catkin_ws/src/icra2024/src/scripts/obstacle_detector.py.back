@@ -15,6 +15,16 @@ import rospy
 import ros_numpy
 from std_msgs.msg import Float64MultiArray, Empty, Bool, Float64
 from sensor_msgs.msg import PointCloud2
+from rosgraph_msgs.msg import Clock 
+
+def mysleep(secs):
+    global curr_time
+
+    init_time = curr_time        
+    diff = 0.0
+    while diff <= secs: # and not rospy.is_shutdown():
+       diff  = curr_time - init_time
+    #print("init_time", init_time, "curr_time", curr_time, "diff", diff) 
 
 def callback_sim_time(msg):
     global sim_secs, sim_nsecs, curr_time            
@@ -60,18 +70,24 @@ def callback_point_cloud(msg):
     pub_obs_E .publish(free_E)            
     pub_obs_sE1 .publish(sE1)    
     pub_obs_sE2 .publish(sE2)    
+    
+    #print("free_N", free_N, "free_NW", free_NW, "free_W", free_W, "sW1", sW1, "sW2", sW2, "free_NE", free_NE, "free_E", free_E, "sE1", sE1, "sE2", sE2, flush = True)        
         
     if not free_N:
         pub_obs_dist.publish(numpy.linalg.norm(numpy.mean(N_points, axis=0)))
 
 def main():
     global pub_obs_N, pub_obs_NW, pub_obs_W, pub_obs_sW1, pub_obs_sW2, pub_obs_NE, pub_obs_E, pub_obs_sE1, pub_obs_sE2, pub_obs_dist
+    global curr_time
+    
+    curr_time = 0.0
     
     print("INITIALIZING OBSTACLE DETECTOR...", flush=True)
     rospy.init_node("free_detector")
     rate = rospy.Rate(10)
         
     rospy.Subscriber('/point_cloud', PointCloud2, callback_point_cloud)
+    #rospy.Subscriber("/clock", Clock, callback_sim_time)    
     
     pub_obs_N  = rospy.Publisher("/obstacle/north"     , Bool, queue_size=2)
     pub_obs_NW = rospy.Publisher("/obstacle/north_west", Bool, queue_size=2)
@@ -88,6 +104,7 @@ def main():
     #rospy.spin()
     while not rospy.is_shutdown():  
         rate.sleep()  
+        #mysleep(0.05) # in secs aprox. 10hz    
 
 
 if __name__ == "__main__":

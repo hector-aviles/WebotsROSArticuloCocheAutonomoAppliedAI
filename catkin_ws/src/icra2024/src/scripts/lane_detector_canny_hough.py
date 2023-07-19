@@ -14,23 +14,6 @@ import rospy
 from std_msgs.msg import Float64MultiArray, Empty
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
-from rosgraph_msgs.msg import Clock 
-
-def mysleep(secs):
-    global curr_time
-
-    init_time = curr_time        
-    diff = 0.0
-    while diff <= secs: # and not rospy.is_shutdown():
-       diff  = curr_time - init_time
-    #print("init_time", init_time, "curr_time", curr_time, "diff", diff) 
-    
-def callback_sim_time(msg):
-    global sim_secs, sim_nsecs, curr_time            
-    sim_time = msg
-    sim_secs = sim_time.clock.secs 
-    sim_nsecs = sim_time.clock.nsecs 
-    curr_time = sim_secs + sim_nsecs / (10**9)        
 
 #
 # Converts a line given by two points to the normal form (rho, theta) with
@@ -158,16 +141,12 @@ def callback_rgb_image(msg):
 
 def main():
     global pub_left_lane, pub_right_lane
-    global curr_time
-    
-    curr_time = 0.0
     
     print("INITIALIZING LANE DETECTION DEMO...", flush=True)
     rospy.init_node("lane_detector")
     rate = rospy.Rate(10)
         
     rospy.Subscriber('/camera/rgb/raw', Image, callback_rgb_image)
-    #rospy.Subscriber("/clock", Clock, callback_sim_time)    
     
     pub_left_lane  = rospy.Publisher("/demo/left_lane" , Float64MultiArray, queue_size=2)
     pub_right_lane = rospy.Publisher("/demo/right_lane", Float64MultiArray, queue_size=2)
@@ -178,7 +157,6 @@ def main():
 
     while not rospy.is_shutdown():  
         rate.sleep()  
-        #mysleep(0.05) # in secs aprox. 10hz    
 
 
 if __name__ == "__main__":

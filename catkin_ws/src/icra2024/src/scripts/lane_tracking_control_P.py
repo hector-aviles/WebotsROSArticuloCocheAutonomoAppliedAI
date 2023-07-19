@@ -11,24 +11,7 @@ import cv2
 import numpy
 import rospy
 from std_msgs.msg import Float64MultiArray, Float64, Empty, Bool
-from rosgraph_msgs.msg import Clock 
-
-def mysleep(secs):
-    global curr_time
-
-    init_time = curr_time        
-    diff = 0.0
-    while diff <= secs: # and not rospy.is_shutdown():
-       diff  = curr_time - init_time
-    #print("init_time", init_time, "curr_time", curr_time, "diff", diff) 
-    
-def callback_sim_time(msg):
-    global sim_secs, sim_nsecs, curr_time            
-    sim_time = msg
-    sim_secs = sim_time.clock.secs 
-    sim_nsecs = sim_time.clock.nsecs 
-    curr_time = sim_secs + sim_nsecs / (10**9)        
-
+ 
 #
 # Steering is calculated proportional to two errors: distance error and angle error.
 # These errors correspond to differences between an observed line (in normal form)
@@ -87,7 +70,6 @@ def main():
     global lane_rho_l, lane_theta_l, lane_rho_r, lane_theta_r
     global max_speed, k_rho, k_theta
     global enable_cruise, enable_follow, dist_to_obstacle
-    global curr_time
     
     max_speed = 10
     k_rho   = 0.001
@@ -101,7 +83,6 @@ def main():
     goal_rho_r   = 430.0
     goal_theta_r = 0.895
     requested_speed = 0.0
-    curr_time = 0.0
     
     print('INITIALIZING LANE TRACKING NODE...', flush=True)
     rospy.init_node('lane_tracking')
@@ -119,7 +100,6 @@ def main():
     rospy.Subscriber("/cruise/enable", Bool, callback_enable_cruise)
     rospy.Subscriber("/follow/enable", Bool, callback_enable_follow)
     rospy.Subscriber("/obstacle/distance", Float64, callback_dist_to_obstacle)
-    #rospy.Subscriber("/clock", Clock, callback_sim_time)
           
     pub_speed = rospy.Publisher('/speed', Float64, queue_size=2)
     pub_angle = rospy.Publisher('/steering', Float64, queue_size=2)
@@ -145,7 +125,6 @@ def main():
 
         pub_speed.publish(speed)
         pub_angle.publish(steering)
-        #mysleep(0.05)
         
         rate.sleep()
 
