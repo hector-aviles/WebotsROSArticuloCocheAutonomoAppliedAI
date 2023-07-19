@@ -105,7 +105,7 @@ def main():
     
     print('INITIALIZING LANE TRACKING NODE...', flush=True)
     rospy.init_node('lane_tracking')
-    #rate = rospy.Rate(10)
+    rate = rospy.Rate(10)
     if rospy.has_param('~max_speed'):
         max_speed = rospy.get_param('~max_speed')
     if rospy.has_param('~k_rho'):
@@ -119,7 +119,7 @@ def main():
     rospy.Subscriber("/cruise/enable", Bool, callback_enable_cruise)
     rospy.Subscriber("/follow/enable", Bool, callback_enable_follow)
     rospy.Subscriber("/obstacle/distance", Float64, callback_dist_to_obstacle)
-    rospy.Subscriber("/clock", Clock, callback_sim_time)
+    #rospy.Subscriber("/clock", Clock, callback_sim_time)
           
     pub_speed = rospy.Publisher('/speed', Float64, queue_size=2)
     pub_angle = rospy.Publisher('/steering', Float64, queue_size=2)
@@ -145,9 +145,9 @@ def main():
 
         pub_speed.publish(speed)
         pub_angle.publish(steering)
-        mysleep(0.1)
+        #mysleep(0.05)
         
-        #rate.sleep()
+        rate.sleep()
 
     
 

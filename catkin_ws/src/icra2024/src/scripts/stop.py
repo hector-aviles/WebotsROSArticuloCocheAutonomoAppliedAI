@@ -39,10 +39,10 @@ def main():
         
     print('INITIALIZING STOP NODE...', flush=True)
     rospy.init_node('stop')
-    #rate = rospy.Rate(10)
+    rate = rospy.Rate(10)
 
     rospy.Subscriber("/stop", Bool, callback_stop_motion) 
-    rospy.Subscriber("/clock", Clock, callback_sim_time)       
+    #rospy.Subscriber("/clock", Clock, callback_sim_time)       
     
     pub_speed = rospy.Publisher('/speed', Float64, queue_size=2)
 
@@ -55,8 +55,8 @@ def main():
         
         pub_speed.publish(speed)
 
-        mysleep(0.1) # in secs aprox. 10hz
-        #rate.sleep()
+        #mysleep(0.05) # in secs aprox. 10hz
+        rate.sleep()
     
 
 if __name__ == "__main__":

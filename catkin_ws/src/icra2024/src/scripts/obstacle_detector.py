@@ -84,10 +84,10 @@ def main():
     
     print("INITIALIZING OBSTACLE DETECTOR...", flush=True)
     rospy.init_node("free_detector")
-    #rate = rospy.Rate(10)
+    rate = rospy.Rate(10)
         
     rospy.Subscriber('/point_cloud', PointCloud2, callback_point_cloud)
-    rospy.Subscriber("/clock", Clock, callback_sim_time)    
+    #rospy.Subscriber("/clock", Clock, callback_sim_time)    
     
     pub_obs_N  = rospy.Publisher("/obstacle/north"     , Bool, queue_size=2)
     pub_obs_NW = rospy.Publisher("/obstacle/north_west", Bool, queue_size=2)
@@ -102,8 +102,9 @@ def main():
     pub_obs_dist = rospy.Publisher("/obstacle/distance", Float64, queue_size=2)
     
     #rospy.spin()
-    while not rospy.is_shutdown():    
-        mysleep(0.1) # in secs aprox. 10hz    
+    while not rospy.is_shutdown():  
+        rate.sleep()  
+        #mysleep(0.05) # in secs aprox. 10hz    
 
 
 if __name__ == "__main__":

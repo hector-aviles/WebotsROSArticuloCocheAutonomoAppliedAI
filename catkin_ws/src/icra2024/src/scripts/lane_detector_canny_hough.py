@@ -164,10 +164,10 @@ def main():
     
     print("INITIALIZING LANE DETECTION DEMO...", flush=True)
     rospy.init_node("lane_detector")
-    #rate = rospy.Rate(10)
+    rate = rospy.Rate(10)
         
     rospy.Subscriber('/camera/rgb/raw', Image, callback_rgb_image)
-    rospy.Subscriber("/clock", Clock, callback_sim_time)    
+    #rospy.Subscriber("/clock", Clock, callback_sim_time)    
     
     pub_left_lane  = rospy.Publisher("/demo/left_lane" , Float64MultiArray, queue_size=2)
     pub_right_lane = rospy.Publisher("/demo/right_lane", Float64MultiArray, queue_size=2)
@@ -176,17 +176,22 @@ def main():
     rospy.wait_for_message("/policy_started", Empty, timeout=10000.0)
     print("LaneDetector.->Start signal received")
 
-    #rospy.spin()
-    while not rospy.is_shutdown():
-        mysleep(0.1)    
-    
+    while not rospy.is_shutdown():  
+        rate.sleep()  
+        #mysleep(0.05) # in secs aprox. 10hz    
 
+
+if __name__ == "__main__":
+    main()
+    
+'''
 if __name__ == "__main__":
     try:
         main()
     except:
         rospy.ROSInterruptException
         pass
-
+'''    
+    
     
 

@@ -68,16 +68,25 @@ def main():
     rospy.init_node("success")
     rate = rospy.Rate(10)
     rospy.Subscriber('/accelerometer', Imu, callback_accelerometer)
+    #rospy.Subscriber("/clock", Clock, callback_sim_time)       
+        
     pub_success  = rospy.Publisher("/success", Bool, queue_size=2)
     pub_accel_diff  = rospy.Publisher("/accelerometer_diff", Float64, queue_size=2)    
    
-    rospy.spin()
+    #rospy.spin()
+    while not rospy.is_shutdown():
+        #mysleep(0.05) # in secs aprox. 10hz
+        rate.sleep()
     
 
+if __name__ == "__main__":
+    main()    
+
+'''
 if __name__ == "__main__":
     try:
         main()
     except:
         rospy.ROSInterruptException
         pass
-        
+'''        

@@ -56,18 +56,18 @@ def main():
     
     print("INITIALIZING LANE NODE...", flush=True)
     rospy.init_node("lane")
-    #rate = rospy.Rate(10)
+    rate = rospy.Rate(10)
 
     rospy.Subscriber("/current_pose", Pose2D, callback_current_pose)
-    rospy.Subscriber("/clock", Clock, callback_sim_time)    
+    #rospy.Subscriber("/clock", Clock, callback_sim_time)    
     
     pub_right_lane  = rospy.Publisher("/right_lane", Bool, queue_size=2)
 
     while not rospy.is_shutdown():
 
-        mysleep(0.1)        
+        #mysleep(0.05)        
         #print("In right lane ", right_lane, flush=True)
-        #rate.sleep()
+        rate.sleep()
    
 
 if __name__ == "__main__":

@@ -100,9 +100,9 @@ def change_lane():
     pub_change_lane.publish(True)
     msg_finished = rospy.wait_for_message('/change_lane/finished', Empty, timeout=200.0)
     if right_lane:
-       print("Terminó giro a la izquierda ", curr_time, "en", right_lane, flush = True)
+       print("Terminó giro en la derecha ", curr_time, right_lane, flush = True)
     else: 
-       print("Terminó giro a la derecha ", curr_time, "en", right_lane,  flush = True)    
+       print("Terminó giro en la izquierda ", curr_time, right_lane,  flush = True)    
         
 def stop():
     global pub_keep_distance, pub_cruise, pub_change_lane, pub_action, pub_stop, pub_change_lane, right_lane
@@ -120,7 +120,7 @@ def main():
     
     print("INITIALIZING POLICY...", flush=True)
     rospy.init_node("policy")
-    #rate = rospy.Rate(20)
+    rate = rospy.Rate(10)
         
     rospy.Subscriber("/clock", Clock, callback_sim_time)    
     rospy.Subscriber("/obstacle/north"     , Bool, callback_free_N)
@@ -134,7 +134,7 @@ def main():
     rospy.Subscriber("/obstacle/sE2"      , Bool, callback_sE2)    
     rospy.Subscriber("/success", Bool, callback_success) 
     rospy.Subscriber("/right_lane", Bool, callback_right_lane)
-    rospy.Subscriber("/clock", Clock, callback_sim_time)    
+    #rospy.Subscriber("/clock", Clock, callback_sim_time)    
        
     pub_policy_started  = rospy.Publisher("/policy_started", Empty, queue_size=2)
     pub_cruise = rospy.Publisher("/cruise/enable", Bool, queue_size=2)
@@ -324,7 +324,7 @@ def main():
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
-                 print("free_N", free_N, "free_NW", free_NW, "free_W", free_W, "sW1", sW1, "sW2", sW2, flush = True)
+                 #print("free_N", free_N, "free_NW", free_NW, "free_W", free_W, "sW1", sW1, "sW2", sW2, flush = True)
                  change_lane()
 
               elif free_N and free_NW and free_W and not sW1 and sW2:
@@ -380,7 +380,7 @@ def main():
                  if action_prev != action:
                     print(action, flush = True)  
                     action_prev = action                
-                 print("free_N", free_N, "free_NW", free_NW, "free_W", free_W, "sW1", sW1, "sW2", sW2, flush = True)
+                 #print("free_N", free_N, "free_NW", free_NW, "free_W", free_W, "sW1", sW1, "sW2", sW2, flush = True)
                  change_lane()
 
               elif free_N and free_NW and free_W and sW1 and sW2:
@@ -618,7 +618,7 @@ def main():
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
-                 print("free_E", free_E, "free_N", free_N, "free_NE", free_NE, "sE1", sE1, "sE2", sE2, flush = True)
+                 #print("free_E", free_E, "free_N", free_N, "free_NE", free_NE, "sE1", sE1, "sE2", sE2, flush = True)
                  change_lane()
         else: # not success       
            action = "stop"
@@ -626,8 +626,8 @@ def main():
                                               
         pub_action.publish(action)
 
-        #rate.sleep()
-        mysleep(0.1)    
+        rate.sleep()
+        #mysleep(0.1)    
 
 if __name__ == "__main__":
     try:
