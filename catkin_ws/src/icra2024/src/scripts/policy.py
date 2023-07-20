@@ -38,14 +38,10 @@ def callback_free_W(msg):
     global free_W
     free_W = msg.data
     
-def callback_sW1(msg):
-    global sW1
-    sW1 = msg.data
+def callback_free_SW(msg):
+    global free_SW
+    free_SW = msg.data
     
-def callback_sW2(msg):
-    global sW2
-    sW2 = msg.data    
-
 def callback_free_NE(msg):
     global free_NE
     free_NE = msg.data    
@@ -54,14 +50,10 @@ def callback_free_E(msg):
     global free_E
     free_E = msg.data    
 
-def callback_sE1(msg):
-    global sE1
-    sE1 = msg.data    
+def callback_free_SE(msg):
+    global free_SE
+    free_SE = msg.data    
     
-def callback_sE2(msg):
-    global sE2
-    sE2 = msg.data        
-
 def callback_success(msg):
     global success
     success = msg.data
@@ -93,16 +85,17 @@ def change_lane():
     pub_cruise.publish(False)    
 
     if right_lane:
-       print("Inicia giro a la izquierda ", curr_time, flush = True)
+       print("Inicia giro hacia carril izquierdo ", curr_time, flush = True)
     else: 
-       print("Inicia giro a la derecha ", curr_time, flush = True)        
+       print("Inicia giro hacia carril derecho ", curr_time, flush = True)        
 
     pub_change_lane.publish(True)
-    msg_finished = rospy.wait_for_message('/change_lane/finished', Empty, timeout=200.0)
+    msg_finished = rospy.wait_for_message('/change_lane/finished', Empty, timeout=600.0)
+    
     if right_lane:
-       print("Terminó giro en la derecha ", curr_time, right_lane, flush = True)
+       print("Terminó giro en carril derecho", curr_time, right_lane, flush = True)
     else: 
-       print("Terminó giro en la izquierda ", curr_time, right_lane,  flush = True)    
+       print("Terminó giro en carril izquierdo", curr_time, right_lane,  flush = True)    
         
 def stop():
     global pub_keep_distance, pub_cruise, pub_change_lane, pub_action, pub_stop, pub_change_lane, right_lane
@@ -112,7 +105,7 @@ def stop():
     pub_stop.publish(True)    
         
 def main():
-    global free_N, free_NW, free_W, sW1, sW2, free_NE, free_E, sE1, sE2, success, right_lane
+    global free_N, free_NW, free_W, free_SW, free_NE, free_E, free_SE,  success, right_lane
     global pub_keep_distance, pub_cruise, pub_change_lane, pub_action, pub_stop
     global curr_time
     
@@ -126,15 +119,12 @@ def main():
     rospy.Subscriber("/obstacle/north"     , Bool, callback_free_N)
     rospy.Subscriber("/obstacle/north_west", Bool, callback_free_NW)
     rospy.Subscriber("/obstacle/west"      , Bool, callback_free_W)
-    rospy.Subscriber("/obstacle/sW1", Bool, callback_sW1)
-    rospy.Subscriber("/obstacle/sW2", Bool, callback_sW2)    
+    rospy.Subscriber("/obstacle/south_west", Bool, callback_free_SW)
     rospy.Subscriber("/obstacle/north_east"      , Bool, callback_free_NE)        
     rospy.Subscriber("/obstacle/east"      , Bool, callback_free_E)    
-    rospy.Subscriber("/obstacle/sE1"      , Bool, callback_sE1)
-    rospy.Subscriber("/obstacle/sE2"      , Bool, callback_sE2)    
+    rospy.Subscriber("/obstacle/south_east"      , Bool, callback_free_SE)
     rospy.Subscriber("/success", Bool, callback_success) 
     rospy.Subscriber("/right_lane", Bool, callback_right_lane)
-    #rospy.Subscriber("/clock", Clock, callback_sim_time)    
        
     pub_policy_started  = rospy.Publisher("/policy_started", Empty, queue_size=2)
     pub_cruise = rospy.Publisher("/cruise/enable", Bool, queue_size=2)
@@ -146,12 +136,10 @@ def main():
     free_N  = True
     free_NW = True
     free_W  = True
-    sW1 = True
-    sW2 = True    
+    free_SW = True
     free_NE = True
     free_E  = True                
-    sE1 = True
-    sE2 = True    
+    free_SE = True
     success = True
     right_lane = True
 
@@ -163,452 +151,238 @@ def main():
         if success:
            # right lane
            if right_lane:
-              if not free_N and not free_NW and not free_W and not sW1 and not sW2:
+           
+              if not free_N and not free_NW and not free_W and not free_SW:
                  action = "Right Keep distance 1"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
                  keep_distance()
 
-              elif free_N and not free_NW and not free_W and not sW1 and not sW2:
+              elif free_N and not free_NW and not free_W and not free_SW:
                  action = "Right Cruise 2"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
                  cruise()
 
-              elif not free_N and free_NW and not free_W and not sW1 and not sW2:
+              elif not free_N and free_NW and not free_W and not free_SW:
                  action = "Right Keep distance 3"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
                  keep_distance()
 
-              elif free_N and free_NW and not free_W and not sW1 and not sW2:
+              elif free_N and free_NW and not free_W and not free_SW:
                  action = "Right Cruise 4"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
                  cruise()
 
-              elif not free_N and not free_NW and free_W and not sW1 and not sW2:
+              elif not free_N and not free_NW and free_W and not free_SW:
                  action = "Right Keep distance 5"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
                  keep_distance()
 
-              elif free_N and not free_NW and free_W and not sW1 and not sW2:
+              elif free_N and not free_NW and free_W and not free_SW:
                  action = "Right Cruise 6"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
                  cruise()
 
-              elif not free_N and free_NW and free_W and not sW1 and not sW2:
+              elif not free_N and free_NW and free_W and not free_SW:
                  action = "Right Keep distance 7"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
                  keep_distance()
 
-              elif free_N and free_NW and free_W and not sW1 and not sW2:
+              elif free_N and free_NW and free_W and not free_SW:
                  action = "Right Cruise 8"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
                  cruise()
 
-              elif not free_N and not free_NW and not free_W and sW1 and not sW2:
+              elif not free_N and not free_NW and not free_W and free_SW:
                  action = "Right Keep distance 9"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
                  keep_distance()
 
-              elif free_N and not free_NW and not free_W and sW1 and not sW2:
+              elif free_N and not free_NW and not free_W and free_SW:
                  action = "Right Cruise 10"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
                  cruise()
 
-              elif not free_N and free_NW and not free_W and sW1 and not sW2:
+              elif not free_N and free_NW and not free_W and free_SW:
                  action = "Right Keep distance 11"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
                  keep_distance()
 
-              elif free_N and free_NW and not free_W and sW1 and not sW2:
+              elif free_N and free_NW and not free_W and free_SW:
                  action = "Right Cruise 12"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
                  cruise()
 
-              elif not free_N and not free_NW and free_W and sW1 and not sW2:
+              elif not free_N and not free_NW and free_W and free_SW:
                  action = "Right Keep distance 13"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
                  keep_distance()
 
-              elif free_N and not free_NW and free_W and sW1 and not sW2:
+              elif free_N and not free_NW and free_W and free_SW:
                  action = "Right Cruise 14"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
                  cruise()
 
-              elif not free_N and free_NW and free_W and sW1 and not sW2:
+              elif not free_N and free_NW and free_W and free_SW:
                  action = "Right Change lane 15"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action
+                 print ("free_N", free_N, "free_NW", free_NW, "free_W", free_W, "free_SW", free_SW, flush = True)
                  change_lane()
 
-              elif free_N and free_NW and free_W and sW1 and not sW2:
+              elif free_N and free_NW and free_W and free_SW:
                  action = "Right Cruise 16"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
                  cruise()
-
-              elif not free_N and not free_NW and not free_W and not sW1 and sW2:
-                 action = "Right Keep distance 17"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 keep_distance()
-
-              elif free_N and not free_NW and not free_W and not sW1 and sW2:
-                 action = "Right Cruise 18"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 cruise()
-
-              elif not free_N and free_NW and not free_W and not sW1 and sW2:
-                 action = "Right Keep distance 19"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 keep_distance()
-
-              elif free_N and free_NW and not free_W and not sW1 and sW2:
-                 action = "Right Cruise 20"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 cruise()
-
-              elif not free_N and not free_NW and free_W and not sW1 and sW2:
-                 action = "Right Keep distance 21"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 keep_distance()
-
-              elif free_N and not free_NW and free_W and not sW1 and sW2:
-                 action = "Right Cruise 22"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 cruise()
-
-              elif not free_N and free_NW and free_W and not sW1 and sW2:
-                 action = "Right Change lane 23"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 change_lane()
-
-              elif free_N and free_NW and free_W and not sW1 and sW2:
-                 action = "Right Cruise 24"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 cruise()
-
-              elif not free_N and not free_NW and not free_W and sW1 and sW2:
-                 action = "Right Keep distance 25"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 keep_distance()
-
-              elif free_N and not free_NW and not free_W and sW1 and sW2:
-                 action = "Right Cruise 26"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 cruise()
-
-              elif not free_N and free_NW and not free_W and sW1 and sW2:
-                 action = "Right Keep distance 27"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 keep_distance()
-
-              elif free_N and free_NW and not free_W and sW1 and sW2:
-                 action = "Right Cruise 28"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 cruise()
-              elif not free_N and not free_NW and free_W and sW1 and sW2:
-                 action = "Right Keep distance 29"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 keep_distance()
-
-              elif free_N and not free_NW and free_W and sW1 and sW2:
-                 action = "Right Cruise 30"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 cruise()
-
-              elif not free_N and free_NW and free_W and sW1 and sW2:
-                 action = "Right Change lane 31"
-                 if action_prev != action:
-                    print(action, flush = True)  
-                    action_prev = action                
-                 change_lane()
-
-              elif free_N and free_NW and free_W and sW1 and sW2:
-                 action = "Right Cruise 32"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 cruise()
+                 
            # left lane      
            elif not right_lane:
-              if not free_E and not free_N and not free_NE and not sE1 and not sE2:
+              if not free_E and not free_N and not free_NE and not free_SE:
                  action = "Left Keep distance 1"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
                  keep_distance()
 
-              elif free_E and not free_N and not free_NE and not sE1 and not sE2:
+              elif free_E and not free_N and not free_NE and not free_SE:
                  action = "Left Keep distance 2"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
                  keep_distance()
 
-              elif not free_E and free_N and not free_NE and not sE1 and not sE2:
+              elif not free_E and free_N and not free_NE and not free_SE:
                  action = "Left Cruise 3"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
                  cruise()
-              elif free_E and free_N and not free_NE and not sE1 and not sE2:
+
+              elif free_E and free_N and not free_NE and not free_SE:
                  action = "Left Cruise 4"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
                  cruise()
 
-              elif not free_E and not free_N and free_NE and not sE1 and not sE2:
+              elif not free_E and not free_N and free_NE and not free_SE:
                  action = "Left Keep distance 5"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
                  keep_distance()
 
-              elif free_E and not free_N and free_NE and not sE1 and not sE2:
+              elif free_E and not free_N and free_NE and not free_SE:
                  action = "Left Change lane 6"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action      
+                 print ("free_E", free_E, "free_NE", free_NE, "free_NE", free_NE, "free_SE", free_SE, flush = True)                 
                  change_lane()
 
-              elif not free_E and free_N and free_NE and not sE1 and not sE2:
+              elif not free_E and free_N and free_NE and not free_SE:
                  action = "Left Cruise 7"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
                  cruise()
 
-              elif free_E and free_N and free_NE and not sE1 and not sE2:
-                 action = "Left Cruise 8"
+              elif free_E and free_N and free_NE and not free_SE:
+                 action = "Left Change lane 8"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
-                 cruise()
+                 print ("free_E", free_E, "free_NE", free_NE, "free_NE", free_NE, "free_SE", free_SE, flush = True)                 
+                 change_lane()
 
-              elif not free_E and not free_N and not free_NE and sE1 and not sE2:
+              elif not free_E and not free_N and not free_NE and free_SE:
                  action = "Left Keep distance 9"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
                  keep_distance()
 
-              elif free_E and not free_N and not free_NE and sE1 and not sE2:
+              elif free_E and not free_N and not free_NE and free_SE:
                  action = "Left Keep distance 10"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
                  keep_distance()
 
-              elif not free_E and free_N and not free_NE and sE1 and not sE2:
+              elif not free_E and free_N and not free_NE and free_SE:
                  action = "Left Cruise 11"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
                  cruise()
 
-              elif free_E and free_N and not free_NE and sE1 and not sE2:
+              elif free_E and free_N and not free_NE and free_SE:
                  action = "Left Cruise 12"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
                  cruise()
 
-              elif not free_E and not free_N and free_NE and sE1 and not sE2:
+              elif not free_E and not free_N and free_NE and free_SE:
                  action = "Left Keep distance 13"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
                  keep_distance()
 
-              elif free_E and not free_N and free_NE and sE1 and not sE2:
+              elif free_E and not free_N and free_NE and free_SE:
                  action = "Left Change lane 14"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
+                 print ("free_E", free_E, "free_NE", free_NE, "free_NE", free_NE, "free_SE", free_SE, flush = True)                 
                  change_lane()
 
-              elif not free_E and free_N and free_NE and sE1 and not sE2:
+              elif not free_E and free_N and free_NE and free_SE:
                  action = "Left Cruise 15"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
                  cruise()
 
-              elif free_E and free_N and free_NE and sE1 and not sE2:
+              elif free_E and free_N and free_NE and free_SE:
                  action = "Left Change lane 16"
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
+                 print ("free_E", free_E, "free_NE", free_NE, "free_NE", free_NE, "free_SE", free_SE, flush = True)       
                  change_lane()
 
-              elif not free_E and not free_N and not free_NE and not sE1 and sE2:
-                 action = "Left Keep distance 17"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 keep_distance()
-
-              elif free_E and not free_N and not free_NE and not sE1 and sE2:
-                 action = "Left Keep distance 18"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 keep_distance()
-
-              elif not free_E and free_N and not free_NE and not sE1 and sE2:
-                 action = "Left Cruise 19"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 cruise()
-
-              elif free_E and free_N and not free_NE and not sE1 and sE2:
-                 action = "Left Cruise 20"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 cruise()
-
-              elif not free_E and not free_N and free_NE and not sE1 and sE2:
-                 action = "Left Keep distance 21"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 keep_distance()
-
-              elif free_E and not free_N and free_NE and not sE1 and sE2:
-                 action = "Left Change lane 22"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 change_lane()
-
-              elif not free_E and free_N and free_NE and not sE1 and sE2:
-                 action = "Left Cruise 23"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 cruise()
-
-              elif free_E and free_N and free_NE and not sE1 and sE2:
-                 action = "Left Change lane 24"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 change_lane()
-
-              elif not free_E and not free_N and not free_NE and sE1 and sE2:
-                 action = "Left Keep distance 25"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 keep_distance()
-
-              elif free_E and not free_N and not free_NE and sE1 and sE2:
-                 action = "Left Keep distance 26"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 keep_distance()
-
-              elif not free_E and free_N and not free_NE and sE1 and sE2:
-                 action = "Left Cruise 27"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 cruise()
-
-              elif free_E and free_N and not free_NE and sE1 and sE2:
-                 action = "Left Cruise 28"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 cruise()
-
-              elif not free_E and not free_N and free_NE and sE1 and sE2:
-                 action = "Left Keep distance 29"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 keep_distance()
-
-              elif free_E and not free_N and free_NE and sE1 and sE2:
-                 action = "Left Change lane 30"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 change_lane()
-
-              elif not free_E and free_N and free_NE and sE1 and sE2:
-                 action = "Left Cruise 31"
-                 if action_prev != action:
-                    print(action, flush = True)         
-                    action_prev = action                
-                 cruise()
-
-              elif free_E and free_N and free_NE and sE1 and sE2:                               
-                 action = "Left Change lane 32"
-                 if action_prev != action:
-                    print(action, flush = True)
-                    action_prev = action                
-                 change_lane()
         else: # not success       
            action = "stop"
            stop() 

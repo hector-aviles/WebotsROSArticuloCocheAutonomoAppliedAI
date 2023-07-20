@@ -22,15 +22,15 @@ action(change_lane).
 % Utilities 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-utility(free_N(1), 1).
-utility(return_right, 2).
-utility(rearEnd_crash, -3.0).  
+utility(free_N(1), 0.5).
+utility(return_right, 1.5).
+utility(rearEnd_crash, -4.0).  
 utility(sideSwipe_crash, -2.0).  
 utility(keep_distance, -1.0). 
 
 0.99::rearEnd_crash :- \+ free_N(0), (cruise; \+ keep_distance).
 0.99::rearEnd_crash :- \+ free_NE(0), change_lane.
-0.99::rearEnd_crash :- \+ sE1(0), \+ sE2(0), change_lane.
+0.99::rearEnd_crash :- free_NE(0), free_E(0), \+ sE1(0), \+ sE2(0), change_lane.
 0.95::sideSwipe_crash :- \+ free_E(0), change_lane.
 
 0.95::return_right :- free_NE(0), free_E(0), sE1(0), \+ sE2(0), change_lane.
@@ -41,7 +41,7 @@ utility(keep_distance, -1.0).
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Action: cruise
-0.96::free_N(1) :- free_N(0), cruise.
+0.99::free_N(1) :- free_N(0), cruise.
 0.05::free_N(1) :- \+ free_N(0), cruise.
 
 % Action: change_lane

@@ -96,16 +96,16 @@ def main():
             #print("elapsed_time", elapsed_time, "max_time", max_time, "starting_lane", starting_lane, "right_lane", right_lane)
             if (starting_lane^right_lane) or (elapsed_time >= max_time):
 
-               #print("Comienza a reorientarse curr_time", curr_time, "right_lane", right_lane)               
+               print("Comienza a reorientarse curr_time", curr_time, "right_lane", right_lane)               
                if from_right_to_left:
-                  #print("Gira ruedas a la derecha")
+                  print("Gira ruedas a la derecha")
                   pub_angle.publish(-0.2)
                   mysleep(0.2)
                else:
-                  #print("Gira ruedas a la izquierda")               
+                  print("Gira ruedas a la izquierda")               
                   pub_angle.publish(0.2)
                   mysleep(0.20)
-               #print("Termina de reorientarse curr_time", curr_time)                  
+               print("Termina de reorientarse curr_time", curr_time)                  
                print("change_lane: finish change_lane ", "curr_time", curr_time, "elapsed time", elapsed_time, flush=True)
                     
                pub_finish.publish()                

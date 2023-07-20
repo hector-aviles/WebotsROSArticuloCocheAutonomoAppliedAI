@@ -12,6 +12,7 @@ action(exec_mdp_right).
 action(exec_mdp_left).
 action(stop).
 
+
 %%%%%%%%%%%%%%%% 
 % Utilities 
 
@@ -38,7 +39,7 @@ correct_mdp(0) :- ((right_lane(0), exec_mdp_right),
 
 % exec_mdp_right
 
-0.75::right_lane(1) :- right_lane(0), exec_mdp_right. % 1 acción de 4 posibles en el carril derecho
+0.75::right_lane(1) :-  right_lane(0), exec_mdp_right. % 1 acción de 4 posibles en el carril derecho
 0.0::right_lane(1) :-  not(right_lane(0)), exec_mdp_right.
 
 % exec_mdp_right
