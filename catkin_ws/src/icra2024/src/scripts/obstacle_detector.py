@@ -15,9 +15,10 @@ import rospy
 import ros_numpy
 from std_msgs.msg import Float64MultiArray, Empty, Bool, Float64
 from sensor_msgs.msg import PointCloud2
+from rosgraph_msgs.msg import Clock 
 
 def callback_sim_time(msg):
-    global sim_secs, sim_nsecs, curr_time            
+    global sim_secs, sim_nsecs, curr_time          
     sim_time = msg
     sim_secs = sim_time.clock.secs 
     sim_nsecs = sim_time.clock.nsecs 
@@ -25,8 +26,7 @@ def callback_sim_time(msg):
 
 def callback_point_cloud(msg):
     global pub_obs_N, pub_obs_NW, pub_obs_W, pub_obs_south_west, pub_obs_NE, pub_obs_E, pub_obs_south_east, pub_obs_dist
-
-    distance = 2.65
+    
     xyz = ros_numpy.point_cloud2.pointcloud2_to_xyz_array(msg)
     xyz = xyz[(xyz[:,2] > -1.6) & (xyz[:,2] < 0.5) ] #Filters points on floor and higher points
     N_points  = xyz[(xyz[:,0] >  2.5) & (xyz[:,0] <   25) & (xyz[:,1] < 1.5) & (xyz[:,1] > -1.5)]
@@ -38,14 +38,14 @@ def callback_point_cloud(msg):
     E_points  = xyz[(xyz[:,0] > -4.5) & (xyz[:,0] <  4.5) & (xyz[:,1] > -5.0) & (xyz[:,1] <  -1.5)] 
     SE_points  = xyz[(xyz[:,0] >  -10) & (xyz[:,0] < -4.5) & (xyz[:,1] > -5.0) & (xyz[:,1] <  -1.5)]               
     
-    free_N  = N_points .shape[0] < 500
-    free_NW = NW_points.shape[0] < 500
-    free_W  = W_points .shape[0] < 500
-    free_SW = SW_points.shape[0] < 1000
+    free_N  = N_points .shape[0] < 800
+    free_NW = NW_points.shape[0] < 800
+    free_W  = W_points .shape[0] < 800
+    free_SW = SW_points.shape[0] < 800
 
-    free_NE  = NE_points .shape[0] < 500    
-    free_E  = E_points .shape[0] < 500    
-    free_SE  = SE_points .shape[0] < 1000    
+    free_NE  = NE_points .shape[0] < 800    
+    free_E  = E_points .shape[0] < 800   
+    free_SE  = SE_points .shape[0] < 800    
     
     pub_obs_N .publish(free_N )
     pub_obs_NW.publish(free_NW)
@@ -53,11 +53,12 @@ def callback_point_cloud(msg):
     pub_obs_SW.publish(free_SW)
     pub_obs_NE .publish(free_NE)    
     pub_obs_E .publish(free_E)            
-    pub_obs_SE .publish(free_SE)    
+    pub_obs_SE .publish(free_SE)
         
     if not free_N:
-        print("Num points North", N_points .shape[0])
-        pub_obs_dist.publish(numpy.linalg.norm(numpy.mean(N_points, axis=0)))
+       print("Num points North", N_points .shape[0], "curr_time", curr_time)
+       print("North points", N_points)
+       pub_obs_dist.publish(numpy.linalg.norm(numpy.mean(N_points, axis=0)))
 
 def main():
     global pub_obs_N, pub_obs_NW, pub_obs_W, pub_obs_SW, pub_obs_NE, pub_obs_E, pub_obs_SE, pub_obs_dist
@@ -67,7 +68,8 @@ def main():
     rate = rospy.Rate(10)
         
     rospy.Subscriber('/point_cloud', PointCloud2, callback_point_cloud)
-    
+    rospy.Subscriber("/clock", Clock, callback_sim_time)
+        
     pub_obs_N  = rospy.Publisher("/obstacle/north"     , Bool, queue_size=2)
     pub_obs_NW = rospy.Publisher("/obstacle/north_west", Bool, queue_size=2)
     pub_obs_W  = rospy.Publisher("/obstacle/west"      , Bool, queue_size=2)
@@ -77,7 +79,7 @@ def main():
     pub_obs_SE  = rospy.Publisher("/obstacle/south_east"      , Bool, queue_size=2)
     
     pub_obs_dist = rospy.Publisher("/obstacle/distance", Float64, queue_size=2)
-    
+        
     #rospy.spin()
     while not rospy.is_shutdown():  
         rate.sleep()  
