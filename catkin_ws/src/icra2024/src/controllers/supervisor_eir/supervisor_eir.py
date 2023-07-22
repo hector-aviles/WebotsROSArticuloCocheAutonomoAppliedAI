@@ -49,8 +49,8 @@ def main():
             start = False
             for car in cars:
                 if car is not None:
-                    #car.setVelocity([6,0,0, 0,0,0])
-                    car.setVelocity([0,0,0, 0,0,0])
+                    car.setVelocity([6,0,0, 0,0,0])
+                    #car.setVelocity([0,0,0, 0,0,0])
         bmw_position = bmw.getPosition()
         bmw_orientation = bmw.getOrientation()
         msg_bmw_pose.x = bmw_position[0]

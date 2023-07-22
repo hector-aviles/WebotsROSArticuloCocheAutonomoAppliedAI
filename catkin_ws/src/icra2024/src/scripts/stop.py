@@ -26,7 +26,7 @@ def main():
 
     rospy.Subscriber("/stop", Bool, callback_stop_motion) 
     
-    pub_speed = rospy.Publisher('/speed', Float64, queue_size=2)
+    pub_speed = rospy.Publisher('/speed', Float64, queue_size=1)
 
     stop_motion = False
     while not rospy.is_shutdown():
