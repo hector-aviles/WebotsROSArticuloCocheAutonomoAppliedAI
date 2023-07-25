@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="max_speed" default="50"/>
+  <arg name="world" default="15"/>
+  <env name="WEBOTS_HOME" value="/usr/local/webots"/>
+  <arg name="no_gui" default="false," doc="Start Webots with minimal GUI"/>
+
+  <include file="$(find webots_ros)/launch/webots.launch">
+    <arg name="mode" value="realtime"/>
+    <arg name="no_gui" value="$(arg no_gui)"/>
+    <arg name="world" value="$(find eir2023)/worlds/world_$(arg world).wbt"/>
+  </include>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find eir2023)/config/kalman.rviz"/>
+
+  <node name="pos_detector" pkg="eir2023" type="position_detector.py"/>
+  <node name="vel_estimator" pkg="eir2023" type="velocity_estimator.py"/>
+  
+  <node pkg="tf" type="static_transform_publisher" name="car_to_lidar"  args="  0 0 2.0 0 0 0 car_link lidar_link 30"/>
+  <node pkg="tf" type="static_transform_publisher" name="car_to_camera" args="1.2 0 1.5 0 0 0 car_link camera_link 30"/>
+  <node pkg="tf" type="static_transform_publisher" name="car_to_gyro"   args="  0 0 0.1 0 0 0 car_link gyro_link 30"/>
+  <node pkg="tf" type="static_transform_publisher" name="car_to_accelerometer"   args="  0 0 0.1 0 0 0 car_link accel_link 30"/>  
+  <node pkg="tf" type="static_transform_publisher" name="car_to_gps"    args="  0 0 0.1 0 0 0 car_link gps_link 10"/>
+  
+</launch>
