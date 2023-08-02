@@ -73,13 +73,13 @@ def main():
     rospy.Subscriber('/point_cloud', PointCloud2, callback_point_cloud)
     rospy.Subscriber("/clock", Clock, callback_sim_time)
         
-    pub_obs_N  = rospy.Publisher("/obstacle/north"     , Bool, queue_size=1)
-    pub_obs_NW = rospy.Publisher("/obstacle/north_west", Bool, queue_size=1)
-    pub_obs_W  = rospy.Publisher("/obstacle/west"      , Bool, queue_size=1)
-    pub_obs_SW = rospy.Publisher("/obstacle/south_west", Bool, queue_size=1)
-    pub_obs_NE  = rospy.Publisher("/obstacle/north_east"      , Bool, queue_size=1) 
-    pub_obs_E  = rospy.Publisher("/obstacle/east"      , Bool, queue_size=1)      
-    pub_obs_SE  = rospy.Publisher("/obstacle/south_east"      , Bool, queue_size=1)
+    pub_obs_N  = rospy.Publisher("/free/north"     , Bool, queue_size=1)
+    pub_obs_NW = rospy.Publisher("/free/north_west", Bool, queue_size=1)
+    pub_obs_W  = rospy.Publisher("/free/west"      , Bool, queue_size=1)
+    pub_obs_SW = rospy.Publisher("/free/south_west", Bool, queue_size=1)
+    pub_obs_NE = rospy.Publisher("/free/north_east"      , Bool, queue_size=1) 
+    pub_obs_E  = rospy.Publisher("/free/east"      , Bool, queue_size=1)      
+    pub_obs_SE = rospy.Publisher("/free/south_east"      , Bool, queue_size=1)
     
     pub_obs_dist = rospy.Publisher("/obstacle/distance", Float64, queue_size=1)
         
