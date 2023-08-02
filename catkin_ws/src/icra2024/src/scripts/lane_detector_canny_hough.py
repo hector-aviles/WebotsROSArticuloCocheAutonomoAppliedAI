@@ -148,8 +148,8 @@ def main():
         
     rospy.Subscriber('/camera/rgb/raw', Image, callback_rgb_image)
     
-    pub_left_lane  = rospy.Publisher("/demo/left_lane" , Float64MultiArray, queue_size=2)
-    pub_right_lane = rospy.Publisher("/demo/right_lane", Float64MultiArray, queue_size=2)
+    pub_left_lane  = rospy.Publisher("/demo/left_lane" , Float64MultiArray, queue_size=1)
+    pub_right_lane = rospy.Publisher("/demo/right_lane", Float64MultiArray, queue_size=1)
     
     print("LaneDetector.->Waiting for start signal")
     rospy.wait_for_message("/policy_started", Empty, timeout=10000.0)

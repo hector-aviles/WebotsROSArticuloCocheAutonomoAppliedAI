@@ -13,7 +13,7 @@ def mysleep(secs):
 
     init_time = curr_time        
     diff = 0.0
-    while diff <= secs: # and not rospy.is_shutdown():
+    while diff <= secs: 
        diff  = curr_time - init_time
 
 def callback_current_pose(msg):
@@ -23,11 +23,9 @@ def callback_current_pose(msg):
     y = msg.y
     z = msg.theta
  
-def callback_right_lane(msg):
-    global right_lane
-    right_lane = msg.data  
-
-# Constants
+def callback_curr_lane(msg):
+    global curr_lane
+    curr_lane = msg.data  
 
 def callback_start(msg):
     global start
@@ -37,22 +35,12 @@ def callback_sim_time(msg):
     global sim_secs, sim_nsecs, curr_time            
     sim_time = msg
     sim_secs = sim_time.clock.secs 
-    sim_nsecs = sim_time.clock.nsecs 
-    curr_time = sim_secs + sim_nsecs / (10**9)    
+    sim_nsecs = sim_time.clock.nsecs
+    curr_time = sim_secs + sim_nsecs / (10**9)
+
     
 def main():
-    global start, right_lane, pub_finish, x, y , theta, curr_time    
-    
-    first_time = True
-    start = False
-    right_lane = False    
-
-    curr_time = 0.0
-    elapsed_time = 0.0
-    starting_time = 0.0
-    starting_lane = True
-    max_time = 0.20
-    from_right_to_left = True
+    global start, curr_lane, pub_finish, x, y , theta, curr_time    
     
     print('INITIALIZING CHANGE_LANE NODE...', flush=True)
     rospy.init_node('change_lane')
@@ -61,56 +49,66 @@ def main():
     rospy.Subscriber("/clock", Clock, callback_sim_time)
     
     rospy.Subscriber("/current_pose", Pose2D, callback_current_pose) 
-    rospy.Subscriber("/right_lane", Bool, callback_right_lane)       
+    rospy.Subscriber("/current_lane", Bool, callback_curr_lane)       
         
-    pub_speed  = rospy.Publisher('/speed', Float64, queue_size=10)
-    pub_angle  = rospy.Publisher('/steering', Float64, queue_size=10)
-    pub_requested_speed  = rospy.Publisher('/accelerate/requested_speed', Float64, queue_size=1)    
-    pub_finish = rospy.Publisher('/change_lane/finished', Empty, queue_size=10)
+    pub_speed  = rospy.Publisher('/speed', Float64, queue_size=1)
+    pub_angle  = rospy.Publisher('/steering', Float64, queue_size=1)
+    pub_finish = rospy.Publisher('/change_lane/finished', Empty, queue_size=1)
      
     rate = rospy.Rate(10)
 
     start = False
+    curr_lane = False    
+    curr_time = 0.0
+    elapsed_time = 0.0
+    starting_time = 0.0
+    starting_lane = True
+    max_time = 0.20
+    from_right_to_left = True    
     while not rospy.is_shutdown():
               
         if start:
-                          
-            if first_time: 
-               print("change_lane: start change_lane ", "curr_time", curr_time, flush=True) 
-               starting_lane = right_lane
-               first_time = False
-               pub_requested_speed.publish(2.0)
-               mysleep(0.1)   
-               starting_time = curr_time
-                                 
-            if right_lane:    
-               pub_angle.publish(0.2)
-               max_time = 0.50
-               from_right_to_left = True  
+        
+            print("change_lane: start change_lane ", "curr_time", curr_time, flush=True) 
+            starting_lane = curr_lane
+            pub_speed.publish(2.0)
+            mysleep(0.1)   
+            starting_time = curr_time
+            
+            if starting_lane:    
+               max_time = 0.5
             else:
-               pub_angle.publish(-0.2)   
-               max_time = 0.50
-               from_right_to_left = False      
-                                
-            elapsed_time = curr_time - starting_time            
-            #print("elapsed_time", elapsed_time, "max_time", max_time, "starting_lane", starting_lane, "right_lane", right_lane)
-            if (starting_lane^right_lane) or (elapsed_time >= max_time):
-
-               print("Comienza a reorientarse curr_time", curr_time, "right_lane", right_lane)               
-               if from_right_to_left:
-                  print("Gira ruedas a la derecha")
-                  pub_angle.publish(-0.2)
-                  mysleep(0.2)
-               else:
-                  print("Gira ruedas a la izquierda")               
+               max_time = 0.5
+                               
+            elapsed_time = 0
+            while not (starting_lane^curr_lane) and elapsed_time < max_time:
+                                 
+               if starting_lane:    
                   pub_angle.publish(0.2)
-                  mysleep(0.20)
-               print("Termina de reorientarse curr_time", curr_time)                  
-               print("change_lane: finish change_lane ", "curr_time", curr_time, "elapsed time", elapsed_time, flush=True)
+                  from_right_to_left = True  
+               else:
+                  pub_angle.publish(-0.2)   
+                  from_right_to_left = False      
+               
+               elapsed_time = curr_time - starting_time
+               #print("elapsed_time", elapsed_time, "max_time", max_time, "starting_lane", starting_lane, "curr_lane", curr_lane)
+                              
+               mysleep(0.01)                    
+
+            #print("Comienza a reorientarse curr_time", curr_time, "curr_lane", curr_lane)               
+            if from_right_to_left:
+               #print("Gira ruedas a la derecha")
+               pub_angle.publish(-0.2)
+               mysleep(0.2)
+            else:
+               #print("Gira ruedas a la izquierda")               
+               pub_angle.publish(0.2)
+               mysleep(0.2)
+            #print("Termina de reorientarse curr_time", curr_time)                  
+            print("change_lane: finish change_lane ", "curr_time", curr_time, "elapsed time", elapsed_time, flush=True)
                     
-               pub_finish.publish()                
-               first_time = True
-               start = False
+            pub_finish.publish()                
+            start = False
                               
         else:
             continue
