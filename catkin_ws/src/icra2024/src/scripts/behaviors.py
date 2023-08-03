@@ -10,6 +10,20 @@ import cv2
 import numpy
 import rospy
 from std_msgs.msg import Float64MultiArray, Float64, Empty, Bool
+
+SM_INIT = 0
+SM_WAITING_FOR_NEW_TASK = 10
+SM_START_STEADY_MOTION = 20
+SM_START_CAR_FOLLOWING = 30
+SM_TURNING_LEFT = 40
+SM_TURNING_RIGHT = 50
+SM_TURNING_FINISHED = 60
+SM_PASS_ON_RIGHT_1 = 70
+SM_PASS_ON_RIGHT_2 = 80
+SM_PASS_ON_RIGHT_3 = 90
+SM_PASS_ON_LEFT_1 = 100
+SM_PASS_ON_LEFT_2 = 110
+SM_PASS_ON_LEFT_3 = 120
  
 #
 # Steering is calculated proportional to two errors: distance error and angle error.
@@ -60,11 +74,19 @@ def callback_enable_follow(msg):
 def callback_dist_to_obstacle(msg):
     global dist_to_obstacle
     dist_to_obstacle = msg.data
+
+def callback_start_change_lane(msg):
+    global start_change_lane
+    start_change_lane = msg.data
+
+def callback_start_pass(msg):
+    global start_pass
+    start_pass = msg.data
     
 def main():
     global lane_rho_l, lane_theta_l, lane_rho_r, lane_theta_r
     global max_speed, k_rho, k_theta, k_following, dist_to_car
-    global enable_cruise, enable_follow, dist_to_obstacle
+    global enable_cruise, enable_follow, dist_to_obstacle, start_change_lane, start_pass
     
     max_speed = 10      #Maximum speed for following and steady motion behaviors
     k_rho   = 0.001     #Gain for rho error in lane tracking
@@ -113,19 +135,31 @@ def main():
     print("Max speed: " + str(max_speed))
     print("K_rho: " + str(k_rho))
     print("K_theta: " + str(k_theta))
+    print("K_following: " + str(k_following))
+    print("Dist to car: " + str(dist_to_car))
     enable_cruise = False
     enable_follow        = False
     dist_to_obstacle     = 9.0
+    start_change_lane    = False
+    start_pass           = False
 
+    state = SM_INIT
     while not rospy.is_shutdown():
-        if enable_cruise:
-            speed, steering = calculate_control(lane_rho_l, lane_theta_l, lane_rho_r, lane_theta_r,
-                                                goal_rho_l, goal_theta_l, goal_rho_r, goal_theta_r)
-        elif enable_follow:
-            speed, steering = calculate_control(lane_rho_l, lane_theta_l, lane_rho_r, lane_theta_r,
-                                                goal_rho_l, goal_theta_l, goal_rho_r, goal_theta_r, dist_to_obstacle)
+        if state == SM_INIT:
+            print("Waiting for task...")
+            state = SM_WAITING_FOR_NEW_TASK
+        elif state == SM_WAITING_FOR_NEW_TASK:
+            if enable_cruise:
+                speed, steering = calculate_control(lane_rho_l, lane_theta_l, lane_rho_r, lane_theta_r,
+                                                    goal_rho_l, goal_theta_l, goal_rho_r, goal_theta_r)
+            elif enable_follow:
+                speed, steering = calculate_control(lane_rho_l, lane_theta_l, lane_rho_r, lane_theta_r,
+                                                    goal_rho_l, goal_theta_l, goal_rho_r, goal_theta_r, dist_to_obstacle)
+            else:
+                speed, steering = 0,0
         else:
-            continue
+            print("Invalid STATE")
+            break;
 
         pub_speed.publish(speed)
         pub_angle.publish(steering)
