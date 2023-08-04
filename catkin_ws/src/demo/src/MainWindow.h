@@ -33,9 +33,17 @@ public:
     void setRosNode(QtRosNode* qtRosNode);
     void closeEvent(QCloseEvent *event);
     void keyPressEvent(QKeyEvent* event);
-
+    
+                                   
 public slots:
     void updateGraphicsReceived();
+    void startCruiseClick();
+    void startFollowClick();
+    void startChangeLeftClick();                       
+    void startChangeRightClick();
+    void startPassLeftClick();                       
+    void startPassRightClick();
+    void stopClick();
     
 private:
     Ui::MainWindow *ui;

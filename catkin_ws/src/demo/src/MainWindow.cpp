@@ -14,6 +14,13 @@ MainWindow::MainWindow(QWidget *parent) :
     this->pix_speedometer    = pix_speed;
     ui->lblSteeringWheel->setPixmap(pix_steering_wheel);
     ui->lblSpeedometer  ->setPixmap(pix_speedometer);
+    QObject::connect(ui->btnStartCruise, SIGNAL(clicked()), this, SLOT(startCruiseClick()));
+    QObject::connect(ui->btnStartFollow, SIGNAL(clicked()), this, SLOT(startFollowClick()));
+    QObject::connect(ui->btnStartChangeLeft , SIGNAL(clicked()), this, SLOT(startChangeLeftClick()));
+    QObject::connect(ui->btnStartChangeRight, SIGNAL(clicked()), this, SLOT(startChangeRightClick()));
+    QObject::connect(ui->btnStartPassLeft , SIGNAL(clicked()), this, SLOT(startPassLeftClick()));
+    QObject::connect(ui->btnStartPassRight, SIGNAL(clicked()), this, SLOT(startPassRightClick()));
+    QObject::connect(ui->btnStop, SIGNAL(clicked()), this, SLOT(stopClick()));
 }
 
 MainWindow::~MainWindow()
@@ -83,3 +90,37 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     }
 }
 
+void MainWindow::startCruiseClick()
+{
+    qtRosNode->publish_start_cruise();
+}
+
+void MainWindow::startFollowClick()
+{
+    qtRosNode->publish_start_follow();
+}
+
+void MainWindow::startChangeLeftClick()
+{
+    qtRosNode->publish_start_change_left();
+}
+
+void MainWindow::startChangeRightClick()
+{
+    qtRosNode->publish_start_change_right();
+}
+
+void MainWindow::startPassLeftClick()    
+{
+    qtRosNode->publish_start_pass_left();
+}
+
+void MainWindow::startPassRightClick()
+{
+    qtRosNode->publish_start_pass_right();
+}
+
+void MainWindow::stopClick()
+{
+    qtRosNode->stop_behaviors();
+}

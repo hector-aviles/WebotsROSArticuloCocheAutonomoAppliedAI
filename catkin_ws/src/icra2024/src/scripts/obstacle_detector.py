@@ -56,10 +56,10 @@ def callback_point_cloud(msg):
     pub_obs_SE .publish(free_SE)
 
     #print("N", N_points.shape[0], "NW", NW_points.shape[0], "W", W_points.shape[0], "SW", SW_points .shape[0], "NE", NE_points.shape[0], "E", E_points.shape[0], "SE", SE_points .shape[0], "curr_time", curr_time, flush = True)
-        
-    if not free_N:
+    obs_points  = xyz[(xyz[:,0] >  2.5) & (xyz[:,0] < 100) & (xyz[:,1] < 1.0) & (xyz[:,1] > -1.0)]
+    if obs_points.shape[0] > 10:
        #print("North points", N_points)
-       pub_obs_dist.publish(numpy.linalg.norm(numpy.mean(N_points, axis=0)))
+       pub_obs_dist.publish(numpy.linalg.norm(numpy.mean(obs_points, axis=0)))
        #print("average distance north", numpy.linalg.norm(numpy.mean(N_points, axis=0)), flush = True) 
 
 def main():
