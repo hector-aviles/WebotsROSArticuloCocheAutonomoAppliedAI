@@ -284,6 +284,10 @@ def main():
             if not enable_follow:
                 state = SM_WAITING_FOR_NEW_TASK
 
+
+        #
+        # STATES FOR CHANGE TO LEFT LANE
+        #
         elif state == SM_TURNING_LEFT_1:
             if speed == 0:
                 speed = max_speed
@@ -298,8 +302,12 @@ def main():
             steering = calculate_turning_steering(-1.2, 2.9, speed)
             if current_y > 1.0 or abs(current_a) < 0.2: # Vehicle has moved to the left lane. Left lane has y=1.5
                 print("Change lane on left finished")
+                pub_change_lane_finshed.publish(True)
                 state = SM_WAITING_FOR_NEW_TASK
 
+        #
+        # STATES FOR CHANGE TO RIGHT LANE
+        #
         elif state == SM_TURNING_RIGHT_1:
             if speed == 0:
                 speed = max_speed
@@ -314,8 +322,13 @@ def main():
             steering = calculate_turning_steering(1.2, 2.9, speed)
             if current_y < -1.0 or abs(current_a) < 0.2: #Vehicle has moved to the right lane. Right lane has y=-1.5
                 print("Change lane on right finished")
+                pub_change_lane_finshed.publish(True)
                 state = SM_WAITING_FOR_NEW_TASK
 
+
+        #
+        # STATES FOR PASSING ON THE LEFT
+        #
         elif state == SM_PASS_ON_LEFT_1:
             if speed == 0:
                 speed = max_speed
@@ -351,10 +364,14 @@ def main():
                 speed = max_speed
             steering = calculate_turning_steering(1.2, 2.9, speed)
             if current_y < -1.0 or abs(current_a) < 0.2: #Vehicle has moved to the right lane. Right lane has y=-1.5
+                pub_pass_finished.publish(True)
                 print("Passing on left finished")
                 state = SM_WAITING_FOR_NEW_TASK
 
 
+        #
+        # STATES FOR PASSING ON THE RIGHT
+        #
         elif state == SM_PASS_ON_RIGHT_1:
             if speed == 0:
                 speed = max_speed
@@ -391,6 +408,7 @@ def main():
             steering = calculate_turning_steering(-1.2, 2.9, speed)
             if current_y > 1.0 or abs(current_a) < 0.2: #Vehicle has moved to the left lane. Left lane has y=1.5
                 print("Passing on right finished")
+                pub_pass_finished.publish(True)
                 state = SM_WAITING_FOR_NEW_TASK
                 
         else:
