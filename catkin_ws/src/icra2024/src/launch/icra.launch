@@ -13,7 +13,9 @@
   
   <node name="lane_detector" pkg="icra2024" type="lane_detector_canny_hough.py" output="screen"/>
   <node name="obstacle_detector" pkg="icra2024" type="obstacle_detector.py" output="screen"/>
-  <node name="behaviors" pkg="icra2024" type="behaviors.py" output="screen"/>
+  <node name="behaviors" pkg="icra2024" type="behaviors.py" output="screen">
+      <param name="max_speed" value="$(arg max_speed)"/>
+  </node>
   <node name="simple_gui" pkg="demo" type="simple_gui"/>
   <!-- <node name="lane_tracker"  pkg="icra2024" type="lane_tracking_control_P.py"   output="screen"> -->
   <!--   <param name="max_speed" value="$(arg max_speed)"/> -->
@@ -21,9 +23,9 @@
   <!-- <node name="change_lane" pkg="icra2024" type="change_lane.py" output="screen">   -->
   <!--   <param name="/use_sim_time" value="true"/> -->
   <!-- </node> -->
-  <!-- <node name="success" pkg="icra2024" type="success.py" output="screen"/> -->
-  <!-- <node name="stop" pkg="icra2024" type="stop.py" output="screen"/>   -->
-  <!-- <node name="lane" pkg="icra2024" type="lane.py" output="screen"/>     -->
+  <node name="success" pkg="icra2024" type="success.py" output="screen"/>
+  <node name="stop" pkg="icra2024" type="stop.py" output="screen"/>
+  <node name="lane" pkg="icra2024" type="lane.py" output="screen"/>
   <node pkg="tf" type="static_transform_publisher" name="car_to_lidar"  args="  0 0 2.0 0 0 0 car_link lidar_link 30"/>
   <node pkg="tf" type="static_transform_publisher" name="car_to_camera" args="1.2 0 1.5 0 0 0 car_link camera_link 30"/>
   <node pkg="tf" type="static_transform_publisher" name="car_to_gyro"   args="  0 0 0.1 0 0 0 car_link gyro_link 30"/>
