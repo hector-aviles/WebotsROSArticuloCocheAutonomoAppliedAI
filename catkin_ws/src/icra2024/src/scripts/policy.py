@@ -63,50 +63,53 @@ def callback_curr_lane(msg):
     curr_lane = msg.data
 
 def cruise():
-    global pub_keep_distance, pub_cruise, pub_change_lane, pub_action, pub_stop, pub_change_lane
+    global pub_keep_distance, pub_cruise, pub_change_lane_left, pub_change_lane_right, pub_action, pub_stop
     pub_keep_distance.publish(False)
     pub_stop.publish(False)
-    pub_change_lane.publish(False)
+    pub_change_lane_left.publish(False)
+    pub_change_lane_right.publish(False)    
     pub_cruise.publish(True)    
 
 def keep_distance():
-    global pub_keep_distance, pub_cruise, pub_change_lane, pub_action, pub_stop, pub_change_lane, curr_lane
+    global pub_keep_distance, pub_cruise, pub_change_lane_left, pub_change_lane_right, pub_action, pub_stop, curr_lane
     pub_cruise.publish(False)
     pub_stop.publish(False)
-    pub_change_lane.publish(False)
+    pub_change_lane_left.publish(False)
+    pub_change_lane_right.publish(False)    
     pub_keep_distance.publish(True)    
 
-def change_lane():
-    global pub_keep_distance, pub_cruise, pub_change_lane, pub_action, pub_stop, curr_lane
+def change_lane_on_left():
+    global pub_keep_distance, pub_cruise, pub_change_lane_left, pub_action, pub_stop, curr_lane
     global curr_time
 
     pub_keep_distance.publish(False)
     pub_stop.publish(False)
     pub_cruise.publish(False)    
-
-    #if curr_lane:
-    #   print("Inicia giro hacia carril izquierdo ", curr_time, flush = True)
-    #else: 
-    #   print("Inicia giro hacia carril derecho ", curr_time, flush = True)        
-
-    pub_change_lane.publish(True)
-    msg_finished = rospy.wait_for_message('/change_lane/finished', Empty, timeout=600.0)
+    pub_change_lane_right.publish(False)
+    pub_change_lane_left.publish(True)
     
-    #if curr_lane:
-    #   print("Terminó giro en carril derecho", curr_time, curr_lane, flush = True)
-    #else: 
-    #   print("Terminó giro en carril izquierdo", curr_time, curr_lane,  flush = True)    
+def change_lane_on_right():
+    global pub_keep_distance, pub_cruise, pub_change_lane_right, pub_action, pub_stop, curr_lane
+    global curr_time
+
+    pub_keep_distance.publish(False)
+    pub_stop.publish(False)
+    pub_cruise.publish(False)    
+    pub_change_lane_left.publish(False)    
+    pub_change_lane_right.publish(True)    
+    
         
 def stop():
-    global pub_keep_distance, pub_cruise, pub_change_lane, pub_action, pub_stop, pub_change_lane, curr_lane
+    global pub_keep_distance, pub_cruise, pub_action, pub_stop, pub_change_lane_left, pub_change_lane_right, curr_lane
     pub_cruise.publish(False)
     pub_keep_distance.publish(False)
-    pub_change_lane.publish(False)
+    pub_change_lane_left.publish(False)
+    pub_change_lane_right.publish(False)    
     pub_stop.publish(True)    
         
 def main():
     global free_N, free_NW, free_W, free_SW, free_NE, free_E, free_SE,  success, curr_lane
-    global pub_keep_distance, pub_cruise, pub_change_lane, pub_action, pub_stop
+    global pub_keep_distance, pub_cruise, pub_change_lane_left, pub_change_lane_right, pub_action, pub_stop
     global curr_time
     
     curr_time = 0.0    
@@ -129,7 +132,8 @@ def main():
     pub_policy_started  = rospy.Publisher("/policy_started", Empty, queue_size=1)
     pub_cruise = rospy.Publisher("/cruise/enable", Bool, queue_size=1)
     pub_keep_distance    = rospy.Publisher("/follow/enable", Bool, queue_size=1)
-    pub_change_lane = rospy.Publisher("/change_lane/start", Bool, queue_size=1)
+    pub_change_lane_left = rospy.Publisher("/start_change_lane_on_left", Bool, queue_size=1)
+    pub_change_lane_right = rospy.Publisher("/start_change_lane_on_right", Bool, queue_size=1)    
     pub_action = rospy.Publisher("/action", String, queue_size=1)
     pub_stop = rospy.Publisher("/stop", Bool, queue_size=1)
 
@@ -233,13 +237,13 @@ def main():
                  cruise()
 
               elif not free_N and free_NW and not free_W and free_SW:
-                 action = "Right Change lane 11"
+                 action = "Change lane on left 11"
                  pub_action.publish(action)
                  if action_prev != action:
                     print(action, curr_time, flush = True)
                     action_prev = action 
                  #print ("free_N", free_N, "free_NW", free_NW, "free_W", free_W, "free_SW", free_SW, flush = True)                                   
-                 change_lane()
+                 change_lane_on_left()
 
               elif free_N and free_NW and not free_W and free_SW:
                  action = "Right Cruise 12"
@@ -266,13 +270,13 @@ def main():
                  cruise()
 
               elif not free_N and free_NW and free_W and free_SW:
-                 action = "Right Change lane 15"
+                 action = "Change lane on left 15"
                  pub_action.publish(action)
                  if action_prev != action:
                     print(action, curr_time, flush = True)
                     action_prev = action
                  #print ("free_N", free_N, "free_NW", free_NW, "free_W", free_W, "free_SW", free_SW, flush = True)
-                 change_lane()
+                 change_lane_on_left()
 
               elif free_N and free_NW and free_W and free_SW:
                  action = "Right Cruise 16"
@@ -325,13 +329,13 @@ def main():
                  keep_distance()
 
               elif free_E and not free_N and free_NE and not free_SE:
-                 action = "Left Change lane 6"
+                 action = "Change lane on right 6"
                  pub_action.publish(action)
                  if action_prev != action:
                     print(action, curr_time, flush = True)
                     action_prev = action      
                  #print ("free_E", free_E, "free_N", free_N, "free_NE", free_NE, "free_SE", free_SE, flush = True)                 
-                 change_lane()
+                 change_lane_on_right()
 
               elif not free_E and free_N and free_NE and not free_SE:
                  action = "Left Cruise 7"
@@ -342,13 +346,13 @@ def main():
                  cruise()
 
               elif free_E and free_N and free_NE and not free_SE:
-                 action = "Left Change lane 8"
+                 action = "Change lane on right 8"
                  pub_action.publish(action)
                  if action_prev != action:
                     print(action, curr_time, flush = True)
                     action_prev = action                
                  #print ("free_E", free_E, "free_N", free_N, "free_NE", free_NE, "free_SE", free_SE, flush = True)                 
-                 change_lane()
+                 change_lane_on_right()
 
               elif not free_E and not free_N and not free_NE and free_SE:
                  action = "Left Keep distance 9"
@@ -391,13 +395,13 @@ def main():
                  keep_distance()
 
               elif free_E and not free_N and free_NE and free_SE:
-                 action = "Left Change lane 14"
+                 action = "Change lane on right 14"
                  pub_action.publish(action)
                  if action_prev != action:
                     print(action, curr_time, flush = True)
                     action_prev = action                
                  #print ("free_E", free_E, "free_N", free_N, "free_NE", free_NE, "free_SE", free_SE, flush = True)                 
-                 change_lane()
+                 change_lane_on_right()
 
               elif not free_E and free_N and free_NE and free_SE:
                  action = "Left Cruise 15"
@@ -408,13 +412,13 @@ def main():
                  cruise()
 
               elif free_E and free_N and free_NE and free_SE:
-                 action = "Left Change lane 16"
+                 action = "Change lane on right 16"
                  pub_action.publish(action)
                  if action_prev != action:
                     print(action, curr_time, flush = True)
                     action_prev = action                
                  #print ("free_E", free_E, "free_N", free_N, "free_NE", free_NE, "free_SE", free_SE, flush = True)       
-                 change_lane()
+                 change_lane_on_right()
 
         else: # not success       
            action = "stop"
