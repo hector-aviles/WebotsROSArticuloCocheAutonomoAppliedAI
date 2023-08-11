@@ -65,7 +65,6 @@ def calculate_control(rho_l, theta_l, rho_r, theta_r, goal_rho_l, goal_theta_l, 
             speed = max_speed
         if speed < -10:
             speed = -10
-        print("Control max_speed", max_speed, "k_following", k_following, "dist", dist, "dist_to_car", dist_to_car, "speed", speed, "steering", steering)    
     return speed, steering
 
 def callback_left_lane(msg):
@@ -164,8 +163,6 @@ def calculate_turning_steering(w, L, v):
         k = 0.5
     if k < -0.5:
         k = -0.5
-
-    print("Turning L", L, "w", w, "v", v, "k", k, "sin(k)", math.asin(k))
 
     return math.asin(k)
     
