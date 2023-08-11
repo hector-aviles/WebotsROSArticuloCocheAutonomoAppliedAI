@@ -2,6 +2,9 @@
 <launch>
   <arg name="max_speed" default="50"/>
   <arg name="world" default="15"/>
+  <arg name="k_following" default="0.1"/>
+  <arg name="dist_to_car" default="15"/>  
+  
   <env name="WEBOTS_HOME" value="/usr/local/webots"/>
   <arg name="no_gui" default="false," doc="Start Webots with minimal GUI"/>
 
@@ -15,7 +18,10 @@
   <node name="obstacle_detector" pkg="icra2024" type="obstacle_detector.py" output="screen"/>
   <node name="behaviors" pkg="icra2024" type="behaviors.py" output="screen">
       <param name="max_speed" value="$(arg max_speed)"/>
-  </node>
+      <param name="k_following" value="$(arg k_following)"/>
+      <param name="dist_to_car" value="$(arg dist_to_car)"/>
+  </node>  
+  
   <node name="simple_gui" pkg="demo" type="simple_gui"/>
   <!-- <node name="lane_tracker"  pkg="icra2024" type="lane_tracking_control_P.py"   output="screen"> -->
   <!--   <param name="max_speed" value="$(arg max_speed)"/> -->
