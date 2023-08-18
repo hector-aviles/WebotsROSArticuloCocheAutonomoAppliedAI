@@ -22,7 +22,7 @@
       <param name="dist_to_car" value="$(arg dist_to_car)"/>
   </node>  
   
-  <node name="simple_gui" pkg="demo" type="simple_gui"/>
+  <!--<node name="simple_gui" pkg="demo" type="simple_gui"/> -->
   <!-- <node name="lane_tracker"  pkg="icra2024" type="lane_tracking_control_P.py"   output="screen"> -->
   <!--   <param name="max_speed" value="$(arg max_speed)"/> -->
   <!-- </node> -->
@@ -31,7 +31,7 @@
   <!-- </node> -->
   <node name="success" pkg="icra2024" type="success.py" output="screen"/>
   <node name="stop" pkg="icra2024" type="stop.py" output="screen"/>
-  <node name="lane" pkg="icra2024" type="lane.py" output="screen"/>
+  <node name="lane_identification" pkg="icra2024" type="lane_identification.py" output="screen"/>
   <node pkg="tf" type="static_transform_publisher" name="car_to_lidar"  args="  0 0 2.0 0 0 0 car_link lidar_link 30"/>
   <node pkg="tf" type="static_transform_publisher" name="car_to_camera" args="1.2 0 1.5 0 0 0 car_link camera_link 30"/>
   <node pkg="tf" type="static_transform_publisher" name="car_to_gyro"   args="  0 0 0.1 0 0 0 car_link gyro_link 30"/>

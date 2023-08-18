@@ -51,7 +51,7 @@ def main():
     rospy.Subscriber('/accelerometer', Imu, callback_accelerometer)
         
     pub_success  = rospy.Publisher("/success", Bool, queue_size=1)
-    pub_accel_diff  = rospy.Publisher("/accelerometer_diff", Float64, queue_size=10)    
+    pub_accel_diff  = rospy.Publisher("/accelerometer_diff", Float64, queue_size=1)    
    
     #rospy.spin()
     while not rospy.is_shutdown():

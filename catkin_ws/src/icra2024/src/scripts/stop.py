@@ -1,41 +1,58 @@
 #!/usr/bin/env python3
 """
-This node implements a proportional control and is intended to be used
-together with the lane_detector node. It is assumed both lane borders 
-are given by two straight lines in rho-theta form. Given a desired rho-theta
-for each lane border, an error is calculated.
-Steering is calculated proportional to this error and linear speed is
-set as a constant. 
+This node stop the car by killing the next nodes:
+
+policy
+behaviours
+
+and sets the car speed to 0
+  
 """
+import os
 import rospy
 from std_msgs.msg import Float64, Empty, Bool
    
-def callback_stop_motion(msg):
-    global stop_motion
-    stop_motion = msg.data    
+def callback_success(msg):
+    global success
+    success = msg.data    
+    
+def stop_motion():
+    global pub_stop
+    pub_stop.publish(True)        
 
 def main():
-    global stop_motion
-    global curr_time
-    
-    curr_time = 0.0
-        
+    global success
+            
     print('INITIALIZING STOP NODE...', flush=True)
     rospy.init_node('stop')
     rate = rospy.Rate(10)
 
-    rospy.Subscriber("/stop", Bool, callback_stop_motion) 
-    
+    rospy.Subscriber("/success", Bool, callback_success) 
     pub_speed = rospy.Publisher('/speed', Float64, queue_size=1)
 
-    stop_motion = False
+    success = True
     while not rospy.is_shutdown():
-        if stop_motion:
+        if not success:
+            print("STOP: Starting system shutdown...",  flush = True)  
+
+            os.system("rosnode kill /behaviors")
+            os.system("rosnode kill /current_lane")
+            os.system("rosnode kill /lane_detector")
+            os.system("rosnode kill /obstacle_detector")
+            os.system("rosnode kill /success")            
+            os.system("rosnode kill /policy")
+            os.system("rosnode kill /logger")
+
+            print("STOP: Finishing system shutdown... ", end="", flush = True)
+
             speed = 0.0  
+            pub_speed.publish(speed)
+            
+            print("Done", flush = True)             
+
+            os.system("rosnode kill /stop")            
         else:
             continue
-        
-        pub_speed.publish(speed)
 
         rate.sleep()
     

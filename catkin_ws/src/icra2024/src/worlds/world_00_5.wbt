@@ -66,8 +66,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.21798247786416278 0.09130479133508122 -0.9716723081489237 2.3080642219391883
-  position 78.82163758293837 66.98928895002088 39.389559957925435
+  orientation 0.18895175364518296 0.07807286233301675 -0.9788778590618648 2.3029822898811316
+  position 190.58266513126065 95.4635657799128 56.96051372246306
   near 1
   follow "vehicle"
   lensFlare LensFlare {
@@ -93,7 +93,7 @@ Floor {
   }
 }
 ToyotaPriusSimple {
-  translation 201.84 1.79 0.4
+  translation 125.53 1.79 0.4
   name "vehicle(5)"
 }
 SpeedLimitPanel {
@@ -147,8 +147,32 @@ StraightRoadSegment {
   leftBorderBoundingObject TRUE
 }
 DEF BMW_X5 BmwX5 {
-  translation 10.2831 1.81 0.416951
-  rotation 2.644839709767457e-14 -1 2.286658533812553e-12 0.004488360712018117
+  hidden position_0_0 8.391750374553445e-11
+  hidden position2_0_0 -2.630459002819054e-07
+  hidden position_0_1 -8.3917094937788e-11
+  hidden position2_0_1 -2.630458838326189e-07
+  hidden position_0_2 -0.0011754709516706866
+  hidden position_0_3 -0.0011754709515976226
+  hidden linearVelocity_0 -3.227429515943933e-06 2.7913724892215045e-15 6.059796461504317e-06
+  hidden angularVelocity_0 -3.5157920934540944e-15 -6.505177568711147e-06 3.911354595627453e-15
+  hidden translation_1 0 0 0
+  hidden rotation_1 0.9999999491123952 -4.195874973758684e-11 -0.0003190222671603667 2.632069845893339e-07
+  hidden linearVelocity_1 -2.8759426032668394e-06 8.453790692597248e-14 4.170448670483223e-07
+  hidden angularVelocity_1 -8.888823991237447e-13 -6.766542855861198e-06 -9.488901435403552e-14
+  hidden translation_2 0 0 0
+  hidden rotation_2 -0.9999999491128848 -4.1958545333744555e-11 0.00031902073297937125 2.632069845893339e-07
+  hidden linearVelocity_2 -2.8759426006923497e-06 -8.332150724821023e-14 4.1704486613945376e-07
+  hidden angularVelocity_2 8.803934094811125e-13 -6.7665428540451555e-06 1.0224179838897658e-13
+  hidden translation_3 0 0 0
+  hidden rotation_3 1 0 0 0.0011754709515721233
+  hidden linearVelocity_3 -3.0414237589721264e-06 1.654942905718442e-13 -5.8132792635121154e-08
+  hidden angularVelocity_3 -5.988361860750885e-12 -8.14376069551654e-06 -6.124611326610893e-14
+  hidden translation_4 0 0 0
+  hidden rotation_4 -1 0 0 0.0011754709515721233
+  hidden linearVelocity_4 -3.0414237529898397e-06 -1.6161698500086576e-13 -5.8132792713194696e-08
+  hidden angularVelocity_4 5.9827025135627395e-12 -8.143760680194737e-06 7.326475054876047e-14
+  translation 10.282903821112917 -1.8100000000000092 0.4169191576442518
+  rotation -1.1889576741483064e-14 -1 2.2651330356464375e-12 0.004494610325100353
   color 0.643137 0 0
   controller "bmw_x5_controller"
   sensorsSlotTop [
@@ -241,29 +265,29 @@ HighwayPole {
     }
   ]
 }
-DEF obstacle_north RangeRoverSportSVRSimple {
-  translation 101.95 -1.80987 0.45
+DEF vehicle_2 RangeRoverSportSVRSimple {
+  translation 45.24 -1.81013 0.45
   rotation 0 0 1 4.692820414042842e-06
-  name "vehicle(3)"
+  name "vehicle_2"
 }
-DEF obstacle_north_west CitroenCZeroSimple {
-  translation 130.9 1.81 0.45
-  name "obstacle_north_west"
+DEF vehicle_3 CitroenCZeroSimple {
+  translation 80.47 1.81 0.45
+  name "vehicle_3"
 }
-DEF obstacle_west LincolnMKZSimple {
-  translation 92.61 -1.57 0.45
-  name "vehicle(1)"
+DEF vehicle_1 LincolnMKZSimple {
+  translation 28.51 -1.57 0.45
+  name "vehicle_1"
 }
 DEF obstacle_south_west RangeRoverSportSVRSimple {
-  translation 237.06 -1.11 0.46
+  translation 153.53 -1.11 0.46
   color 0.8 0.7 0.65
   name "vehicle(2)"
 }
 Robot {
-  controller "supervisor_eir"
+  controller "supervisor_icra_5"
   supervisor TRUE
 }
-TeslaModel3Simple {
-  translation 158.41 -1.81 0.4
-  name "vehicle(4)"
+DEF vehicle_4 TeslaModel3Simple {
+  translation 101.21 -1.81 0.4
+  name "vehicle_4"
 }
