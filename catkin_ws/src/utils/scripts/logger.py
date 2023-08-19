@@ -84,9 +84,9 @@ def callback_free_west(msg):
     global free_west
     free_west = msg.data
 
-def callback_obstacle_distance(msg):
-    global obstacle_distance
-    obstacle_distance = msg.data
+def callback_distance_to_north(msg):
+    global distance_to_north
+    distance_to_north = msg.data
 
 def callback_pass_finished(msg):
     global pass_finished
@@ -126,29 +126,43 @@ def callback_success(msg):
            
 def main():
     global cruise_enable
-    global accel_x, accel_y, accel_z, accel_diff, action, change_lane_finished, curr_time, curr_lane, lane_rho_l, lane_theta_l, lane_rho_r, lane_theta_r, follow_enable, free_east, free_north, free_north_east, free_north_west, free_south_east, free_south_west, free_west, obstacle_distance, pass_finished, policy_started, curr_x, curr_y, curr_theta, speed, start_change_lane_on_left, start_change_lane_on_right, steering, success
+    global accel_x, accel_y, accel_z, accel_diff, action, change_lane_finished, curr_time, curr_lane, lane_rho_l, lane_theta_l, lane_rho_r, lane_theta_r, follow_enable, free_east, free_north, free_north_east, free_north_west, free_south_east, free_south_west, free_west, distance_to_north, pass_finished, policy_started, curr_x, curr_y, curr_theta, speed, start_change_lane_on_left, start_change_lane_on_right, steering, success
     
-    trial_number = 0
-    free_north      = False
-    free_north_west = False
-    free_west       = False
-    free_east       = False    
-    free_south_west = False
-    obstacle_distance = 100000
-    follow_enable = False 
-    cruise_enable = False 
-    passing_start = False 
-    passing_finished = False  
-    speed = 0.0
-    steering = 0.0
-    accel_x = 0.0 
+    
+    # 31 variables
+    accel_x = 0.0
     accel_y = 0.0 
     accel_z = 0.0 
     accel_diff = 0.0 
-    success = True
-    action = ""
-    
-        
+    action = "" 
+    change_lane_finished = False 
+    curr_time = 0.0 
+    curr_lane = True 
+    lane_rho_l = 0.0 
+    lane_theta_l = 0.0 
+    lane_rho_r = 0.0 
+    lane_theta_r = 0.0 
+    follow_enable = False 
+    free_east = True 
+    free_north = True 
+    free_north_east = True 
+    free_north_west = True 
+    free_south_east = True 
+    free_south_west = True 
+    free_west = True 
+    distance_to_north = 0.0 
+    pass_finished = False 
+    policy_started = False 
+    curr_x = 0.0 
+    curr_y = 0.0 
+    curr_theta = 0.0 
+    speed = 0.0 
+    start_change_lane_on_left = False
+    start_change_lane_on_right = False 
+    steering = 0.0 
+    success = True    
+    world = ""
+               
     num_trials_file = "trial_number.data"
 
     print("INITIALIZING LOGGER...")
@@ -171,7 +185,7 @@ def main():
     rospy.Subscriber("/free/south_east", Bool, callback_free_south_east)
     rospy.Subscriber("/free/south_west", Bool, callback_free_south_west)
     rospy.Subscriber("/free/west"      , Bool, callback_free_west)
-    rospy.Subscriber("/obstacle/distance"  , Float64, callback_obstacle_distance)
+    rospy.Subscriber("/obstacle/distance"  , Float64, callback_distance_to_north)
     rospy.Subscriber("/pass_finished", Bool, callback_pass_finished)
     rospy.Subscriber("/policy_started", Bool, callback_policy_started)    
     rospy.Subscriber("/self_driving_pose", Pose2D, callback_curr_pose) 
@@ -203,7 +217,7 @@ def main():
     # Write header only once
     f = open("logfile.csv","a")
     if trial_number == 1:
-       output = "repetition," +"iteration," + "time," + "speed," + "steering," + "free_North," + "free_NorthWest," + "free_SouthWest," + "free_West," + "free_East," +"free_distance," + "follow_enable," +  "cruise_enable," + "passing_start," + "accel_x," + "accel_y," + "accel_z," + "accel_diff," +"success," +  "action" + "\n"     
+       output = "trial_num" + "iteration" + "accel_x" + "accel_y" + "accel_z" + "accel_diff" + "action" + "change_lane_finished" + "curr_time" + "curr_lane" + "lane_rho_l" + "lane_theta_l" + "lane_rho_r" + "lane_theta_r" + "follow_enable" + "free_east" + "free_north" + "free_north_east" + "free_north_west" + "free_south_east" + "free_south_west" + "free_west" + "distance_to_north" + "pass_finished" + "policy_started" + "curr_x" + "curr_y" + "curr_theta" + "speed" + "start_change_lane_on_left" + "start_change_lane_on_right" + "steering" + "success" + "\n"     
        f.write(output)
      
     print("Logger.->Waiting for start signal")
@@ -215,9 +229,9 @@ def main():
     
         iteration = iteration + 1
         now = rospy.get_time()
+        
+        output = str(trial_num) + "," + str(iteration) + "," + str(accel_x) + "," + str(accel_y) + "," + str(accel_z) + "," + str(accel_diff) + "," + str(action) + "," + str(change_lane_finished) + "," + str(curr_time) + "," +  str(curr_lane) + "," + str(lane_rho_l) + "," + str(lane_theta_l) + "," +  str(lane_rho_r) + "," + str(lane_theta_r) + "," + str(follow_enable) + "," +  str(free_east) + "," + str(free_north) + "," + str(free_north_east) + "," + str(free_north_west) + "," + str(free_south_east) + "," +  str(free_south_west) + "," + str(free_west) + "," + str(distance_to_north) + "," + str(pass_finished) + "," + str(policy_started) + "," + str(curr_x) + "," +  str(curr_y) + "," + str(curr_theta) + "," + str(speed) + "," +  str(start_change_lane_on_left) + "," + str(start_change_lane_on_right) + "," +  str(steering) + "," + str(success) + "\n"          
                        
-        output = str(trial_number) + "," + str(iteration) +"," + str(now) + "," + str(speed) + "," + str(steering) + "," + str(free_north) + "," + str(free_north_west) + "," + str(free_south_west) + "," + str(free_west) + "," + str(free_east) + "," +  str(free_distance) + "," + str(follow_enable) +  "," + str(cruise_enable) + "," + str(passing_start) + "," +  str(accel_x) + "," + str(accel_y) + "," + str(accel_z) + "," + str(accel_diff) + "," + str(success) + "," + action + "\n" 
-
         f.write(output) 
         
         rate.sleep()

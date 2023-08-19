@@ -92,9 +92,9 @@ Floor {
     emissiveIntensity 0
   }
 }
-ToyotaPriusSimple {
+Def vehicle_5 ToyotaPriusSimple {
   translation 125.53 1.79 0.4
-  name "vehicle(5)"
+  name "5"
 }
 SpeedLimitPanel {
   translation 550 0 0
@@ -268,26 +268,26 @@ HighwayPole {
 DEF vehicle_2 RangeRoverSportSVRSimple {
   translation 45.24 -1.81013 0.45
   rotation 0 0 1 4.692820414042842e-06
-  name "vehicle_2"
+  name "2"
 }
 DEF vehicle_3 CitroenCZeroSimple {
   translation 80.47 1.81 0.45
-  name "vehicle_3"
+  name "3"
 }
 DEF vehicle_1 LincolnMKZSimple {
   translation 28.51 -1.57 0.45
-  name "vehicle_1"
+  name "1"
 }
-DEF obstacle_south_west RangeRoverSportSVRSimple {
+DEF vehicle_5 RangeRoverSportSVRSimple {
   translation 153.53 -1.11 0.46
   color 0.8 0.7 0.65
-  name "vehicle(2)"
+  name "5"
 }
 Robot {
-  controller "supervisor_icra_5"
+  controller "supervisor_icra"
   supervisor TRUE
 }
 DEF vehicle_4 TeslaModel3Simple {
   translation 101.21 -1.81 0.4
-  name "vehicle_4"
+  name "4"
 }
