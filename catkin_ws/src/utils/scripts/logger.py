@@ -259,6 +259,7 @@ def main():
 
     print("INITIALIZING LOGGER...", flush = True)
     rospy.init_node("logger")
+    rate = rospy.Rate(5)     
         
     rospy.Subscriber('/accelerometer', Imu, callback_accelerometer)    
     rospy.Subscriber("/accelerometer_diff", Float64, callback_accel_diff)
@@ -279,7 +280,7 @@ def main():
     rospy.Subscriber("/free/west"      , Bool, callback_free_west)
     rospy.Subscriber("/obstacle/distance"  , Float64, callback_distance_to_north)
     rospy.Subscriber("/pass_finished", Bool, callback_pass_finished)
-    rospy.Subscriber("/self_driving_pos", Pose2D, callback_curr_pos) 
+    rospy.Subscriber("/self_driving_pose", Pose2D, callback_curr_pos) 
     rospy.Subscriber("/speed", Float64, callback_speed)
     rospy.Subscriber("/start_change_lane_on_left", Bool, callback_start_change_lane_on_left)
     rospy.Subscriber("/start_change_lane_on_right", Bool, callback_start_change_lane_on_right)
@@ -298,9 +299,7 @@ def main():
     rospy.Subscriber("/car_8_pose", Pose2D, callback_car_8_pos)
     rospy.Subscriber("/car_9_pose", Pose2D, callback_car_9_pos)
     rospy.Subscriber("/car_10_pose", Pose2D, callback_car_10_pos)    
-
-    rate = rospy.Rate(10)    
-
+   
     # Lectura del número de repetición
     print ("Reading the number of the trial...", flush = True, end="")
     write_header_csv = False
@@ -328,8 +327,13 @@ def main():
     print("Logger.->Waiting for start signal")
     rospy.wait_for_message("/policy_started", Empty, timeout=10000.0)
     print("Logger.->Start signal received")
+    
+    # Pause the logger 
+    rate = rospy.Rate(1) #Hz
+    rate.sleep()
+    rate = rospy.Rate(10) #Hz    
 
-    iteration = 0
+    iteration = 1
     while not rospy.is_shutdown():
     
         if write_header_csv == True:
@@ -346,11 +350,23 @@ def main():
         f.write(output) 
         
         # Break the loop and write current data
-        if success == False:
-           print ("Something weird happened", flush = True)
-           break 
-        if goal_reached == True:
-           print ("Well done!", flush = True)
+        if success == False or goal_reached == True:
+           print ("Closing logfile...", flush = True, end="")
+           f.close()
+           print (" Done.", flush = True)
+
+           print ("Updating trial number...", flush = True, end="")        
+           c = open(num_trials_file, "w")        
+           trial_number = trial_number + 1
+           c.write(str(trial_number))
+           c.close()
+           print (" Done.", flush = True) 
+        
+           if success == False:
+              print ("Something weird happened", flush = True)
+           if goal_reached == True:
+              print ("Well done!", flush = True)
+           
            break            
            
         rate.sleep()

@@ -116,7 +116,7 @@ def callback_start_pass_on_right(msg):
     if(start_pass_on_right):
         enable_follow, enable_cruise = False, False
 
-def callback_self_driving_pose(msg):
+def callback_curret_pose(msg):
     global current_x, current_y, current_a
     current_x = msg.x
     current_y = msg.y
@@ -211,7 +211,7 @@ def main():
     rospy.Subscriber("/start_pass_on_left" , Bool, callback_start_pass_on_left)
     rospy.Subscriber("/start_pass_on_right", Bool, callback_start_pass_on_right)
     rospy.Subscriber("/obstacle/distance", Float64, callback_dist_to_obstacle)
-    rospy.Subscriber("/self_driving_pose", Pose2D, callback_self_driving_pose)
+    rospy.Subscriber("/self_driving_pose", Pose2D, callback_curret_pose)
     rospy.Subscriber("/free/north"     , Bool, callback_free_north)
     rospy.Subscriber("/free/north_west", Bool, callback_free_north_west)
     rospy.Subscriber("/free/west"      , Bool, callback_free_west)
@@ -278,6 +278,7 @@ def main():
         elif state == SM_START_STEADY_MOTION:
             speed, steering = calculate_control(lane_rho_l, lane_theta_l, lane_rho_r, lane_theta_r, goal_rho_l, goal_theta_l, goal_rho_r, goal_theta_r)
             dist_to_obs = None
+            
             if not enable_cruise:
                 state = SM_WAITING_FOR_NEW_TASK
 
@@ -296,7 +297,7 @@ def main():
             steering = calculate_turning_steering(1.2, 2.9, speed)
             if current_y > -0.7: # Vehicle has moved to the left. Right lane has y=-1.5 and center is around y=0
                 print("Moving to right to align with left lane")
-                state = SM_TURNING_LEFT_2
+                state = SM_TURNING_LEFT_2 
 
         elif state == SM_TURNING_LEFT_2:
             if speed <= 0:

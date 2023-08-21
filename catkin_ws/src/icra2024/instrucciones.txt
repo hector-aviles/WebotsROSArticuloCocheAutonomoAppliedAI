@@ -12,7 +12,7 @@ source devel/setup.bash
 
 *) En la primera pestaña, para correr el simulador ejecutar:
 
-roslaunch icra2024 icra.launch world:=00_5 max_speed:=20 goal_dist:=100
+roslaunch icra2024 icra.launch world:=00_5 max_speed:=20 goal_dist:=500 dist_to_car:=15
 
 *) En la segunda pestaña, para correr el logger ejecutar:
 

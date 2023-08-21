@@ -10,10 +10,6 @@ from controller import Supervisor
 TIME_STEP = 10
 robot = Supervisor()
 
-def callback_start(msg):
-    global start
-    start = True
-
 def main():
 
     global start
@@ -42,68 +38,69 @@ robot.getFromDef('vehicle_3'), robot.getFromDef('vehicle_4'),  robot.getFromDef(
     #linear_velocity_North = cars[0].getField("translation")
     start = False
     rospy.init_node("supervisor_node")
-    rospy.Subscriber("/policy_started", Empty, callback_start)
-    pub_bmw_pos  = rospy.Publisher("/self_driving_pose", Pose2D, queue_size=1)
-    pub_car_1_pos  = rospy.Publisher("/car_1_pose", Pose2D, queue_size=1)
-    pub_car_2_pos  = rospy.Publisher("/car_2_pose", Pose2D, queue_size=1)
-    pub_car_3_pos  = rospy.Publisher("/car_3_pose", Pose2D, queue_size=1)
-    pub_car_4_pos  = rospy.Publisher("/car_4_pose", Pose2D, queue_size=1)
-    pub_car_5_pos  = rospy.Publisher("/car_5_pose", Pose2D, queue_size=1)
-    pub_car_6_pos  = rospy.Publisher("/car_6_pose", Pose2D, queue_size=1)
-    pub_car_7_pos  = rospy.Publisher("/car_7_pose", Pose2D, queue_size=1)
-    pub_car_8_pos  = rospy.Publisher("/car_8_pose", Pose2D, queue_size=1)
-    pub_car_9_pos  = rospy.Publisher("/car_9_pose", Pose2D, queue_size=1)
-    pub_car_10_pos  = rospy.Publisher("/car_10_pose", Pose2D, queue_size=1)
+    pub_bmw_pose  = rospy.Publisher("/self_driving_pose", Pose2D, queue_size=1)
+    pub_car_1_pose  = rospy.Publisher("/car_1_pose", Pose2D, queue_size=1)
+    pub_car_2_pose  = rospy.Publisher("/car_2_pose", Pose2D, queue_size=1)
+    pub_car_3_pose  = rospy.Publisher("/car_3_pose", Pose2D, queue_size=1)
+    pub_car_4_pose  = rospy.Publisher("/car_4_pose", Pose2D, queue_size=1)
+    pub_car_5_pose  = rospy.Publisher("/car_5_pose", Pose2D, queue_size=1)
+    pub_car_6_pose  = rospy.Publisher("/car_6_pose", Pose2D, queue_size=1)
+    pub_car_7_pose  = rospy.Publisher("/car_7_pose", Pose2D, queue_size=1)
+    pub_car_8_pose  = rospy.Publisher("/car_8_pose", Pose2D, queue_size=1)
+    pub_car_9_pose  = rospy.Publisher("/car_9_pose", Pose2D, queue_size=1)
+    pub_car_10_pose  = rospy.Publisher("/car_10_pose", Pose2D, queue_size=1)
 
-    msg_bmw_pos = Pose2D()
-    msg_car_pos = Pose2D()
+    msg_bmw_pose = Pose2D()
+    msg_car_pose = Pose2D()
+    
+    print("Supervisor.->Waiting for start signal")
+    rospy.wait_for_message("/policy_started", Empty, timeout=10000.0)
+    print("Supervisor.->Start signal received")    
         
     loop = rospy.Rate(1000/TIME_STEP)
     while robot.step(TIME_STEP) != -1 and not rospy.is_shutdown():
-    
-      if start:
-        start = False    
 
         i = 0 
         for car in cars:
             if car is not None:        
-               car.setVelocity([6,0,0, 0,0,0]) 
+               car.setVelocity([4,0,0, 0,0,0]) 
                values = tf[i].getSFVec3f()
-               msg_car_pos.x = values[0] 
-               msg_car_pos.y = values[1]
-               msg_car_pos.theta = values[2]   
+               msg_car_pose.x = values[0] 
+               msg_car_pose.y = values[1]
+               msg_car_pose.theta = values[2]   
                            
                if i == 0:
-                  pub_car_1_pos.publish(msg_car_pos)  
+                  pub_car_1_pose.publish(msg_car_pose)  
                elif i == 1:
-                  pub_car_2_pos.publish(msg_car_pos)               
+                  pub_car_2_pose.publish(msg_car_pose)               
                elif i == 2:
-                  pub_car_3_pos.publish(msg_car_pos)               
+                  pub_car_3_pose.publish(msg_car_pose)               
                elif i == 3:
-                  pub_car_4_pos.publish(msg_car_pos)               
+                  pub_car_4_pose.publish(msg_car_pose)               
                elif i == 4:
-                  pub_car_5_pos.publish(msg_car_pos)
+                  pub_car_5_pose.publish(msg_car_pose)
                elif i == 5:
-                  pub_car_6_pos.publish(msg_car_pos)               
+                  pub_car_6_pose.publish(msg_car_pose)               
                elif i == 6:
-                  pub_car_7_pos.publish(msg_car_pos)
+                  pub_car_7_pose.publish(msg_car_pose)
                elif i == 7:
-                  pub_car_8_pos.publish(msg_car_pos)               
+                  pub_car_8_pose.publish(msg_car_pose)               
                elif i == 8:
-                  pub_car_9_pos.publish(msg_car_pos)
+                  pub_car_9_pose.publish(msg_car_pose)
                elif i == 9:
-                  pub_car_10_pos.publish(msg_car_pos)
+                  pub_car_10_pose.publish(msg_car_pose)
             i = i + 1                     
                
-        bmw_pos = bmw.getPosition()
+        bmw_pose = bmw.getPosition()
         bmw_orient = bmw.getOrientation()
-        msg_bmw_pos.x = bmw_pos[0]
-        msg_bmw_pos.y = bmw_pos[1]
-        msg_bmw_pos.theta = math.atan2(bmw_orient[3], bmw_orient[0])
+        msg_bmw_pose.x = bmw_pose[0]
+        msg_bmw_pose.y = bmw_pose[1]
+        msg_bmw_pose.theta = math.atan2(bmw_orient[3], bmw_orient[0])
+        #print("x:", msg_bmw_pose.x, "y:", msg_bmw_pose.y, "theta:", msg_bmw_pose.theta, flush = True)
         
-        pub_bmw_pos.publish(msg_bmw_pos)
+        pub_bmw_pose.publish(msg_bmw_pose)
                           
-      loop.sleep()
+        loop.sleep()
   
   
         
