@@ -1,0 +1,48 @@
+############################################
+Instrucciones para experimentos ICRA2024
+############################################
+
+*) Abrir 3 pestañas de terminales 
+
+*) Entrar en cada terminal al subdirectorio catkin_ws del repositorio
+
+*) En cada terminal ejecutar:
+
+source devel/setup.bash
+
+*) En la primera pestaña, para correr el simulador ejecutar:
+
+roslaunch icra2024 icra.launch world:=00_5 max_speed:=20 goal_dist:=100
+
+*) En la segunda pestaña, para correr el logger ejecutar:
+
+rosrun utils logger.py
+
+*) En la tercera pestaña, para correr la política de acción ejecutar:
+
+rosrun icra2024 policy.py
+
+Los pasos anteriores se repetirán N veces. Desde la primera ejecución deberán hacer sido creados dos archivos ocultos: .logfile.csv y .trial_number.data en el subdirectorio catkin_ws. Los archivos pueden verse mediante el comando "la -ls" en la terminal ó en el navegador de archivos habilitando la opción "View->Show hidden". En nueva ejecución del simulador el contador num_trial deberá incrementarse (se puede ver en la terminal correspondiente). Cuando se terminen las N ejecuciones de cada grupo de repeticiones, ambos archivos deberán renombrarse para eliminar el símbolo de punto '.' que aparece al inicio del nombre. Esto los hará "visibles" y posteriormente se deberán copiar y guardar en una carpeta denominada "". Aambos archivos deberán borrarse de la carpeta catkin_ws antes del inicio de cada nuevo grupo de repeticiones (y después de haber salvado en otra carpeta para el grupo de experimentos anterior).
+
+
+Notas: 
+
++) Cuando el coche alcance la distancia máxima definida para cada experimento el sistema se cerrará automáticamente (sólo dar Ctrl-C en la terminal del roslaunch del simulador). 
+
++) Cuando el coche choque, abrir el archivo logfile.csv para verificar que en la repetición actual el último valor de la variable success sea False.
+
++) Cuando el coche choque, el sistema se apagará automáticamente excepto por el roslaunch y el Webots, sólo esperar que en la terminal correspondiente resulte:
+
+[stop-7] process has finished cleanly
+log file: /home/asus/.ros/log/6b978bdc-3fba-11ee-83dd-7d093ba99c63/stop-7*.log
+
+para dar Ctrl-C.
+
++) Cualquier error o comportamiento inesperado comunicarlo inmediatamente al grupo Experimentos ICRA
+
+
+
+
+
+ 
+

@@ -29,13 +29,13 @@ def main():
     theta = 0.0
     right_lane = True
     
-    print("INITIALIZING CURRENT_LANE IDENTIFICATION NODE...", flush=True)
+    print("INITIALIZING LANE IDENTIFICATION NODE...", flush=True)
     rospy.init_node("lane_identification")
     rate = rospy.Rate(10)
 
     rospy.Subscriber("/self_driving_pose", Pose2D, callback_curr_pose)
     
-    pub_right_lane  = rospy.Publisher("/current_lane", Bool, queue_size=10)
+    pub_right_lane  = rospy.Publisher("/current_lane", Bool, queue_size=1)
 
     while not rospy.is_shutdown():
         rate.sleep()
