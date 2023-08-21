@@ -7,8 +7,9 @@ other vehicles around the car and to execute the three
 different behaviors: steady motion, follow and pass. 
 """
 import rospy
-from std_msgs.msg import Float64MultiArray, Empty, Bool, String
+from std_msgs.msg import Float64MultiArray, Empty, Bool, String, Float64
 from rosgraph_msgs.msg import Clock 
+import sys
 
 def mysleep(secs):
     global curr_time
@@ -98,7 +99,7 @@ def change_lane_on_right():
     pub_change_lane_on_left.publish(False)    
     pub_change_lane_on_right.publish(True)    
             
-def main():
+def main(str_speed_left, str_speed_right):
     global free_N, free_NW, free_W, free_SW, free_NE, free_E, free_SE,  success, curr_lane, change_lane_finished
     global pub_keep_distance, pub_cruise, pub_change_lane_on_left, pub_change_lane_on_right, pub_action
     global curr_time
@@ -107,7 +108,14 @@ def main():
     
     print("INITIALIZING POLICY...", flush=True)
     rospy.init_node("policy")
-    rate = rospy.Rate(10) #Hz    
+    rate = rospy.Rate(10) #Hz  
+    
+    if rospy.has_param('vel_cars_left_lane'):
+        max_speed = rospy.get_param('vel_cars_left_lane')    
+        print("vel_cars_left_lane", vel_cars_left_lane)
+    if rospy.has_param('vel_cars_right_lane'):
+        max_speed = rospy.get_param('vel_cars_right_lane')    
+        print("vel_cars_right_lane", vel_cars_right_lane)
         
     rospy.Subscriber("/clock", Clock, callback_sim_time)    
     rospy.Subscriber("/free/north"     , Bool, callback_free_N)
@@ -127,6 +135,9 @@ def main():
     pub_change_lane_on_left = rospy.Publisher("/start_change_lane_on_left", Bool, queue_size=1)
     pub_change_lane_on_right = rospy.Publisher("/start_change_lane_on_right", Bool, queue_size=1)    
     pub_action = rospy.Publisher("/action", String, queue_size=1)
+    
+    pub_speed_cars_left_lane = rospy.Publisher("/speed_cars_left_lane", Float64, queue_size=1)
+    pub_speed_cars_right_lane = rospy.Publisher("/speed_cars_right_lane", Float64, queue_size=1)    
 
     free_N  = True
     free_NW = True
@@ -148,10 +159,16 @@ def main():
         i = i + 1
     rate = rospy.Rate(10) #Hz
 
+    # Move all the obstacle vehicles
+    speed_cars_left_lane = float(str_speed_left)
+    speed_cars_right_lane = float(str_speed_right)
+
     action = action_prev = "NA"            
     while not rospy.is_shutdown():
         pub_policy_started.publish()
-        
+        pub_speed_cars_left_lane.publish(speed_cars_left_lane)
+        pub_speed_cars_right_lane.publish(speed_cars_right_lane)    
+         
         #print("Current lane", curr_lane, "Current time", curr_time, flush = True)
         
         # right lane
@@ -470,11 +487,15 @@ def main():
         rate.sleep()
 
 if __name__ == "__main__":
-    try:
-        main()
-    except:
-        rospy.ROSInterruptException
-        pass
+
+    if len(sys.argv) != 3:
+        print("Usage: rosrun icra2024 policy.py speed_left speed_right (MUST be 2 integer values)", len(sys.argv))
+    else:     
+        try:
+           main(sys.argv[1], sys.argv[2])
+        except:
+           rospy.ROSInterruptException
+           pass
 
     
 
