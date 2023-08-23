@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-This node is intended to be used to code the resulting policy
-after modeling and training the MDPs using ProbLog.
+This node implements the action policy of the self-driving car
+obtained from modeling and training MDPs using MDP-ProbLog.
 This node provides several functions to check if there are
 other vehicles around the car and to execute the three
-different behaviors: steady motion, follow and pass. 
+different behaviors: cruise, follow and change_lane. 
 """
 import rospy
 from std_msgs.msg import Float64MultiArray, Empty, Bool, String, Float64
@@ -489,7 +489,7 @@ def main(str_speed_left, str_speed_right):
 if __name__ == "__main__":
 
     if len(sys.argv) != 3:
-        print("Usage: rosrun icra2024 policy.py speed_left speed_right (MUST be 2 integer values)", len(sys.argv))
+        print("Usage: rosrun icra2024 policy.py speed_left speed_right (m/s)", len(sys.argv))
     else:     
         try:
            main(sys.argv[1], sys.argv[2])

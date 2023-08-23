@@ -73,7 +73,7 @@ robot.getFromDef('vehicle_3'), robot.getFromDef('vehicle_4'),  robot.getFromDef(
     msg_car_pose = Pose2D()
     
     print("Supervisor.->Waiting for start signal")
-    rospy.wait_for_message("/policy_started", Empty, timeout=10000.0)
+    rospy.wait_for_message("/policy_started", Empty, timeout=50000.0)
     print("Supervisor.->Start signal received")    
         
     while robot.step(TIME_STEP) != -1 and not rospy.is_shutdown():

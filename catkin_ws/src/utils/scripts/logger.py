@@ -369,21 +369,8 @@ def main():
            
            break            
            
-        rate.sleep()
-         
-        iteration = iteration + 1 
-
-    
-    print ("Closing logfile...", flush = True, end="")
-    f.close()
-    print (" Done.", flush = True)
-
-    print ("Updating trial number...", flush = True, end="")        
-    c = open(num_trials_file, "w")        
-    trial_number = trial_number + 1
-    c.write(str(trial_number))
-    c.close()
-    print (" Done.", flush = True)    
+        rate.sleep()      
+        iteration = iteration + 1   
              
 if __name__ == "__main__":
     try:

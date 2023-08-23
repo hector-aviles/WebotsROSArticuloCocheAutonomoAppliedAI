@@ -66,8 +66,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.09983061062704265 0.9501455693900288 -0.295393375264798 0.5101061202297908
-  position 195.12401110275593 -12.562874574264036 149.63288823759575
+  orientation 0.02278060274599243 -0.008557883071883907 -0.9997038595383421 3.316608643003552
+  position 644.4015403755038 -76.086033831315 34.49312235353179
   near 1
   follow "vehicle"
   lensFlare LensFlare {
@@ -91,6 +91,11 @@ Floor {
     metalness 0
     emissiveIntensity 0
   }
+}
+DEF vehicle_7 RangeRoverSportSVRSimple {
+  translation 173.91 1.98 0.44
+  color 0.3 0.7 0.7
+  name "7"
 }
 StraightRoadSegment {
   translation 880 0 0.1
@@ -158,6 +163,11 @@ StraightRoadSegment {
   roadBoundingObject TRUE
   rightBorderBoundingObject TRUE
   leftBorderBoundingObject TRUE
+}
+DEF vehicle_6 TeslaModel3Simple {
+  translation 133.26 -1.97 0.42
+  color 0.9 0.9 0.3  
+  name "6"
 }
 StraightRoadSegment {
   translation 230 0 0.1
@@ -287,16 +297,29 @@ DEF vehicle_2 RangeRoverSportSVRSimple {
   rotation 0 0 1 4.692820414042842e-06
   name "2"
 }
+DEF vehicle_9 CitroenCZeroSimple {
+  translation 180.47 1.81 0.45
+  color 0.8 0.0 0.8  
+  name "9"
+}
+DEF vehicle_8 CitroenCZeroSimple {
+  translation 180.47 1.81 0.45
+  name "8"
+}
 DEF vehicle_3 CitroenCZeroSimple {
   translation 80.47 1.81 0.45
   name "3"
+}
+DEF vehicle_10 CitroenCZeroSimple {
+  translation 189.32 2.13 0.36
+  name "10"
 }
 DEF vehicle_1 LincolnMKZSimple {
   translation 28.51 -1.57 0.45
   name "1"
 }
 DEF vehicle_5 RangeRoverSportSVRSimple {
-  translation 153.53 -1.11 0.46
+  translation 400 -1.82 0.46
   color 0.8 0.7 0.65
   name "5"
 }
