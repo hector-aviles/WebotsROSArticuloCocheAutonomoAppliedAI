@@ -331,7 +331,7 @@ def main():
     # Pause the logger 
     rate = rospy.Rate(1) #Hz
     rate.sleep()
-    rate = rospy.Rate(10) #Hz    
+    rate = rospy.Rate(2) #Hz    
 
     iteration = 1
     while not rospy.is_shutdown():
@@ -350,18 +350,7 @@ def main():
         f.write(output) 
         
         # Break the loop and write current data
-        if success == False or goal_reached == True:
-           print ("Closing logfile...", flush = True, end="")
-           f.close()
-           print (" Done.", flush = True)
-
-           print ("Updating trial number...", flush = True, end="")        
-           c = open(num_trials_file, "w")        
-           trial_number = trial_number + 1
-           c.write(str(trial_number))
-           c.close()
-           print (" Done.", flush = True) 
-        
+        if success == False or goal_reached == True:        
            if success == False:
               print ("Something weird happened", flush = True)
            if goal_reached == True:
@@ -371,6 +360,18 @@ def main():
            
         rate.sleep()      
         iteration = iteration + 1   
+        
+    print ("Closing logfile...", flush = True, end="")
+    f.close()
+    print (" Done.", flush = True)
+
+    print ("Updating trial number...", flush = True, end="")        
+    c = open(num_trials_file, "w")        
+    trial_number = trial_number + 1
+    c.write(str(trial_number))
+    c.close()
+    print (" Done.", flush = True) 
+        
              
 if __name__ == "__main__":
     try:

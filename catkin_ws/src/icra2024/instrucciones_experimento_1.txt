@@ -1,0 +1,305 @@
+#####################################################################
+Instrucciones para experimentos 
+#####################################################################
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Experimento 1: Coches estáticos variando velocidad del coche autónomo de 20, 22, 24, 26, 28 km/h y con 5 y 10 coches obstáculo  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+===================================================
+Variación 1: Velocidad del coche 20km/h y 5 coches 
+===================================================
+
+1) Abrir 3 pestañas de terminales 
+2) Entrar en cada terminal al subdirectorio catkin_ws del repositorio
+3) En cada terminal ejecutar: source devel/setup.bash
+4) Eliminar los archivos .logfile.csv y .trial_number.data del subdirectorio catkin_ws usando el navegador gráfico de archivos 
+
+5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
+
+roslaunch icra2024 icra.launch world:=static_5 max_speed:=20 goal_dist:=220 dist_to_car:=15
+
+6) En la segunda pestaña, para correr el logger:
+
+rosrun utils logger.py
+
+7) En la tercera pestaña, para ejecutar la política:
+
+rosrun icra2024 policy.py 0 0
+
+8) Esperar hasta que termine la repetición actual automáticamente ya sea porque se alcanzó la distancia máxima definida para el experimento o por choque ("Well done! ó "Something weird happened" en logger.py). 
+
+El coche autónomo pudiera salirse del carril y sólo dar vueltas en círculo o tener un comportamiento anómalo; si el sistema no se detiene automáticamente, se puede hacer Ctrl-C en cada pestaña iniciando en la pestaña de logger.py.
+
+9) Repetir los pasos 5-8 para la siguiente repetición de la variación hasta alcanzar 30 repeticiones
+
+10) Una vez terminadas las repeticiones guardar los archivos .logfile.csv y .trial_number.data en un subdirectorio denominado "Experimento_1_variacion_1"
+
+===================================================
+Variación 2: Velocidad del coche 22km/h y 5 coches 
+===================================================
+
+1) Abrir 3 pestañas de terminales 
+2) Entrar en cada terminal al subdirectorio catkin_ws del repositorio
+3) En cada terminal ejecutar: source devel/setup.bash
+4) Eliminar los archivos .logfile.csv y .trial_number.data del subdirectorio catkin_ws usando el navegador gráfico de archivos 
+
+5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
+
+roslaunch icra2024 icra.launch world:=static_5 max_speed:=22 goal_dist:=220 dist_to_car:=15  
+
+6) En la segunda pestaña, para correr el logger:
+
+rosrun utils logger.py
+
+7) En la tercera pestaña, para ejecutar la política:
+
+rosrun icra2024 policy.py 0 0
+
+8) Esperar hasta que termine la repetición actual automáticamente ya sea porque se alcanzó la distancia máxima definida para el experimento o por choque ("Well done! ó "Something weird happened" en logger.py). 
+
+El coche autónomo pudiera salirse del carril y sólo dar vueltas en círculo o tener un comportamiento anómalo; si el sistema no se detiene automáticamente, se puede hacer Ctrl-C en cada pestaña iniciando en la pestaña de logger.py.
+
+9) Repetir los pasos 5-8 para la siguiente repetición de la variación hasta alcanzar 30 repeticiones
+
+10) Una vez terminadas las repeticiones guardar los archivos .logfile.csv y .trial_number.data en un subdirectorio denominado "Experimento_1_variacion_2"
+
+
+===================================================
+Variación 3: Velocidad del coche 24km/h y 5 coches 
+===================================================
+
+1) Abrir 3 pestañas de terminales 
+2) Entrar en cada terminal al subdirectorio catkin_ws del repositorio
+3) En cada terminal ejecutar: source devel/setup.bash
+4) Eliminar los archivos .logfile.csv y .trial_number.data del subdirectorio catkin_ws usando el navegador gráfico de archivos 
+
+5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
+
+roslaunch icra2024 icra.launch world:=static_5 max_speed:=24 goal_dist:=220 dist_to_car:=15  
+
+6) En la segunda pestaña, para correr el logger:
+
+rosrun utils logger.py
+
+7) En la tercera pestaña, para ejecutar la política:
+
+rosrun icra2024 policy.py 0 0
+
+8) Esperar hasta que termine la repetición actual automáticamente ya sea porque se alcanzó la distancia máxima definida para el experimento o por choque ("Well done! ó "Something weird happened" en logger.py). 
+
+El coche autónomo pudiera salirse del carril y sólo dar vueltas en círculo o tener un comportamiento anómalo; si el sistema no se detiene automáticamente, se puede hacer Ctrl-C en cada pestaña iniciando en la pestaña de logger.py.  
+
+9) Repetir los pasos 5-8 para la siguiente repetición de la variación hasta alcanzar 30 repeticiones
+
+10) Una vez terminadas las repeticiones guardar los archivos .logfile.csv y .trial_number.data en un subdirectorio denominado "Experimento_1_variacion_3"
+
+===================================================
+Variación 4: Velocidad del coche 26km/h y 5 coches 
+===================================================
+
+1) Abrir 3 pestañas de terminales 
+2) Entrar en cada terminal al subdirectorio catkin_ws del repositorio
+3) En cada terminal ejecutar: source devel/setup.bash
+4) Eliminar los archivos .logfile.csv y .trial_number.data del subdirectorio catkin_ws usando el navegador gráfico de archivos 
+
+5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
+
+roslaunch icra2024 icra.launch world:=static_5 max_speed:=26 goal_dist:=220 dist_to_car:=15  
+
+6) En la segunda pestaña, para correr el logger:
+
+rosrun utils logger.py
+
+7) En la tercera pestaña, para ejecutar la política:
+
+rosrun icra2024 policy.py 0 0
+
+8) Esperar hasta que termine la repetición actual automáticamente ya sea porque se alcanzó la distancia máxima definida para el experimento o por choque ("Well done! ó "Something weird happened" en logger.py). 
+
+El coche autónomo pudiera salirse del carril y sólo dar vueltas en círculo o tener un comportamiento anómalo; si el sistema no se detiene automáticamente, se puede hacer Ctrl-C en cada pestaña iniciando en la pestaña de logger.py. 
+
+9) Repetir los pasos 5-8 para la siguiente repetición de la variación hasta alcanzar 30 repeticiones
+
+10) Una vez terminadas las repeticiones guardar los archivos .logfile.csv y .trial_number.data en un subdirectorio denominado "Experimento_1_variacion_4"
+
+
+===================================================
+Variación 5: Velocidad del coche 28km/h y 5 coches 
+===================================================
+
+1) Abrir 3 pestañas de terminales 
+2) Entrar en cada terminal al subdirectorio catkin_ws del repositorio
+3) En cada terminal ejecutar: source devel/setup.bash
+4) Eliminar los archivos .logfile.csv y .trial_number.data del subdirectorio catkin_ws usando el navegador gráfico de archivos 
+
+5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
+
+roslaunch icra2024 icra.launch world:=static_5 max_speed:=28 goal_dist:=220 dist_to_car:=15  
+
+6) En la segunda pestaña, para correr el logger:
+
+rosrun utils logger.py
+
+7) En la tercera pestaña, para ejecutar la política:
+
+rosrun icra2024 policy.py 0 0
+
+8) Esperar hasta que termine la repetición actual automáticamente ya sea porque se alcanzó la distancia máxima definida para el experimento o por choque ("Well done! ó "Something weird happened" en logger.py). 
+
+El coche autónomo pudiera salirse del carril y sólo dar vueltas en círculo o tener un comportamiento anómalo; si el sistema no se detiene automáticamente, se puede hacer Ctrl-C en cada pestaña iniciando en la pestaña de logger.py.
+
+9) Repetir los pasos 5-8 para la siguiente repetición de la variación hasta alcanzar 30 repeticiones
+
+10) Una vez terminadas las repeticiones guardar los archivos .logfile.csv y .trial_number.data en un subdirectorio denominado "Experimento_1_variacion_5"
+
+===================================================
+Variación 6: Velocidad del coche 20km/h y 10 coches 
+===================================================
+
+1) Abrir 3 pestañas de terminales 
+2) Entrar en cada terminal al subdirectorio catkin_ws del repositorio
+3) En cada terminal ejecutar: source devel/setup.bash
+4) Eliminar los archivos .logfile.csv y .trial_number.data del subdirectorio catkin_ws usando el navegador gráfico de archivos 
+
+5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
+
+roslaunch icra2024 icra.launch world:=static_10 max_speed:=28 goal_dist:=420 dist_to_car:=15
+
+6) En la segunda pestaña, para correr el logger:
+
+rosrun utils logger.py
+
+7) En la tercera pestaña, para ejecutar la política:
+
+rosrun icra2024 policy.py 0 0
+
+8) Esperar hasta que termine la repetición actual automáticamente ya sea porque se alcanzó la distancia máxima definida para el experimento o por choque ("Well done! ó "Something weird happened" en logger.py). 
+
+El coche autónomo pudiera salirse del carril y sólo dar vueltas en círculo o tener un comportamiento anómalo; si el sistema no se detiene automáticamente, se puede hacer Ctrl-C en cada pestaña iniciando en la pestaña de logger.py.  
+
+9) Repetir los pasos 5-8 para la siguiente repetición de la variación hasta alcanzar 30 repeticiones
+
+10) Una vez terminadas las repeticiones guardar los archivos .logfile.csv y .trial_number.data en un subdirectorio denominado "Experimento_1_variacion_6"
+
+===================================================
+Variación 7: Velocidad del coche 22km/h y 10 coches 
+===================================================
+
+1) Abrir 3 pestañas de terminales 
+2) Entrar en cada terminal al subdirectorio catkin_ws del repositorio
+3) En cada terminal ejecutar: source devel/setup.bash
+4) Eliminar los archivos .logfile.csv y .trial_number.data del subdirectorio catkin_ws usando el navegador gráfico de archivos 
+
+5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
+
+roslaunch icra2024 icra.launch world:=static_10 max_speed:=22 goal_dist:=420 dist_to_car:=15  
+
+6) En la segunda pestaña, para correr el logger:
+
+rosrun utils logger.py
+
+7) En la tercera pestaña, para ejecutar la política:
+
+rosrun icra2024 policy.py 0 0
+
+8) Esperar hasta que termine la repetición actual automáticamente ya sea porque se alcanzó la distancia máxima definida para el experimento o por choque ("Well done! ó "Something weird happened" en logger.py). 
+
+El coche autónomo pudiera salirse del carril y sólo dar vueltas en círculo o tener un comportamiento anómalo; si el sistema no se detiene automáticamente, se puede hacer Ctrl-C en cada pestaña iniciando en la pestaña de logger.py.  
+
+9) Repetir los pasos 5-8 para la siguiente repetición de la variación hasta alcanzar 30 repeticiones
+
+10) Una vez terminadas las repeticiones guardar los archivos .logfile.csv y .trial_number.data en un subdirectorio denominado "Experimento_1_variacion_7"
+
+
+===================================================
+Variación 8: Velocidad del coche 24km/h y 10 coches 
+===================================================
+
+1) Abrir 3 pestañas de terminales 
+2) Entrar en cada terminal al subdirectorio catkin_ws del repositorio
+3) En cada terminal ejecutar: source devel/setup.bash
+4) Eliminar los archivos .logfile.csv y .trial_number.data del subdirectorio catkin_ws usando el navegador gráfico de archivos 
+
+5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
+
+roslaunch icra2024 icra.launch world:=static_10 max_speed:=24 goal_dist:=420 dist_to_car:=15  
+
+6) En la segunda pestaña, para correr el logger:
+
+rosrun utils logger.py
+
+7) En la tercera pestaña, para ejecutar la política:
+
+rosrun icra2024 policy.py 0 0
+
+8) Esperar hasta que termine la repetición actual automáticamente ya sea porque se alcanzó la distancia máxima definida para el experimento o por choque ("Well done! ó "Something weird happened" en logger.py). 
+
+El coche autónomo pudiera salirse del carril y sólo dar vueltas en círculo o tener un comportamiento anómalo; si el sistema no se detiene automáticamente, se puede hacer Ctrl-C en cada pestaña iniciando en la pestaña de logger.py.  
+
+9) Repetir los pasos 5-8 para la siguiente repetición de la variación hasta alcanzar 30 repeticiones
+
+10) Una vez terminadas las repeticiones guardar los archivos .logfile.csv y .trial_number.data en un subdirectorio denominado "Experimento_1_variacion_8"
+
+
+===================================================
+Variación 9: Velocidad del coche 26km/h y 10 coches 
+===================================================
+
+1) Abrir 3 pestañas de terminales 
+2) Entrar en cada terminal al subdirectorio catkin_ws del repositorio
+3) En cada terminal ejecutar: source devel/setup.bash
+4) Eliminar los archivos .logfile.csv y .trial_number.data del subdirectorio catkin_ws usando el navegador gráfico de archivos 
+
+5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
+
+roslaunch icra2024 icra.launch world:=static_10 max_speed:=26 goal_dist:=420 dist_to_car:=15  
+
+6) En la segunda pestaña, para correr el logger:
+
+rosrun utils logger.py
+
+7) En la tercera pestaña, para ejecutar la política:
+
+rosrun icra2024 policy.py 0 0
+
+8) Esperar hasta que termine la repetición actual automáticamente ya sea porque se alcanzó la distancia máxima definida para el experimento o por choque ("Well done! ó "Something weird happened" en logger.py). 
+
+El coche autónomo pudiera salirse del carril y sólo dar vueltas en círculo o tener un comportamiento anómalo; si el sistema no se detiene automáticamente, se puede hacer Ctrl-C en cada pestaña iniciando en la pestaña de logger.py.  
+
+9) Repetir los pasos 5-8 para la siguiente repetición de la variación hasta alcanzar 30 repeticiones
+
+10) Una vez terminadas las repeticiones guardar los archivos .logfile.csv y .trial_number.data en un subdirectorio denominado "Experimento_1_variacion_9"
+
+===================================================
+Variación 10: Velocidad del coche 28km/h y 10 coches 
+===================================================
+
+1) Abrir 3 pestañas de terminales 
+2) Entrar en cada terminal al subdirectorio catkin_ws del repositorio
+3) En cada terminal ejecutar: source devel/setup.bash
+4) Eliminar los archivos .logfile.csv y .trial_number.data del subdirectorio catkin_ws usando el navegador gráfico de archivos 
+
+5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
+
+roslaunch icra2024 icra.launch world:=static_10 max_speed:=28 goal_dist:=420 dist_to_car:=15  
+
+6) En la segunda pestaña, para correr el logger:
+
+rosrun utils logger.py
+
+7) En la tercera pestaña, para ejecutar la política:
+
+rosrun icra2024 policy.py 0 0
+
+8) Esperar hasta que termine la repetición actual automáticamente ya sea porque se alcanzó la distancia máxima definida para el experimento o por choque ("Well done! ó "Something weird happened" en logger.py). En estos dos casos sólo es necesario terminar el simulador con Ctrl-C. 
+
+El coche autónomo pudiera salirse del carril y sólo dar vueltas en círculo o tener un comportamiento anómalo; si el sistema no se detiene automáticamente, se puede hacer Ctrl-C en cada pestaña iniciando en la pestaña de logger.py.
+
+9) Repetir los pasos 5-8 para la siguiente repetición de la variación hasta alcanzar 30 repeticiones
+
+10) Una vez terminadas las repeticiones guardar los archivos .logfile.csv y .trial_number.data en un subdirectorio denominado "Experimento_1_variacion_10"
+
+
+ 
+

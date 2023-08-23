@@ -30,22 +30,22 @@ def callback_point_cloud(msg):
     xyz = ros_numpy.point_cloud2.pointcloud2_to_xyz_array(msg)
     xyz = xyz[(xyz[:,2] > -1) & (xyz[:,2] < 0.3) ] #Filters points on floor and higher points
     N_points  = xyz[(xyz[:,0] >  2.5) & (xyz[:,0] <  25) & (xyz[:,1] < 1.5) & (xyz[:,1] > -1.5)]
-    NW_points = xyz[(xyz[:,0] >  5) & (xyz[:,0] <   25) & (xyz[:,1] < 5.0) & (xyz[:,1] >  1.0)]
-    W_points  = xyz[(xyz[:,0] > -5) & (xyz[:,0] <  5) & (xyz[:,1] < 5.0) & (xyz[:,1] >  1.0)]
-    SW_points = xyz[(xyz[:,0] >  -25) & (xyz[:,0] < -5) & (xyz[:,1] < 5.0) & (xyz[:,1] >  1.0)]
+    NW_points = xyz[(xyz[:,0] >  5) & (xyz[:,0] <   25) & (xyz[:,1] < 4.0) & (xyz[:,1] >  1.2)]
+    W_points  = xyz[(xyz[:,0] > -5) & (xyz[:,0] <  5) & (xyz[:,1] < 4.0) & (xyz[:,1] >  1.2)]
+    SW_points = xyz[(xyz[:,0] >  -25) & (xyz[:,0] < -5) & (xyz[:,1] < 4.0) & (xyz[:,1] >  1.2)]
     
-    NE_points  = xyz[(xyz[:,0] >  5) & (xyz[:,0] <   25) & (xyz[:,1] > -5.0) & (xyz[:,1] <  -1.0)]        
-    E_points  = xyz[(xyz[:,0] > -5) & (xyz[:,0] <  5) & (xyz[:,1] > -5.0) & (xyz[:,1] <  -1.0)] 
-    SE_points  = xyz[(xyz[:,0] >  -25) & (xyz[:,0] < -5) & (xyz[:,1] > -5.0) & (xyz[:,1] <  -1.0)]               
+    NE_points  = xyz[(xyz[:,0] >  5) & (xyz[:,0] <   25) & (xyz[:,1] > -4.0) & (xyz[:,1] <  -1.2)]        
+    E_points  = xyz[(xyz[:,0] > -5) & (xyz[:,0] <  5) & (xyz[:,1] > -4.0) & (xyz[:,1] <  -1.2)] 
+    SE_points  = xyz[(xyz[:,0] >  -25) & (xyz[:,0] < -5) & (xyz[:,1] > -4.0) & (xyz[:,1] <  -1.2)]               
     
     free_N  = N_points .shape[0] < 20
-    free_NW = NW_points.shape[0] < 150
-    free_W  = W_points .shape[0] <150
-    free_SW = SW_points.shape[0] < 150
+    free_NW = NW_points.shape[0] < 50
+    free_W  = W_points .shape[0] < 50
+    free_SW = SW_points.shape[0] <  50
 
-    free_NE  = NE_points .shape[0] < 150    
-    free_E  = E_points .shape[0] < 150   
-    free_SE  = SE_points .shape[0] < 150    
+    free_NE  = NE_points .shape[0] < 50    
+    free_E  = E_points .shape[0] < 50   
+    free_SE  = SE_points .shape[0] < 50   
     
     pub_obs_N .publish(free_N )
     pub_obs_NW.publish(free_NW)
@@ -68,7 +68,7 @@ def main():
     
     print("INITIALIZING OBSTACLE DETECTOR...", flush=True)
     rospy.init_node("free_detector")
-    rate = rospy.Rate(10)
+    rate = rospy.Rate(20)
         
     rospy.Subscriber('/point_cloud', PointCloud2, callback_point_cloud)
     rospy.Subscriber("/clock", Clock, callback_sim_time)

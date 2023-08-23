@@ -32,7 +32,7 @@ SM_PASS_ON_LEFT_2 = 130
 SM_PASS_ON_LEFT_3 = 140
 SM_PASS_ON_LEFT_4 = 150
 SM_PASS_ON_LEFT_5 = 160
- 
+
 #
 # Steering is calculated proportional to two errors: distance error and angle error.
 # These errors correspond to differences between an observed line (in normal form)
@@ -163,7 +163,7 @@ def calculate_turning_steering(w, L, v):
         k = 0.5
     if k < -0.5:
         k = -0.5
-
+ 
     return math.asin(k)
     
 def main():

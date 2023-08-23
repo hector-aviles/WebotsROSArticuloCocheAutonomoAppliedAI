@@ -24,7 +24,7 @@ rosrun icra2024 policy.py 4 3
 
 Los números al final son la velocidad de los coches del carril izquierdo y derecho, respectivamente y en general, la velocidad de los coches del carril izquierdo será mayor que los coches del carril derecho.
 
-Los pasos anteriores se repetirán N veces. Desde la primera ejecución deberán hacer sido creados dos archivos ocultos: .logfile.csv y .trial_number.data en el subdirectorio catkin_ws. Los archivos pueden verse mediante el comando "la -ls" en la terminal ó en el navegador de archivos habilitando la opción "View->Show hidden". En nueva ejecución del simulador el contador num_trial deberá incrementarse (se puede ver en la terminal correspondiente). Cuando se terminen las N ejecuciones de cada grupo de repeticiones, ambos archivos deberán renombrarse para eliminar el símbolo de punto '.' que aparece al inicio del nombre. Esto los hará "visibles" y posteriormente se deberán copiar y guardar en una carpeta denominada "". Aambos archivos deberán borrarse de la carpeta catkin_ws antes del inicio de cada nuevo grupo de repeticiones (y después de haber salvado en otra carpeta para el grupo de experimentos anterior).
+Los pasos anteriores se repetirán N veces. Desde la primera ejecución deberán hacer sido creados dos archivos ocultos: .logfile.csv y .trial_number.data en el subdirectorio catkin_ws. Los archivos pueden verse mediante el comando "la -ls" en la terminal ó en el navegador de archivos habilitando la opción "View->Show hidden" ó con Ctrl-h. En nueva ejecución del simulador el contador num_trial deberá incrementarse (se puede ver en la terminal correspondiente). Cuando se terminen las N ejecuciones de cada grupo de repeticiones, ambos archivos deberán renombrarse para eliminar el símbolo de punto '.' que aparece al inicio del nombre. Esto los hará "visibles" y posteriormente se deberán copiar y guardar en una carpeta denominada "". Aambos archivos deberán borrarse de la carpeta catkin_ws antes del inicio de cada nuevo grupo de repeticiones (y después de haber salvado en otra carpeta para el grupo de experimentos anterior).
 
 
 Notas: 
@@ -42,9 +42,4 @@ para dar Ctrl-C.
 
 +) Cualquier error o comportamiento inesperado comunicarlo inmediatamente al grupo Experimentos ICRA
 
-
-
-
-
- 
 

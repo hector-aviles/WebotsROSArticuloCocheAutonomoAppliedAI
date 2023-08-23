@@ -66,8 +66,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.02278060274599243 -0.008557883071883907 -0.9997038595383421 3.316608643003552
-  position 644.4015403755038 -76.086033831315 34.49312235353179
+  orientation -0.06798997902185294 0.02023538911539126 -0.9974807726367245 3.9172986478855054
+  position 390.88921834211055 -63.70228542389434 -10.112127660102743
   near 1
   follow "vehicle"
   lensFlare LensFlare {
@@ -91,11 +91,6 @@ Floor {
     metalness 0
     emissiveIntensity 0
   }
-}
-DEF vehicle_7 RangeRoverSportSVRSimple {
-  translation 173.91 1.98 0.44
-  color 0.3 0.7 0.7
-  name "7"
 }
 StraightRoadSegment {
   translation 880 0 0.1
@@ -138,13 +133,6 @@ StraightRoadSegment {
   leftBorderBoundingObject TRUE
 }
 SpeedLimitPanel {
-  translation 550 0 0
-  name "speed limit panel(3)"
-  signImage [
-    "../resources/SpeedLimit20.png"
-  ]
-}
-SpeedLimitPanel {
   translation 0.023 0 0
   signImage [
     "../resources/SpeedLimit20.png"
@@ -163,11 +151,6 @@ StraightRoadSegment {
   roadBoundingObject TRUE
   rightBorderBoundingObject TRUE
   leftBorderBoundingObject TRUE
-}
-DEF vehicle_6 TeslaModel3Simple {
-  translation 133.26 -1.97 0.42
-  color 0.9 0.9 0.3  
-  name "6"
 }
 StraightRoadSegment {
   translation 230 0 0.1
@@ -292,42 +275,52 @@ HighwayPole {
     }
   ]
 }
+DEF vehicle_1 LincolnMKZSimple {
+  translation 35.13 -1.57 0.45
+  name "1"
+}
 DEF vehicle_2 RangeRoverSportSVRSimple {
-  translation 45.24 -1.81013 0.45
+  translation 75.25 1.58987 0.45
   rotation 0 0 1 4.692820414042842e-06
   name "2"
 }
-DEF vehicle_9 CitroenCZeroSimple {
-  translation 180.47 1.81 0.45
-  color 0.8 0.0 0.8  
-  name "9"
-}
-DEF vehicle_8 CitroenCZeroSimple {
-  translation 180.47 1.81 0.45
-  name "8"
-}
 DEF vehicle_3 CitroenCZeroSimple {
-  translation 80.47 1.81 0.45
+  translation 115.83 -1.54 0.45
   name "3"
 }
-DEF vehicle_10 CitroenCZeroSimple {
-  translation 189.32 2.13 0.36
-  name "10"
-}
-DEF vehicle_1 LincolnMKZSimple {
-  translation 28.51 -1.57 0.45
-  name "1"
+DEF vehicle_4 TeslaModel3Simple {
+  translation 155.89 1.54 0.4
+  name "4"
 }
 DEF vehicle_5 RangeRoverSportSVRSimple {
-  translation 400 -1.82 0.46
+  translation 195.81 -1.11 0.46
   color 0.8 0.7 0.65
   name "5"
+}
+DEF vehicle_6 TeslaModel3Simple {
+  translation 235.23 2.07 0.42
+  color 0.9 0.9 0.3
+  name "6"
+}
+DEF vehicle_7 RangeRoverSportSVRSimple {
+  translation 275.37 -1.22 0.44
+  color 0.3 0.7 0.7
+  name "7"
+}
+DEF vehicle_8 CitroenCZeroSimple {
+  translation 315.37 1.81 0.45
+  name "8"
+}
+DEF vehicle_9 TeslaModel3Simple {
+  translation 355.94 -1.31 0.45
+  color 0.8 0 0.8
+  name "9"
+}
+DEF vehicle_10 RangeRoverSportSVRSimple {
+  translation 395.88 1.43 0.36
+  name "10"
 }
 Robot {
   controller "supervisor_icra"
   supervisor TRUE
-}
-DEF vehicle_4 TeslaModel3Simple {
-  translation 101.21 -1.81 0.4
-  name "4"
 }
