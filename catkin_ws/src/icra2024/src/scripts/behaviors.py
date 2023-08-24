@@ -32,7 +32,7 @@ SM_PASS_ON_LEFT_2 = 130
 SM_PASS_ON_LEFT_3 = 140
 SM_PASS_ON_LEFT_4 = 150
 SM_PASS_ON_LEFT_5 = 160
-MAX_STEERING = 0.29 
+MAX_STEERING = 0.5
  
 #
 # Steering is calculated proportional to two errors: distance error and angle error.
