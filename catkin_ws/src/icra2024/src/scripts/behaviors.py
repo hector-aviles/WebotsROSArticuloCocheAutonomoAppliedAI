@@ -301,7 +301,7 @@ def main():
         # STATES FOR CHANGE TO LEFT LANE
         #
         elif state == SM_TURNING_LEFT_1:
-            if speed <= 0:
+            if speed <= 10:
                 speed = max_speed
             steering = calculate_turning_steering(1.2, 2.9, speed)
             if current_y > -0.7: # Vehicle has moved to the left. Right lane has y=-1.5 and center is around y=0
@@ -309,7 +309,7 @@ def main():
                 state = SM_TURNING_LEFT_2 
 
         elif state == SM_TURNING_LEFT_2:
-            if speed <= 0:
+            if speed <= 10:
                 speed = max_speed
             steering = calculate_turning_steering(-1.2, 2.9, speed)
             if current_y > 1.0 or abs(current_a) < 0.2: # Vehicle has moved to the left lane. Left lane has y=1.5
@@ -321,7 +321,7 @@ def main():
         # STATES FOR CHANGE TO RIGHT LANE
         #
         elif state == SM_TURNING_RIGHT_1:
-            if speed == 0:
+            if speed <=10:
                 speed = max_speed
             steering = calculate_turning_steering(-1.2, 2.9, speed)
             if current_y < 0.7: #Vehicle has moved to the right. Left lane has y = 1.5 and center is around y=0
@@ -329,7 +329,7 @@ def main():
                 state = SM_TURNING_RIGHT_2
 
         elif state == SM_TURNING_RIGHT_2:
-            if speed == 0:
+            if speed <= 10:
                 speed = max_speed
             steering = calculate_turning_steering(1.2, 2.9, speed)
             if current_y < -1.0 or abs(current_a) < 0.2: #Vehicle has moved to the right lane. Right lane has y=-1.5
@@ -342,7 +342,7 @@ def main():
         # STATES FOR PASSING ON THE LEFT
         #
         elif state == SM_PASS_ON_LEFT_1:
-            if speed == 0:
+            if speed <= 10:
                 speed = max_speed
             steering = calculate_turning_steering(1.2, 2.9, speed)
             if current_y > -0.7: # Vehicle has moved to the left. Right lane has y=-1.5 and center is around y=0
@@ -350,7 +350,7 @@ def main():
                 state = SM_PASS_ON_LEFT_2
 
         elif state == SM_PASS_ON_LEFT_2:
-            if speed == 0:
+            if speed <= 10:
                 speed = max_speed
             steering = calculate_turning_steering(-1.2, 2.9, speed)
             if current_y > 1.0 or abs(current_a) < 0.2: # Vehicle has moved to the left lane. Left lane has y=1.5
@@ -372,7 +372,7 @@ def main():
                 state = SM_PASS_ON_LEFT_5
 
         elif state == SM_PASS_ON_LEFT_5:
-            if speed == 0:
+            if speed <= 10:
                 speed = max_speed
             steering = calculate_turning_steering(1.2, 2.9, speed)
             if current_y < -1.0 or abs(current_a) < 0.2: #Vehicle has moved to the right lane. Right lane has y=-1.5
@@ -385,7 +385,7 @@ def main():
         # STATES FOR PASSING ON THE RIGHT
         #
         elif state == SM_PASS_ON_RIGHT_1:
-            if speed == 0:
+            if speed <= 10:
                 speed = max_speed
             steering = calculate_turning_steering(-1.2, 2.9, speed)
             if current_y < 0.7: # Vehicle has moved to the right Right lane has y=-1.5 and center is around y=0
@@ -393,7 +393,7 @@ def main():
                 state = SM_PASS_ON_RIGHT_2
 
         elif state == SM_PASS_ON_RIGHT_2:
-            if speed == 0:
+            if speed <= 10:
                 speed = max_speed
             steering = calculate_turning_steering(1.2, 2.9, speed)
             if current_y < -1.0 or abs(current_a) < 0.2: # Vehicle has moved to the right lane. Right lane has y=-1.5
@@ -407,7 +407,7 @@ def main():
                 state = SM_PASS_ON_RIGHT_4
 
         elif state == SM_PASS_ON_RIGHT_4:
-            if speed == 0:
+            if speed <= 10:
                 speed = max_speed
             steering = calculate_turning_steering(1.2, 2.9, speed)
             if current_y > -0.7: #Vehicle has moved to the right. Left lane has y = 1.5 and center is around y=0
@@ -415,7 +415,7 @@ def main():
                 state = SM_PASS_ON_RIGHT_5
 
         elif state == SM_PASS_ON_RIGHT_5:
-            if speed == 0:
+            if speed <= 10:
                 speed = max_speed
             steering = calculate_turning_steering(-1.2, 2.9, speed)
             if current_y > 1.0 or abs(current_a) < 0.2: #Vehicle has moved to the left lane. Left lane has y=1.5
