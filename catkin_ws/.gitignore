@@ -5,3 +5,5 @@ src/CMakeLists.txt
 logger.log 
 num_repetition.data
 video.mp4
+.logfile.csv
+.trial_number.data
