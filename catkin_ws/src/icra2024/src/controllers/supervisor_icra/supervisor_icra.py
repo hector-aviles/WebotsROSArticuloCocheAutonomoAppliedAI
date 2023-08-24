@@ -41,10 +41,10 @@ robot.getFromDef('vehicle_3'), robot.getFromDef('vehicle_4'),  robot.getFromDef(
               #print(i, ")", "Initial:", values)
               rand_val = np.random.uniform(-2,2,1)
               #print("Random number", rand_val)
-              #values[0] = values[0] + rand_val
+              values[0] = values[0] + rand_val
               #print("New x value", values[0])
-              #tf[i].setSFVec3f(values)
-              #car.resetPhysics()   
+              tf[i].setSFVec3f(values)
+              car.resetPhysics()   
         i = i + 1 
 
     bmw  = robot.getFromDef('BMW_X5')  
