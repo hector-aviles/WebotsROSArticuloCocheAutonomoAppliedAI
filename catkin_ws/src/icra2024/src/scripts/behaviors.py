@@ -166,12 +166,11 @@ def calculate_turning_steering(w, L, v):
         k = -0.5
 
     steering = math.asin(k)
-    print("Steering angle ", steering)
     if steering > MAX_STEERING: 
-       print("Error: Setting steering to ", MAX_STEERING)
+       print("Setting steering to ", MAX_STEERING)
        steering = MAX_STEERING
     elif steering < -MAX_STEERING:
-       print("Error: Setting steering to ", MAX_STEERING)
+       print("Setting steering to ", MAX_STEERING)
        steering = -MAX_STEERING       
  
     return steering
