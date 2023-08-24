@@ -32,7 +32,8 @@ SM_PASS_ON_LEFT_2 = 130
 SM_PASS_ON_LEFT_3 = 140
 SM_PASS_ON_LEFT_4 = 150
 SM_PASS_ON_LEFT_5 = 160
-
+MAX_STEERING = 0.29 
+ 
 #
 # Steering is calculated proportional to two errors: distance error and angle error.
 # These errors correspond to differences between an observed line (in normal form)
@@ -163,8 +164,17 @@ def calculate_turning_steering(w, L, v):
         k = 0.5
     if k < -0.5:
         k = -0.5
+
+    steering = math.asin(k)
+    print("Steering angle ", steering)
+    if steering > MAX_STEERING: 
+       print("Error: Setting steering to ", MAX_STEERING)
+       steering = MAX_STEERING
+    elif steering < -MAX_STEERING:
+       print("Error: Setting steering to ", MAX_STEERING)
+       steering = -MAX_STEERING       
  
-    return math.asin(k)
+    return steering
     
 def main():
     global free_north, free_north_west, free_west, free_south_west, free_north_east, free_east, free_south_east
