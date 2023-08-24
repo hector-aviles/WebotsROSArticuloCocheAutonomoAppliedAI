@@ -39,14 +39,21 @@ def callback_point_cloud(msg):
     SE_points  = xyz[(xyz[:,0] >  -25) & (xyz[:,0] < -5) & (xyz[:,1] > -4.0) & (xyz[:,1] <  -1.2)]               
     
     free_N  = N_points .shape[0] < 20
+    print("free_N", free_N, " ", flush = True, end = "")
     free_NW = NW_points.shape[0] < 50
+    print("free_NW", free_NW, " ", flush = True, end = "")    
     free_W  = W_points .shape[0] < 50
+    print("free_W", free_W, " ", flush = True, end = "")
     free_SW = SW_points.shape[0] <  50
+    print("free_SW", free_SW, " ", flush = True, end = "")
 
-    free_NE  = NE_points .shape[0] < 50    
-    free_E  = E_points .shape[0] < 50   
+    free_NE  = NE_points .shape[0] < 50
+    print("free_NE", free_NE, " ", flush = True, end = "")        
+    free_E  = E_points .shape[0] < 50
+    print("free_E", free_E, " ", flush = True, end = "")       
     free_SE  = SE_points .shape[0] < 50   
-    
+    print("free_SE", free_SE, " ", flush = True)    
+
     pub_obs_N .publish(free_N )
     pub_obs_NW.publish(free_NW)
     pub_obs_W .publish(free_W )

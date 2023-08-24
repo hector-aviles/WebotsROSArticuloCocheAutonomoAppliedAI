@@ -21,7 +21,7 @@ roslaunch icra2024 icra.launch world:=static_5 max_speed:=20 goal_dist:=220 dist
 
 6) En la segunda pestaña, para correr el logger:
 
-rosrun utils logger.py
+Revisirosrun utils logger.py
 
 7) En la tercera pestaña, para ejecutar la política:
 

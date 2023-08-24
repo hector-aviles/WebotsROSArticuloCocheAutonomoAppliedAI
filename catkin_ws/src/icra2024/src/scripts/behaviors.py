@@ -12,6 +12,7 @@ import rospy
 import math
 from std_msgs.msg import Float64MultiArray, Float64, Empty, Bool
 from geometry_msgs.msg import Pose2D
+from rosgraph_msgs.msg import Clock 
 
 SM_INIT = 0
 SM_WAITING_FOR_NEW_TASK = 10
@@ -33,6 +34,14 @@ SM_PASS_ON_LEFT_3 = 140
 SM_PASS_ON_LEFT_4 = 150
 SM_PASS_ON_LEFT_5 = 160
 MAX_STEERING = 0.5
+
+
+def callback_sim_time(msg):
+    global curr_time            
+    sim_time = msg
+    sim_secs = sim_time.clock.secs 
+    sim_nsecs = sim_time.clock.nsecs
+    curr_time = sim_secs + sim_nsecs / (10**9) 
  
 #
 # Steering is calculated proportional to two errors: distance error and angle error.
@@ -181,6 +190,7 @@ def main():
     global max_speed, k_rho, k_theta, k_following, dist_to_car
     global enable_cruise, enable_follow, dist_to_obs, start_change_lane_on_left, start_change_lane_on_right
     global start_pass_on_left, start_pass_on_right
+    global curr_time    
     
     max_speed = 30      #Maximum speed for following and steady motion behaviors
     k_rho   = 0.001     #Gain for rho error in lane tracking
@@ -228,6 +238,7 @@ def main():
     rospy.Subscriber("/free/north_east", Bool, callback_free_north_east) 
     rospy.Subscriber("/free/east"      , Bool, callback_free_east)      
     rospy.Subscriber("/free/south_east", Bool, callback_free_south_east)
+    rospy.Subscriber("/clock", Clock, callback_sim_time)        
     
     pub_speed = rospy.Publisher('/speed', Float64, queue_size=1)
     pub_angle = rospy.Publisher('/steering', Float64, queue_size=1)
@@ -261,26 +272,26 @@ def main():
         elif state == SM_WAITING_FOR_NEW_TASK:
             if enable_cruise:
                 state = SM_START_STEADY_MOTION
-                print("Starting steady motion")
+                print("Starting steady motion", flush = True)
             elif enable_follow:
                 state = SM_START_CAR_FOLLOWING
-                print("Starting follow car")
+                print("Starting follow car", flush = True)
             elif start_change_lane_on_left:
                 state = SM_TURNING_LEFT_1
                 start_change_lane_on_left = False
-                print("Starting change lane on left")
+                print("Starting change lane on left", "curr_time", curr_time, flush = True)
             elif start_change_lane_on_right:
                 state = SM_TURNING_RIGHT_1
                 start_change_lane_on_right = False
-                print("Starting change lane on right")
+                print("Starting change lane on right", "curr_time", curr_time, flush = True)
             elif start_pass_on_left:
                 state = SM_PASS_ON_LEFT_1
                 start_pass_on_left = False
-                print("Starting passing on left")
+                print("Starting passing on left", flush = True)
             elif start_pass_on_right:
                 state = SM_PASS_ON_RIGHT_1
                 start_pass_on_right = False
-                print("Starting passing on right")
+                print("Starting passing on right", flush = True)
             else:
                 speed, steering = 0,0
 
@@ -305,7 +316,7 @@ def main():
                 speed = max_speed
             steering = calculate_turning_steering(1.2, 2.9, speed)
             if current_y > -0.7: # Vehicle has moved to the left. Right lane has y=-1.5 and center is around y=0
-                print("Moving to right to align with left lane")
+                print("Moving to right to align with left lane", "curr_time", curr_time, flush = True)
                 state = SM_TURNING_LEFT_2 
 
         elif state == SM_TURNING_LEFT_2:
@@ -313,7 +324,7 @@ def main():
                 speed = max_speed
             steering = calculate_turning_steering(-1.2, 2.9, speed)
             if current_y > 1.0 or abs(current_a) < 0.2: # Vehicle has moved to the left lane. Left lane has y=1.5
-                print("Change lane on left finished")
+                print("Change lane on left finished", "curr_time", curr_time, flush = True)
                 pub_change_lane_finshed.publish(True)
                 state = SM_WAITING_FOR_NEW_TASK
 
@@ -325,7 +336,7 @@ def main():
                 speed = max_speed
             steering = calculate_turning_steering(-1.2, 2.9, speed)
             if current_y < 0.7: #Vehicle has moved to the right. Left lane has y = 1.5 and center is around y=0
-                print("Moving to left to align with right lane")
+                print("Moving to left to align with right lane", "curr_time", curr_time, flush = True)
                 state = SM_TURNING_RIGHT_2
 
         elif state == SM_TURNING_RIGHT_2:
@@ -333,10 +344,9 @@ def main():
                 speed = max_speed
             steering = calculate_turning_steering(1.2, 2.9, speed)
             if current_y < -1.0 or abs(current_a) < 0.2: #Vehicle has moved to the right lane. Right lane has y=-1.5
-                print("Change lane on right finished")
+                print("Change lane on right finished", "curr_time", curr_time, flush = True)
                 pub_change_lane_finshed.publish(True)
                 state = SM_WAITING_FOR_NEW_TASK
-
 
         #
         # STATES FOR PASSING ON THE LEFT
@@ -346,7 +356,7 @@ def main():
                 speed = max_speed
             steering = calculate_turning_steering(1.2, 2.9, speed)
             if current_y > -0.7: # Vehicle has moved to the left. Right lane has y=-1.5 and center is around y=0
-                print("Moving to right to align with left lane")
+                print("Moving to right to align with left lane", flush = True)
                 state = SM_PASS_ON_LEFT_2
 
         elif state == SM_PASS_ON_LEFT_2:
@@ -354,7 +364,7 @@ def main():
                 speed = max_speed
             steering = calculate_turning_steering(-1.2, 2.9, speed)
             if current_y > 1.0 or abs(current_a) < 0.2: # Vehicle has moved to the left lane. Left lane has y=1.5
-                print("Moving to left lane finished. Starting to follow lane")
+                print("Moving to left lane finished. Starting to follow lane", flush = True)
                 state = SM_PASS_ON_LEFT_3
                 last_x = current_x
 
@@ -368,7 +378,7 @@ def main():
                 speed = max_speed
             steering = calculate_turning_steering(-1.2, 2.9, speed)
             if current_y < 0.7: #Vehicle has moved to the right. Left lane has y = 1.5 and center is around y=0
-                print("Moving to right to align with right lane after passing on left")
+                print("Moving to right to align with right lane after passing on left", flush = True)
                 state = SM_PASS_ON_LEFT_5
 
         elif state == SM_PASS_ON_LEFT_5:
@@ -377,7 +387,7 @@ def main():
             steering = calculate_turning_steering(1.2, 2.9, speed)
             if current_y < -1.0 or abs(current_a) < 0.2: #Vehicle has moved to the right lane. Right lane has y=-1.5
                 pub_pass_finished.publish(True)
-                print("Passing on left finished")
+                print("Passing on left finished", flush = True)
                 state = SM_WAITING_FOR_NEW_TASK
 
 
@@ -389,7 +399,7 @@ def main():
                 speed = max_speed
             steering = calculate_turning_steering(-1.2, 2.9, speed)
             if current_y < 0.7: # Vehicle has moved to the right Right lane has y=-1.5 and center is around y=0
-                print("Moving to left to align with right lane")
+                print("Moving to left to align with right lane", flush = True)
                 state = SM_PASS_ON_RIGHT_2
 
         elif state == SM_PASS_ON_RIGHT_2:
@@ -397,7 +407,7 @@ def main():
                 speed = max_speed
             steering = calculate_turning_steering(1.2, 2.9, speed)
             if current_y < -1.0 or abs(current_a) < 0.2: # Vehicle has moved to the right lane. Right lane has y=-1.5
-                print("Moving to right lane finished. Starting to follow lane.")
+                print("Moving to right lane finished. Starting to follow lane.", flush = True)
                 state = SM_PASS_ON_RIGHT_3
                 last_x = current_x
 
@@ -411,7 +421,7 @@ def main():
                 speed = max_speed
             steering = calculate_turning_steering(1.2, 2.9, speed)
             if current_y > -0.7: #Vehicle has moved to the right. Left lane has y = 1.5 and center is around y=0
-                print("Moving to right to align with left lane after passing on right")
+                print("Moving to right to align with left lane after passing on right", flush = True)
                 state = SM_PASS_ON_RIGHT_5
 
         elif state == SM_PASS_ON_RIGHT_5:
@@ -419,12 +429,12 @@ def main():
                 speed = max_speed
             steering = calculate_turning_steering(-1.2, 2.9, speed)
             if current_y > 1.0 or abs(current_a) < 0.2: #Vehicle has moved to the left lane. Left lane has y=1.5
-                print("Passing on right finished")
+                print("Passing on right finished", flush = True)
                 pub_pass_finished.publish(True)
                 state = SM_WAITING_FOR_NEW_TASK
                 
         else:
-            print("Invalid STATE")
+            print("Invalid STATE", flush = True)
             break;
         #print([speed, steering])
         pub_speed.publish(speed)

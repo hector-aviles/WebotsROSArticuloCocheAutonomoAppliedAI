@@ -234,7 +234,7 @@ def main(str_speed_left, str_speed_right):
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action 
-                    print("free_N", free_N, "free_NW", free_NW, "free_SW", free_SW, "free_W", free_W,  flush = True)                                   
+                    print("free_N", free_N, "free_NW", free_NW, "free_SW", free_SW, "free_W", free_W, "curr_time", curr_time, flush = True)
                  change_lane_on_left()
 
                  print ("Waiting for change lane to finish...", flush = True, end="")
@@ -310,7 +310,7 @@ def main(str_speed_left, str_speed_right):
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action
-                    print("free_N", free_N, "free_NW", free_NW, "free_SW", free_SW, "free_W", free_W,  flush = True)               
+                    print("free_N", free_N, "free_NW", free_NW, "free_SW", free_SW, "free_W", free_W, "curr_time", curr_time, flush = True)
                  change_lane_on_left()
                  print ("Waiting for change lane to finish...", flush = True, end="")
                  rospy.wait_for_message("/change_lane_finished", Bool, timeout=10000.0)
@@ -379,7 +379,7 @@ def main(str_speed_left, str_speed_right):
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action      
-                    print ("free_E", free_E, "free_N", free_N, "free_NE", free_NE, "free_SE", free_SE, flush = True)                 
+                    print ("free_E", free_E, "free_N", free_N, "free_NE", free_NE, "free_SE", free_SE, "curr_time", curr_time, flush = True)
                  change_lane_on_right()
                  print ("Waiting for change lane to finish...", flush = True, end="")
                  rospy.wait_for_message("/change_lane_finished", Bool, timeout=10000.0)
@@ -400,7 +400,7 @@ def main(str_speed_left, str_speed_right):
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
-                    print ("free_E", free_E, "free_N", free_N, "free_NE", free_NE, "free_SE", free_SE, flush = True)                 
+                    print ("free_E", free_E, "free_N", free_N, "free_NE", free_NE, "free_SE", free_SE, "curr_time", curr_time, flush = True)
                  change_lane_on_right()
                  print ("Waiting for change lane to finish...", flush = True, end="")
                  rospy.wait_for_message("/change_lane_finished", Bool, timeout=10000.0)
@@ -457,7 +457,7 @@ def main(str_speed_left, str_speed_right):
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
-                    print ("free_E", free_E, "free_N", free_N, "free_NE", free_NE, "free_SE", free_SE, flush = True)                 
+                    print ("free_E", free_E, "free_N", free_N, "free_NE", free_NE, "free_SE", free_SE, "curr_time", curr_time, flush = True)      
                  change_lane_on_right()
                  print ("Waiting for change lane to finish...", flush = True, end="")
                  rospy.wait_for_message("/change_lane_finished", Bool, timeout=10000.0)
@@ -478,7 +478,7 @@ def main(str_speed_left, str_speed_right):
                  if action_prev != action:
                     print(action, flush = True)
                     action_prev = action                
-                    print ("free_E", free_E, "free_N", free_N, "free_NE", free_NE, "free_SE", free_SE, flush = True)
+                    print ("free_E", free_E, "free_N", free_N, "free_NE", free_NE, "free_SE", free_SE, "curr_time", curr_time, flush = True)
                  change_lane_on_right()
                  print ("Waiting for change lane to finish...", flush = True, end="")
                  rospy.wait_for_message("/change_lane_finished", Bool, timeout=10000.0)
