@@ -3,7 +3,7 @@ Instrucciones para experimentos
 #####################################################################
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Experimento 2: Coches dinámicos variando velocidad del coche autónomo de 20, 22, 24, 26, 28 km/h y con 5 y 10 coches obstáculo. La velocidad de los coches obstáculo de la izquierda es 5m/s = 18km/h.La velocidad de los coches obstáculo de la izquierda es 4m/s = 14.4km/h.     
+Experimento 2: Coches dinámicos variando velocidad del coche autónomo de 20, 22, 24, 26, 28 km/h y con 5 y 10 coches obstáculo. La velocidad de los coches obstáculo de la izquierda es 5m/s = 18km/h.La velocidad de los coches obstáculo de la derecha es 4m/s = 14.4km/h.     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 ===================================================
