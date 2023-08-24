@@ -315,6 +315,7 @@ def main():
             if speed <= 10:
                 speed = max_speed
             steering = calculate_turning_steering(1.2, 2.9, speed)
+            #print("Steering turning left 1", steering, "current_y", current_y, "current_a", current_a, flush=True)
             if current_y > -0.7: # Vehicle has moved to the left. Right lane has y=-1.5 and center is around y=0
                 print("Moving to right to align with left lane", "curr_time", curr_time, flush = True)
                 state = SM_TURNING_LEFT_2 
@@ -323,6 +324,7 @@ def main():
             if speed <= 10:
                 speed = max_speed
             steering = calculate_turning_steering(-1.2, 2.9, speed)
+            #print("Steering turning left 2", steering, "current_y", current_y, "current_a", current_a, flush=True)            
             if current_y > 1.0 or abs(current_a) < 0.2: # Vehicle has moved to the left lane. Left lane has y=1.5
                 print("Change lane on left finished", "curr_time", curr_time, flush = True)
                 pub_change_lane_finshed.publish(True)
@@ -335,6 +337,7 @@ def main():
             if speed <=10:
                 speed = max_speed
             steering = calculate_turning_steering(-1.2, 2.9, speed)
+            #print("Steering turning right 1", steering, "current_y", current_y, "current_a", current_a, flush=True)            
             if current_y < 0.7: #Vehicle has moved to the right. Left lane has y = 1.5 and center is around y=0
                 print("Moving to left to align with right lane", "curr_time", curr_time, flush = True)
                 state = SM_TURNING_RIGHT_2
@@ -343,6 +346,7 @@ def main():
             if speed <= 10:
                 speed = max_speed
             steering = calculate_turning_steering(1.2, 2.9, speed)
+            #print("Steering turning right 1", steering, "current_y", current_y, "current_a", current_a, flush=True)            
             if current_y < -1.0 or abs(current_a) < 0.2: #Vehicle has moved to the right lane. Right lane has y=-1.5
                 print("Change lane on right finished", "curr_time", curr_time, flush = True)
                 pub_change_lane_finshed.publish(True)

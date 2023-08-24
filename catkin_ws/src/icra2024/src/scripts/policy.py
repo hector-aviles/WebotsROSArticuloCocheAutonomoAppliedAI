@@ -6,6 +6,7 @@ This node provides several functions to check if there are
 other vehicles around the car and to execute the three
 different behaviors: cruise, follow and change_lane. 
 """
+import time
 import rospy
 from std_msgs.msg import Float64MultiArray, Empty, Bool, String, Float64
 from rosgraph_msgs.msg import Clock 
@@ -16,7 +17,7 @@ def mysleep(secs):
 
     init_time = curr_time        
     diff = 0.0
-    while diff <= secs: # and not rospy.is_shutdown():
+    while diff <= secs or not rospy.is_shutdown(): # and not rospy.is_shutdown():
        diff  = curr_time - init_time
 
 
@@ -152,7 +153,7 @@ def main(str_speed_left, str_speed_right):
     # Pause policy.py a little bit
     rate = rospy.Rate(1) #Hz
     i = 0
-    while not rospy.is_shutdown() and i < 2:
+    while not rospy.is_shutdown() and i < 3:
         pub_policy_started.publish()
         rate.sleep()
         print("Publishing policy_started", i )
@@ -169,7 +170,7 @@ def main(str_speed_left, str_speed_right):
         pub_speed_cars_left_lane.publish(speed_cars_left_lane)
         pub_speed_cars_right_lane.publish(speed_cars_right_lane)    
          
-        #print("Current lane", curr_lane, "Current time", curr_time, flush = True)
+        #print("Policy Current lane", curr_lane, "Current time", curr_time, flush = True)
         
         # right lane
         if curr_lane:
@@ -237,9 +238,9 @@ def main(str_speed_left, str_speed_right):
                     print("free_N", free_N, "free_NW", free_NW, "free_SW", free_SW, "free_W", free_W, "curr_time", curr_time, flush = True)
                  change_lane_on_left()
 
-                 print ("Waiting for change lane to finish...", flush = True, end="")
+                 print ("Waiting for change lane to finish...", "curr_time", curr_time,   flush = True, end="")
                  rospy.wait_for_message("/change_lane_finished", Bool, timeout=10000.0)
-                 print (" End", flush = True)
+                 print (" End",  "curr_time", curr_time,  flush = True)
                  
               elif free_N and free_NW and free_W and not free_SW:
                  action = "Cruise 8"
@@ -312,9 +313,9 @@ def main(str_speed_left, str_speed_right):
                     action_prev = action
                     print("free_N", free_N, "free_NW", free_NW, "free_SW", free_SW, "free_W", free_W, "curr_time", curr_time, flush = True)
                  change_lane_on_left()
-                 print ("Waiting for change lane to finish...", flush = True, end="")
+                 print ("Waiting for change lane to finish...", "curr_time", curr_time,  flush = True, end="")
                  rospy.wait_for_message("/change_lane_finished", Bool, timeout=10000.0)
-                 print (" End", flush = True)
+                 print (" End",  "curr_time", curr_time, flush = True)
 
               elif free_N and free_NW and free_W and free_SW:
                  action = "Cruise 16"
@@ -381,9 +382,9 @@ def main(str_speed_left, str_speed_right):
                     action_prev = action      
                     print ("free_E", free_E, "free_N", free_N, "free_NE", free_NE, "free_SE", free_SE, "curr_time", curr_time, flush = True)
                  change_lane_on_right()
-                 print ("Waiting for change lane to finish...", flush = True, end="")
+                 print ("Waiting for change lane to finish...", "curr_time", curr_time,  flush = True, end="")
                  rospy.wait_for_message("/change_lane_finished", Bool, timeout=10000.0)
-                 print (" End", flush = True)
+                 print (" End",  "curr_time", curr_time,  flush = True)
 
               elif not free_E and free_N and free_NE and not free_SE:
                  action = "Cruise 23"
@@ -402,9 +403,9 @@ def main(str_speed_left, str_speed_right):
                     action_prev = action                
                     print ("free_E", free_E, "free_N", free_N, "free_NE", free_NE, "free_SE", free_SE, "curr_time", curr_time, flush = True)
                  change_lane_on_right()
-                 print ("Waiting for change lane to finish...", flush = True, end="")
+                 print ("Waiting for change lane to finish...", "curr_time", curr_time,   flush = True, end="")
                  rospy.wait_for_message("/change_lane_finished", Bool, timeout=10000.0)
-                 print (" End", flush = True)
+                 print (" End",  "curr_time", curr_time,  flush = True)
                  
               elif not free_E and not free_N and not free_NE and free_SE:
                  action = "Keep distance 25"
@@ -459,9 +460,9 @@ def main(str_speed_left, str_speed_right):
                     action_prev = action                
                     print ("free_E", free_E, "free_N", free_N, "free_NE", free_NE, "free_SE", free_SE, "curr_time", curr_time, flush = True)      
                  change_lane_on_right()
-                 print ("Waiting for change lane to finish...", flush = True, end="")
+                 print ("Waiting for change lane to finish...", "curr_time", curr_time,   flush = True, end="")
                  rospy.wait_for_message("/change_lane_finished", Bool, timeout=10000.0)
-                 print (" End", flush = True)
+                 print (" End",  "curr_time", curr_time,  flush = True)
 
               elif not free_E and free_N and free_NE and free_SE:
                  action = "Cruise 31"
@@ -480,11 +481,12 @@ def main(str_speed_left, str_speed_right):
                     action_prev = action                
                     print ("free_E", free_E, "free_N", free_N, "free_NE", free_NE, "free_SE", free_SE, "curr_time", curr_time, flush = True)
                  change_lane_on_right()
-                 print ("Waiting for change lane to finish...", flush = True, end="")
+                 print ("Waiting for change lane to finish...", "curr_time", curr_time,   flush = True, end="")
                  rospy.wait_for_message("/change_lane_finished", Bool, timeout=10000.0)
-                 print(" End", flush = True)
+                 print(" End",  "curr_time", curr_time, flush = True)
                                               
         rate.sleep()
+        #time.sleep(0.01)
 
 if __name__ == "__main__":
 

@@ -30,29 +30,29 @@ def callback_point_cloud(msg):
     xyz = ros_numpy.point_cloud2.pointcloud2_to_xyz_array(msg)
     xyz = xyz[(xyz[:,2] > -1) & (xyz[:,2] < 0.3) ] #Filters points on floor and higher points
     N_points  = xyz[(xyz[:,0] >  2.5) & (xyz[:,0] <  25) & (xyz[:,1] < 1.5) & (xyz[:,1] > -1.5)]
-    NW_points = xyz[(xyz[:,0] >  5) & (xyz[:,0] <   25) & (xyz[:,1] < 4.0) & (xyz[:,1] >  1.2)]
-    W_points  = xyz[(xyz[:,0] > -5) & (xyz[:,0] <  5) & (xyz[:,1] < 4.0) & (xyz[:,1] >  1.2)]
-    SW_points = xyz[(xyz[:,0] >  -25) & (xyz[:,0] < -5) & (xyz[:,1] < 4.0) & (xyz[:,1] >  1.2)]
+    NW_points = xyz[(xyz[:,0] >  5.0) & (xyz[:,0] <   40) & (xyz[:,1] < 7.0) & (xyz[:,1] >  1.5)]
+    W_points  = xyz[(xyz[:,0] > -5.0) & (xyz[:,0] <  5) & (xyz[:,1] < 7.0) & (xyz[:,1] >  1.5)]
+    SW_points = xyz[(xyz[:,0] >  -40) & (xyz[:,0] < -5) & (xyz[:,1] < 7.0) & (xyz[:,1] >  1.5)]
     
-    NE_points  = xyz[(xyz[:,0] >  5) & (xyz[:,0] <   25) & (xyz[:,1] > -4.0) & (xyz[:,1] <  -1.2)]        
-    E_points  = xyz[(xyz[:,0] > -5) & (xyz[:,0] <  5) & (xyz[:,1] > -4.0) & (xyz[:,1] <  -1.2)] 
-    SE_points  = xyz[(xyz[:,0] >  -25) & (xyz[:,0] < -5) & (xyz[:,1] > -4.0) & (xyz[:,1] <  -1.2)]               
+    NE_points  = xyz[(xyz[:,0] >  5.0) & (xyz[:,0] <   40) & (xyz[:,1] > -7.0) & (xyz[:,1] <  -1.5)]
+    E_points  = xyz[(xyz[:,0] > -5.0) & (xyz[:,0] <  5.0) & (xyz[:,1] > -7.0) & (xyz[:,1] <  -1.5)]
+    SE_points  = xyz[(xyz[:,0] >  -40) & (xyz[:,0] < -5.0) & (xyz[:,1] > -7.0) & (xyz[:,1] <  -1.5)]         
     
-    free_N  = N_points .shape[0] < 20
-    print("free_N", free_N, " ", flush = True, end = "")
+    free_N  = N_points.shape[0] < 20
+    #print("Obstacle free_N", free_N, N_points.shape[0], " ", flush = True, end = "")
     free_NW = NW_points.shape[0] < 50
-    print("free_NW", free_NW, " ", flush = True, end = "")    
+    #print("free_NW", free_NW, NW_points.shape[0]," ", flush = True, end = "")    
     free_W  = W_points .shape[0] < 50
-    print("free_W", free_W, " ", flush = True, end = "")
+    #print("free_W", free_W, W_points .shape[0], " ", flush = True, end = "")
     free_SW = SW_points.shape[0] <  50
-    print("free_SW", free_SW, " ", flush = True, end = "")
+    #print("free_SW", free_SW, SW_points.shape[0]," ", flush = True, end = "")
 
     free_NE  = NE_points .shape[0] < 50
-    print("free_NE", free_NE, " ", flush = True, end = "")        
+    #print("free_NE", free_NE, NE_points .shape[0]," ", flush = True, end = "")        
     free_E  = E_points .shape[0] < 50
-    print("free_E", free_E, " ", flush = True, end = "")       
+    #print("free_E", free_E, E_points .shape[0]," ", flush = True, end = "")       
     free_SE  = SE_points .shape[0] < 50   
-    print("free_SE", free_SE, " ", flush = True)    
+    #print("free_SE", free_SE, SE_points .shape[0], "curr_time", curr_time, flush = True)    
 
     pub_obs_N .publish(free_N )
     pub_obs_NW.publish(free_NW)
