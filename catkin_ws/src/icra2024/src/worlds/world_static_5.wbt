@@ -66,8 +66,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.010466227972920432 -0.3401252584035821 -0.9403218952400902 5.962416646217203
-  position 469.7878896540912 -14.262313072990102 2.21554144912575
+  orientation -0.12563507713629338 -0.020049862360670388 0.9918738984428797 3.5602073362359308
+  position 231.52498974294383 52.89678464462837 27.129627109845483
   near 1
   follow "vehicle"
   lensFlare LensFlare {
@@ -76,61 +76,6 @@ Viewpoint {
 TexturedBackground {
 }
 TexturedBackgroundLight {
-}
-Floor {
-  size 10000 10000
-  tileSize 1 1
-  appearance PBRAppearance {
-    baseColor 0.45098 0.823529 0.0862745
-    baseColorMap ImageTexture {
-      url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/vehicles/worlds/textures/ground_grass.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-    emissiveIntensity 0
-  }
-}
-StraightRoadSegment {
-  translation 880 0 0.1
-  name "segment_9"
-  length 110
-  roadBoundingObject TRUE
-  rightBorderBoundingObject TRUE
-  leftBorderBoundingObject TRUE
-}
-StraightRoadSegment {
-  translation 770 0 0.1
-  name "segment_8"
-  length 110
-  roadBoundingObject TRUE
-  rightBorderBoundingObject TRUE
-  leftBorderBoundingObject TRUE
-}
-StraightRoadSegment {
-  translation 660 0 0.1
-  name "segment_7"
-  length 110
-  roadBoundingObject TRUE
-  rightBorderBoundingObject TRUE
-  leftBorderBoundingObject TRUE
-}
-StraightRoadSegment {
-  translation 550 0 0.1
-  name "segment_6"
-  length 110
-  roadBoundingObject TRUE
-  rightBorderBoundingObject TRUE
-  leftBorderBoundingObject TRUE
-}
-StraightRoadSegment {
-  translation 440 0 0.1
-  name "segment_5"
-  length 110
-  roadBoundingObject TRUE
-  rightBorderBoundingObject TRUE
-  leftBorderBoundingObject TRUE
 }
 SpeedLimitPanel {
   translation 0.023 0 0
@@ -147,23 +92,7 @@ SpeedLimitPanel {
 StraightRoadSegment {
   translation 120 0 0.1
   name "segment_2"
-  length 110
-  roadBoundingObject TRUE
-  rightBorderBoundingObject TRUE
-  leftBorderBoundingObject TRUE
-}
-StraightRoadSegment {
-  translation 230 0 0.1
-  name "segment_3"
-  length 660
-  roadBoundingObject TRUE
-  rightBorderBoundingObject TRUE
-  leftBorderBoundingObject TRUE
-}
-StraightRoadSegment {
-  translation 340 0 0.1
-  name "segment_4"
-  length 110
+  length 200
   roadBoundingObject TRUE
   rightBorderBoundingObject TRUE
   leftBorderBoundingObject TRUE

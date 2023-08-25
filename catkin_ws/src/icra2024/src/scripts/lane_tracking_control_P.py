@@ -103,8 +103,8 @@ def main():
           
     pub_speed = rospy.Publisher('/speed', Float64, queue_size=1)
     pub_angle = rospy.Publisher('/steering', Float64, queue_size=1)
-    msg_left_lane  = rospy.wait_for_message('/demo/left_lane' , Float64MultiArray, timeout=100)
-    msg_right_lane = rospy.wait_for_message('/demo/right_lane', Float64MultiArray, timeout=100)
+    msg_left_lane  = rospy.wait_for_message('/demo/left_lane' , Float64MultiArray, timeout=1000000)
+    msg_right_lane = rospy.wait_for_message('/demo/right_lane', Float64MultiArray, timeout=1000000)
     print("Using:")
     print("Max speed: " + str(max_speed))
     print("K_rho: " + str(k_rho))

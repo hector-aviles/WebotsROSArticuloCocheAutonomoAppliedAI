@@ -316,8 +316,10 @@ def main():
        trial_number = 1                
        c.write(str(trial_number))
        c.close()
-       write_header_csv = True 
-    print (" Trial number", trial_number, flush = True)
+
+    print (" Trial number", trial_number, flush = True)       
+    if trial_number == 1:
+       write_header_csv = True    
 
     print ("Opening logfile...", flush = True, end="")    
     logfile = ".logfile.csv"

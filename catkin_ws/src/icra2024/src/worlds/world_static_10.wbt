@@ -66,8 +66,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.20120875919698542 0.12824411771136912 -0.9711171306772639 2.0194966552172553
-  position 42.96624032528101 67.45708331603433 30.0276859390421
+  orientation 0.25889795914938885 0.1279477657062692 -0.9573929266497925 2.2471672288522253
+  position 604.0353523874554 222.83229544119345 114.49930340355162
   near 1
   follow "vehicle"
   lensFlare LensFlare {
@@ -91,38 +91,6 @@ Floor {
     metalness 0
     emissiveIntensity 0
   }
-}
-StraightRoadSegment {
-  translation 880 0 0.1
-  name "segment_9"
-  length 110
-  roadBoundingObject TRUE
-  rightBorderBoundingObject TRUE
-  leftBorderBoundingObject TRUE
-}
-StraightRoadSegment {
-  translation 770 0 0.1
-  name "segment_8"
-  length 110
-  roadBoundingObject TRUE
-  rightBorderBoundingObject TRUE
-  leftBorderBoundingObject TRUE
-}
-StraightRoadSegment {
-  translation 660 0 0.1
-  name "segment_7"
-  length 110
-  roadBoundingObject TRUE
-  rightBorderBoundingObject TRUE
-  leftBorderBoundingObject TRUE
-}
-StraightRoadSegment {
-  translation 550 0 0.1
-  name "segment_6"
-  length 110
-  roadBoundingObject TRUE
-  rightBorderBoundingObject TRUE
-  leftBorderBoundingObject TRUE
 }
 StraightRoadSegment {
   translation 440 0 0.1
@@ -155,7 +123,7 @@ StraightRoadSegment {
 StraightRoadSegment {
   translation 230 0 0.1
   name "segment_3"
-  length 660
+  length 300
   roadBoundingObject TRUE
   rightBorderBoundingObject TRUE
   leftBorderBoundingObject TRUE

@@ -239,7 +239,7 @@ def main(str_speed_left, str_speed_right):
                  change_lane_on_left()
 
                  print ("Waiting for change lane to finish...", "curr_time", curr_time,   flush = True, end="")
-                 rospy.wait_for_message("/change_lane_finished", Bool, timeout=10000.0)
+                 rospy.wait_for_message("/change_lane_finished", Bool, timeout=10000)
                  print (" End",  "curr_time", curr_time,  flush = True)
                  
               elif free_N and free_NW and free_W and not free_SW:
