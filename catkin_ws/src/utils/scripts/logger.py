@@ -3,6 +3,7 @@
 This node is a logger and records the following data:
 
 """
+import beepy
 import rospy
 from std_msgs.msg import Float64MultiArray, Float64, Empty, Bool, String
 from sensor_msgs.msg import Imu
@@ -373,6 +374,8 @@ def main():
     c.write(str(trial_number))
     c.close()
     print (" Done.", flush = True) 
+    
+    beepy.beep(sound="coin")
         
              
 if __name__ == "__main__":

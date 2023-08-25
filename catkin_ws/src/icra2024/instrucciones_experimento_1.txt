@@ -164,7 +164,7 @@ Variación 6: Velocidad del coche 20km/h y 10 coches
 
 5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
 
-roslaunch icra2024 icra.launch world:=static_10 max_speed:=28 goal_dist:=420 dist_to_car:=15
+roslaunch icra2024 icra.launch world:=static_10 max_speed:=20 goal_dist:=420 dist_to_car:=15
 
 6) En la segunda pestaña, para correr el logger:
 
@@ -300,6 +300,40 @@ El coche autónomo pudiera salirse del carril y sólo dar vueltas en círculo o 
 
 10) Una vez terminadas las repeticiones guardar los archivos .logfile.csv y .trial_number.data en un subdirectorio denominado "Experimento_1_variacion_10"
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+Para instalar opciones de audio, ejecutar:
+
+sudo apt-get install -y python3-dev libasound2-dev
+
+y:
+
+sudo pip3 install beepy
+
+Para probar el beepy ejecutar:
+
+python3
+
+y dentro de python correr:
+
+import beepy
+
+y posteriormente:
+
+beepy.beep(sound="coin")
+
+Si no se escucha sonido, abrir:
+
+sudo vim /etc/modprobe.d/blacklist.conf
+
+y cambiar línea:
+
+blacklist la pcspkr
+
+a:
+
+#blacklist pcspkr
+
+para comentarla.
  
 
