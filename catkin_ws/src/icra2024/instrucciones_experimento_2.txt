@@ -105,7 +105,7 @@ Variación 4: Velocidad del coche 26km/h y 5 coches
 
 5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
 
-roslaunch icra2024 icra.launch world:=dynamic_5 max_speed:=26 goal_dist:=1200 dist_to_car:=15
+roslaunch icra2024 icra.launch world:=dynamic_5 max_speed:=26 goal_dist:=820 dist_to_car:=15
 
 6) En la segunda pestaña, para correr el logger:
 
@@ -135,7 +135,7 @@ Variación 5: Velocidad del coche 28km/h y 5 coches
 
 5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
 
-roslaunch icra2024 icra.launch world:=dynamic_5 max_speed:=28 goal_dist:=1200 dist_to_car:=15
+roslaunch icra2024 icra.launch world:=dynamic_5 max_speed:=28 goal_dist:=780 dist_to_car:=15
 
 6) En la segunda pestaña, para correr el logger:
 
@@ -164,7 +164,7 @@ Variación 6: Velocidad del coche 20km/h y 10 coches
 
 5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
 
-roslaunch icra2024 icra.launch world:=static_10 max_speed:=28 goal_dist:=420 dist_to_car:=15
+roslaunch icra2024 icra.launch world:=dynamic_10 max_speed:=20 goal_dist:=3300 dist_to_car:=15
 
 6) En la segunda pestaña, para correr el logger:
 
@@ -193,7 +193,7 @@ Variación 7: Velocidad del coche 22km/h y 10 coches
 
 5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
 
-roslaunch icra2024 icra.launch world:=static_10 max_speed:=22 goal_dist:=420 dist_to_car:=15  
+roslaunch icra2024 icra.launch world:=dynamic_10 max_speed:=22 goal_dist:=3300 dist_to_car:=15  
 
 6) En la segunda pestaña, para correr el logger:
 
@@ -223,7 +223,7 @@ Variación 8: Velocidad del coche 24km/h y 10 coches
 
 5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
 
-roslaunch icra2024 icra.launch world:=static_10 max_speed:=24 goal_dist:=420 dist_to_car:=15  
+roslaunch icra2024 icra.launch world:=dynamic_10 max_speed:=24 goal_dist:=3300 dist_to_car:=15  
 
 6) En la segunda pestaña, para correr el logger:
 
@@ -253,7 +253,7 @@ Variación 9: Velocidad del coche 26km/h y 10 coches
 
 5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
 
-roslaunch icra2024 icra.launch world:=static_10 max_speed:=26 goal_dist:=420 dist_to_car:=15  
+roslaunch icra2024 icra.launch world:=static_10 max_speed:=26 goal_dist:=3300 dist_to_car:=15  
 
 6) En la segunda pestaña, para correr el logger:
 
@@ -282,7 +282,7 @@ Variación 10: Velocidad del coche 28km/h y 10 coches
 
 5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
 
-roslaunch icra2024 icra.launch world:=static_10 max_speed:=28 goal_dist:=420 dist_to_car:=15  
+roslaunch icra2024 icra.launch world:=dynamic_10 max_speed:=28 goal_dist:=3300 dist_to_car:=15  
 
 6) En la segunda pestaña, para correr el logger:
 
