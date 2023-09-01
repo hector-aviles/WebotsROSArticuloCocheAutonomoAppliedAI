@@ -30,13 +30,13 @@ def callback_point_cloud(msg):
     xyz = ros_numpy.point_cloud2.pointcloud2_to_xyz_array(msg)
     xyz = xyz[(xyz[:,2] > -1) & (xyz[:,2] < 0.3) ] #Filters points on floor and higher points
     N_points  = xyz[(xyz[:,0] >  2.5) & (xyz[:,0] <  25) & (xyz[:,1] < 1.5) & (xyz[:,1] > -1.5)]
-    NW_points = xyz[(xyz[:,0] >  5.0) & (xyz[:,0] <   40) & (xyz[:,1] < 7.0) & (xyz[:,1] >  1.5)]
-    W_points  = xyz[(xyz[:,0] > -5.0) & (xyz[:,0] <  5) & (xyz[:,1] < 7.0) & (xyz[:,1] >  1.5)]
-    SW_points = xyz[(xyz[:,0] >  -40) & (xyz[:,0] < -5) & (xyz[:,1] < 7.0) & (xyz[:,1] >  1.5)]
+    NW_points = xyz[(xyz[:,0] >  7.0) & (xyz[:,0] <   40) & (xyz[:,1] < 7.0) & (xyz[:,1] >  1.5)]
+    W_points  = xyz[(xyz[:,0] > -7.0) & (xyz[:,0] <  7.0) & (xyz[:,1] < 7.0) & (xyz[:,1] >  1.5)]
+    SW_points = xyz[(xyz[:,0] >  -40) & (xyz[:,0] < -7.0) & (xyz[:,1] < 7.0) & (xyz[:,1] >  1.5)]
     
-    NE_points  = xyz[(xyz[:,0] >  5.0) & (xyz[:,0] <   40) & (xyz[:,1] > -7.0) & (xyz[:,1] <  -1.5)]
-    E_points  = xyz[(xyz[:,0] > -5.0) & (xyz[:,0] <  5.0) & (xyz[:,1] > -7.0) & (xyz[:,1] <  -1.5)]
-    SE_points  = xyz[(xyz[:,0] >  -40) & (xyz[:,0] < -5.0) & (xyz[:,1] > -7.0) & (xyz[:,1] <  -1.5)]         
+    NE_points  = xyz[(xyz[:,0] >  7.0) & (xyz[:,0] <   40) & (xyz[:,1] > -7.0) & (xyz[:,1] <  -1.5)]
+    E_points  = xyz[(xyz[:,0] > -7.0) & (xyz[:,0] <  7.0) & (xyz[:,1] > -7.0) & (xyz[:,1] <  -1.5)]
+    SE_points  = xyz[(xyz[:,0] >  -40) & (xyz[:,0] < -7.0) & (xyz[:,1] > -7.0) & (xyz[:,1] <  -1.5)]         
     
     free_N  = N_points.shape[0] < 20
     #print("Obstacle free_N", free_N, N_points.shape[0], " ", flush = True, end = "")
