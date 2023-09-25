@@ -1,0 +1,367 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Escenario 1
+
+*) Descargar los mundos que se enviaron por correo a icra2024/worlds
+
+1) Abrir 3 pestañas de terminales 
+2) Entrar en cada terminal al subdirectorio catkin_ws del repositorio
+3) En cada terminal ejecutar: source devel/setup.bash
+4) Eliminar los archivos .logfile.csv y .trial_number.data del subdirectorio catkin_ws usando el navegador gráfico de archivos 
+
+5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
+
+roslaunch icra2024 icra.launch world:=00 max_speed:=28 goal_dist:=500 dist_to_car:=15  
+
+6) En la segunda pestaña, para correr el logger:
+
+rosrun utils logger.py
+
+7) En la tercera pestaña, para ejecutar la política:
+
+rosrun icra2024 policy.py 5 5 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Escenario 2
+
+*) Descargar los mundos que se enviaron por correo a icra2024/worlds
+
+1) Abrir 3 pestañas de terminales 
+2) Entrar en cada terminal al subdirectorio catkin_ws del repositorio
+3) En cada terminal ejecutar: source devel/setup.bash
+4) Eliminar los archivos .logfile.csv y .trial_number.data del subdirectorio catkin_ws usando el navegador gráfico de archivos 
+
+5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
+
+roslaunch icra2024 icra.launch world:=01 max_speed:=28 goal_dist:=500 dist_to_car:=15  
+
+6) En la segunda pestaña, para correr el logger:
+
+rosrun utils logger.py
+
+7) En la tercera pestaña, para ejecutar la política:
+
+rosrun icra2024 policy.py 5 5
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Escenario 3
+
+*) Descargar los mundos que se enviaron por correo a icra2024/worlds
+
+1) Abrir 3 pestañas de terminales 
+2) Entrar en cada terminal al subdirectorio catkin_ws del repositorio
+3) En cada terminal ejecutar: source devel/setup.bash
+4) Eliminar los archivos .logfile.csv y .trial_number.data del subdirectorio catkin_ws usando el navegador gráfico de archivos 
+
+5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
+
+roslaunch icra2024 icra.launch world:=02 max_speed:=28 goal_dist:=500 dist_to_car:=15  
+
+6) En la segunda pestaña, para correr el logger:
+
+rosrun utils logger.py
+
+7) En la tercera pestaña, para ejecutar la política:
+
+rosrun icra2024 policy.py 5 5 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Escenario 4
+
+*) Descargar los mundos que se enviaron por correo a icra2024/worlds
+
+1) Abrir 3 pestañas de terminales 
+2) Entrar en cada terminal al subdirectorio catkin_ws del repositorio
+3) En cada terminal ejecutar: source devel/setup.bash
+4) Eliminar los archivos .logfile.csv y .trial_number.data del subdirectorio catkin_ws usando el navegador gráfico de archivos 
+
+5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
+
+roslaunch icra2024 icra.launch world:=03 max_speed:=28 goal_dist:=500 dist_to_car:=15  
+
+6) En la segunda pestaña, para correr el logger:
+
+rosrun utils logger.py
+
+7) En la tercera pestaña, para ejecutar la política:
+
+rosrun icra2024 policy.py 5 5
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Escenario 5
+
+*) Descargar los mundos que se enviaron por correo a icra2024/worlds
+
+1) Abrir 3 pestañas de terminales 
+2) Entrar en cada terminal al subdirectorio catkin_ws del repositorio
+3) En cada terminal ejecutar: source devel/setup.bash
+4) Eliminar los archivos .logfile.csv y .trial_number.data del subdirectorio catkin_ws usando el navegador gráfico de archivos 
+
+5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
+
+roslaunch icra2024 icra.launch world:=04 max_speed:=28 goal_dist:=500 dist_to_car:=15  
+
+6) En la segunda pestaña, para correr el logger:
+
+rosrun utils logger.py
+
+7) En la tercera pestaña, para ejecutar la política:
+
+rosrun icra2024 policy.py 5 5
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Escenario 6
+
+*) Descargar los mundos que se enviaron por correo a icra2024/worlds
+
+1) Abrir 3 pestañas de terminales 
+2) Entrar en cada terminal al subdirectorio catkin_ws del repositorio
+3) En cada terminal ejecutar: source devel/setup.bash
+4) Eliminar los archivos .logfile.csv y .trial_number.data del subdirectorio catkin_ws usando el navegador gráfico de archivos 
+
+5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
+
+roslaunch icra2024 icra.launch world:=05 max_speed:=28 goal_dist:=500 dist_to_car:=15  
+
+6) En la segunda pestaña, para correr el logger:
+
+rosrun utils logger.py
+
+7) En la tercera pestaña, para ejecutar la política:
+
+rosrun icra2024 policy.py 5 5
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Escenario 7
+
+*) Descargar los mundos que se enviaron por correo a icra2024/worlds
+
+1) Abrir 3 pestañas de terminales 
+2) Entrar en cada terminal al subdirectorio catkin_ws del repositorio
+3) En cada terminal ejecutar: source devel/setup.bash
+4) Eliminar los archivos .logfile.csv y .trial_number.data del subdirectorio catkin_ws usando el navegador gráfico de archivos 
+
+5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
+
+roslaunch icra2024 icra.launch world:=06 max_speed:=28 goal_dist:=500 dist_to_car:=15  
+
+6) En la segunda pestaña, para correr el logger:
+
+rosrun utils logger.py
+
+7) En la tercera pestaña, para ejecutar la política:
+
+rosrun icra2024 policy.py 5 5
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Escenario 8
+
+*) Descargar los mundos que se enviaron por correo a icra2024/worlds
+
+1) Abrir 3 pestañas de terminales 
+2) Entrar en cada terminal al subdirectorio catkin_ws del repositorio
+3) En cada terminal ejecutar: source devel/setup.bash
+4) Eliminar los archivos .logfile.csv y .trial_number.data del subdirectorio catkin_ws usando el navegador gráfico de archivos 
+
+5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
+
+roslaunch icra2024 icra.launch world:=07 max_speed:=28 goal_dist:=500 dist_to_car:=15  
+
+6) En la segunda pestaña, para correr el logger:
+
+rosrun utils logger.py
+
+7) En la tercera pestaña, para ejecutar la política:
+
+rosrun icra2024 policy.py 5 5
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Escenario 9
+
+*) Descargar los mundos que se enviaron por correo a icra2024/worlds
+
+1) Abrir 3 pestañas de terminales 
+2) Entrar en cada terminal al subdirectorio catkin_ws del repositorio
+3) En cada terminal ejecutar: source devel/setup.bash
+4) Eliminar los archivos .logfile.csv y .trial_number.data del subdirectorio catkin_ws usando el navegador gráfico de archivos 
+
+5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
+
+roslaunch icra2024 icra.launch world:=08 max_speed:=28 goal_dist:=500 dist_to_car:=15  
+
+6) En la segunda pestaña, para correr el logger:
+
+rosrun utils logger.py
+
+7) En la tercera pestaña, para ejecutar la política:
+
+rosrun icra2024 policy.py 5 5
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Escenario 10
+
+*) Descargar los mundos que se enviaron por correo a icra2024/worlds
+
+1) Abrir 3 pestañas de terminales 
+2) Entrar en cada terminal al subdirectorio catkin_ws del repositorio
+3) En cada terminal ejecutar: source devel/setup.bash
+4) Eliminar los archivos .logfile.csv y .trial_number.data del subdirectorio catkin_ws usando el navegador gráfico de archivos 
+
+5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
+
+roslaunch icra2024 icra.launch world:=09 max_speed:=28 goal_dist:=500 dist_to_car:=15  
+
+6) En la segunda pestaña, para correr el logger:
+
+rosrun utils logger.py
+
+7) En la tercera pestaña, para ejecutar la política:
+
+rosrun icra2024 policy.py 5 5
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Escenario 11
+
+*) Descargar los mundos que se enviaron por correo a icra2024/worlds
+
+1) Abrir 3 pestañas de terminales 
+2) Entrar en cada terminal al subdirectorio catkin_ws del repositorio
+3) En cada terminal ejecutar: source devel/setup.bash
+4) Eliminar los archivos .logfile.csv y .trial_number.data del subdirectorio catkin_ws usando el navegador gráfico de archivos 
+
+5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
+
+roslaunch icra2024 icra.launch world:=10 max_speed:=28 goal_dist:=500 dist_to_car:=15  
+
+6) En la segunda pestaña, para correr el logger:
+
+rosrun utils logger.py
+
+7) En la tercera pestaña, para ejecutar la política:
+
+rosrun icra2024 policy.py 5 5
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Escenario 12
+
+*) Descargar los mundos que se enviaron por correo a icra2024/worlds
+
+1) Abrir 3 pestañas de terminales 
+2) Entrar en cada terminal al subdirectorio catkin_ws del repositorio
+3) En cada terminal ejecutar: source devel/setup.bash
+4) Eliminar los archivos .logfile.csv y .trial_number.data del subdirectorio catkin_ws usando el navegador gráfico de archivos 
+
+5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
+
+roslaunch icra2024 icra.launch world:=11 max_speed:=28 goal_dist:=500 dist_to_car:=15  
+
+6) En la segunda pestaña, para correr el logger:
+
+rosrun utils logger.py
+
+7) En la tercera pestaña, para ejecutar la política:
+
+rosrun icra2024 policy.py 5 5
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Escenario 13
+
+*) Descargar los mundos que se enviaron por correo a icra2024/worlds
+
+1) Abrir 3 pestañas de terminales 
+2) Entrar en cada terminal al subdirectorio catkin_ws del repositorio
+3) En cada terminal ejecutar: source devel/setup.bash
+4) Eliminar los archivos .logfile.csv y .trial_number.data del subdirectorio catkin_ws usando el navegador gráfico de archivos 
+
+5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
+
+roslaunch icra2024 icra.launch world:=12 max_speed:=28 goal_dist:=500 dist_to_car:=15  
+
+6) En la segunda pestaña, para correr el logger:
+
+rosrun utils logger.py
+
+7) En la tercera pestaña, para ejecutar la política:
+
+rosrun icra2024 policy.py 5 5
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Escenario 14
+
+*) Descargar los mundos que se enviaron por correo a icra2024/worlds
+
+1) Abrir 3 pestañas de terminales 
+2) Entrar en cada terminal al subdirectorio catkin_ws del repositorio
+3) En cada terminal ejecutar: source devel/setup.bash
+4) Eliminar los archivos .logfile.csv y .trial_number.data del subdirectorio catkin_ws usando el navegador gráfico de archivos 
+
+5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
+
+roslaunch icra2024 icra.launch world:=13 max_speed:=28 goal_dist:=500 dist_to_car:=15  
+
+6) En la segunda pestaña, para correr el logger:
+
+rosrun utils logger.py
+
+7) En la tercera pestaña, para ejecutar la política:
+
+rosrun icra2024 policy.py 5 5
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Escenario 15
+
+*) Descargar los mundos que se enviaron por correo a icra2024/worlds
+
+1) Abrir 3 pestañas de terminales 
+2) Entrar en cada terminal al subdirectorio catkin_ws del repositorio
+3) En cada terminal ejecutar: source devel/setup.bash
+4) Eliminar los archivos .logfile.csv y .trial_number.data del subdirectorio catkin_ws usando el navegador gráfico de archivos 
+
+5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
+
+roslaunch icra2024 icra.launch world:=14 max_speed:=28 goal_dist:=500 dist_to_car:=15  
+
+6) En la segunda pestaña, para correr el logger:
+
+rosrun utils logger.py
+
+7) En la tercera pestaña, para ejecutar la política:
+
+rosrun icra2024 policy.py 5 5
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Escenario 16
+
+*) Descargar los mundos que se enviaron por correo a icra2024/worlds
+
+1) Abrir 3 pestañas de terminales 
+2) Entrar en cada terminal al subdirectorio catkin_ws del repositorio
+3) En cada terminal ejecutar: source devel/setup.bash
+4) Eliminar los archivos .logfile.csv y .trial_number.data del subdirectorio catkin_ws usando el navegador gráfico de archivos 
+
+5) En la primera terminal (de izquierda a derecha), para correr el simulador ejecutar:
+
+roslaunch icra2024 icra.launch world:=15 max_speed:=28 goal_dist:=500 dist_to_car:=15  
+
+6) En la segunda pestaña, para correr el logger:
+
+rosrun utils logger.py
+
+7) En la tercera pestaña, para ejecutar la política:
+
+rosrun icra2024 policy.py 5 5

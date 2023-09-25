@@ -34,18 +34,18 @@ robot.getFromDef('vehicle_3'), robot.getFromDef('vehicle_4'),  robot.getFromDef(
 
     tf = []
     i = 0
+
     for car in cars:
         if car is not None:
               tf.append(car.getField("translation"))
               values = tf[i].getSFVec3f()
-              #print(i, ")", "Initial:", values)
               rand_val = np.random.uniform(-2,2,1)
-              #print("Random number", rand_val)
+              print("Random number", rand_val)
               values[0] = values[0] + rand_val
-              #print("New x value", values[0])
+              print("New x value", values[0])
               tf[i].setSFVec3f(values)
               car.resetPhysics()   
-        i = i + 1 
+              i = i + 1 
 
     bmw  = robot.getFromDef('BMW_X5')  
 
@@ -111,7 +111,7 @@ robot.getFromDef('vehicle_3'), robot.getFromDef('vehicle_4'),  robot.getFromDef(
                   pub_car_9_pose.publish(msg_car_pose)
                elif i == 9:
                   pub_car_10_pose.publish(msg_car_pose)
-            i = i + 1                     
+               i = i + 1                     
                
         bmw_pose = bmw.getPosition()
         bmw_orient = bmw.getOrientation()

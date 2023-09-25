@@ -1,6 +1,5 @@
 #VRML_SIM R2022a utf8
 WorldInfo {
-  FPS 1
   ERP 0.6
   basicTimeStep 10
   lineScale 5

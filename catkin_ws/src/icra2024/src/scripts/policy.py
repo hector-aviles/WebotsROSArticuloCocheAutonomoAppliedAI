@@ -175,7 +175,7 @@ def main(str_speed_left, str_speed_right):
         # right lane
         if curr_lane:
            
-              if not free_N and not free_NW and not free_W and not free_SW:
+              if not free_N and not free_NW and not free_SW and not free_W:
                  action = "Keep distance 1"
                  pub_action.publish(action)                 
                  if action_prev != action:
@@ -184,7 +184,7 @@ def main(str_speed_left, str_speed_right):
                     print("free_N", free_N, "free_NW", free_NW, "free_SW", free_SW, "free_W", free_W,  flush = True)                
                  keep_distance()
 
-              elif free_N and not free_NW and not free_W and not free_SW:
+              elif free_N and not free_NW and not free_SW and not free_W:
                  action = "Cruise 2"
                  pub_action.publish(action)                  
                  if action_prev != action:
@@ -193,7 +193,7 @@ def main(str_speed_left, str_speed_right):
                     print("free_N", free_N, "free_NW", free_NW, "free_SW", free_SW, "free_W", free_W,  flush = True)                
                  cruise()
 
-              elif not free_N and free_NW and not free_W and not free_SW:
+              elif not free_N and free_NW and not free_SW and not free_W:
                  action = "Keep distance 3"
                  pub_action.publish(action)                  
                  if action_prev != action:
@@ -202,7 +202,7 @@ def main(str_speed_left, str_speed_right):
                     print("free_N", free_N, "free_NW", free_NW, "free_SW", free_SW, "free_W", free_W,  flush = True)                
                  keep_distance()
 
-              elif free_N and free_NW and not free_W and not free_SW:
+              elif free_N and free_NW and not free_SW and not free_W:
                  action = "Cruise 4"
                  pub_action.publish(action)                  
                  if action_prev != action:
@@ -211,7 +211,7 @@ def main(str_speed_left, str_speed_right):
                     print("free_N", free_N, "free_NW", free_NW, "free_SW", free_SW, "free_W", free_W,  flush = True)                
                  cruise()
 
-              elif not free_N and not free_NW and free_W and not free_SW:
+              elif not free_N and not free_NW and not free_SW and free_W:
                  action = "Keep distance 5"
                  pub_action.publish(action) 
                  if action_prev != action:
@@ -220,7 +220,7 @@ def main(str_speed_left, str_speed_right):
                     print("free_N", free_N, "free_NW", free_NW, "free_SW", free_SW, "free_W", free_W,  flush = True)                
                  keep_distance()
 
-              elif free_N and not free_NW and free_W and not free_SW:
+              elif free_N and not free_NW and not free_SW and free_W:
                  action = "Cruise 6"
                  pub_action.publish(action)
                  if action_prev != action:
@@ -229,20 +229,17 @@ def main(str_speed_left, str_speed_right):
                     print("free_N", free_N, "free_NW", free_NW, "free_SW", free_SW, "free_W", free_W,  flush = True)               
                  cruise()
 
-              elif not free_N and free_NW and free_W and not free_SW:
-                 action = "Change lane 7"
+              elif not free_N and free_NW and not free_SW and free_W:
+                 action = "Keep distance 7"
                  pub_action.publish(action)
                  if action_prev != action:
                     print(action, flush = True)
-                    action_prev = action 
-                    print("free_N", free_N, "free_NW", free_NW, "free_SW", free_SW, "free_W", free_W, "curr_time", curr_time, flush = True)
-                 change_lane_on_left()
+                    action_prev = action
+                    print("free_N", free_N, "free_NW", free_NW, "free_SW", free_SW, "free_W", free_W,  flush = True)                
+                 keep_distance()
 
-                 print ("Waiting for change lane to finish...", "curr_time", curr_time,   flush = True, end="")
-                 rospy.wait_for_message("/change_lane_finished", Bool, timeout=10000)
-                 print (" End",  "curr_time", curr_time,  flush = True)
                  
-              elif free_N and free_NW and free_W and not free_SW:
+              elif free_N and free_NW and not free_SW and free_W:
                  action = "Cruise 8"
                  pub_action.publish(action)
                  if action_prev != action:
@@ -251,7 +248,7 @@ def main(str_speed_left, str_speed_right):
                     print("free_N", free_N, "free_NW", free_NW, "free_SW", free_SW, "free_W", free_W,  flush = True)                
                  cruise()
 
-              elif not free_N and not free_NW and not free_W and free_SW:
+              elif not free_N and not free_NW and free_SW and not free_W:
                  action = "Keep distance 9"
                  pub_action.publish(action)
                  if action_prev != action:
@@ -260,7 +257,7 @@ def main(str_speed_left, str_speed_right):
                     print("free_N", free_N, "free_NW", free_NW, "free_SW", free_SW, "free_W", free_W,  flush = True)                
                  keep_distance()
 
-              elif free_N and not free_NW and not free_W and free_SW:
+              elif free_N and not free_NW and free_SW and not free_W:
                  action = "Cruise 10"
                  pub_action.publish(action)
                  if action_prev != action:
@@ -269,7 +266,7 @@ def main(str_speed_left, str_speed_right):
                     print("free_N", free_N, "free_NW", free_NW, "free_SW", free_SW, "free_W", free_W,  flush = True)                
                  cruise()
 
-              elif not free_N and free_NW and not free_W and free_SW:
+              elif not free_N and free_NW and free_SW and not free_W:
                  action = "Keep distance 11"
                  pub_action.publish(action)
                  if action_prev != action:
@@ -278,7 +275,7 @@ def main(str_speed_left, str_speed_right):
                     print("free_N", free_N, "free_NW", free_NW, "free_SW", free_SW, "free_W", free_W,  flush = True)                
                  keep_distance()
                  
-              elif free_N and free_NW and not free_W and free_SW:
+              elif free_N and free_NW and free_SW and not free_W:
                  action = "Cruise 12"
                  pub_action.publish(action)
                  if action_prev != action:
@@ -287,7 +284,7 @@ def main(str_speed_left, str_speed_right):
                     print("free_N", free_N, "free_NW", free_NW, "free_SW", free_SW, "free_W", free_W,  flush = True)                
                  cruise()
 
-              elif not free_N and not free_NW and free_W and free_SW:
+              elif not free_N and not free_NW and free_SW and free_W:
                  action = "Keep distance 13"
                  pub_action.publish(action)
                  if action_prev != action:
@@ -296,7 +293,7 @@ def main(str_speed_left, str_speed_right):
                     print("free_N", free_N, "free_NW", free_NW, "free_SW", free_SW, "free_W", free_W,  flush = True)                
                  keep_distance()
 
-              elif free_N and not free_NW and free_W and free_SW:
+              elif free_N and not free_NW and free_SW and free_W:
                  action = "Cruise 14"
                  pub_action.publish(action)
                  if action_prev != action:
@@ -305,7 +302,7 @@ def main(str_speed_left, str_speed_right):
                     print("free_N", free_N, "free_NW", free_NW, "free_SW", free_SW, "free_W", free_W,  flush = True)                
                  cruise()
 
-              elif not free_N and free_NW and free_W and free_SW:
+              elif not free_N and free_NW and free_SW and free_W:
                  action = "Change lane 15"
                  pub_action.publish(action)
                  if action_prev != action:
@@ -317,7 +314,7 @@ def main(str_speed_left, str_speed_right):
                  rospy.wait_for_message("/change_lane_finished", Bool, timeout=10000.0)
                  print (" End",  "curr_time", curr_time, flush = True)
 
-              elif free_N and free_NW and free_W and free_SW:
+              elif free_N and free_NW and free_SW and free_W:
                  action = "Cruise 16"
                  pub_action.publish(action)
                  if action_prev != action:
